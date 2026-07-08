@@ -7,8 +7,9 @@
 
         public Guid UserId { get; set; }
 
-        // ✅ Made Email nullable to avoid CS9035 error
         public string? Email { get; set; }
+
+        public string? Role { get; set; }
 
     }
 }

@@ -37,8 +37,9 @@ namespace MADAI_BACKEND.Services
             {
                 Token = token,
                 Message = "Login successful",
-                UserId = user.Id, // ✅ This is Guid
-                Email = user.Email
+                UserId = user.Id,
+                Email = user.Email,
+                Role = user.Role.ToString()
             };
         }
 

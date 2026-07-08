@@ -67,3 +67,20 @@ The repository ignore files now block common unsafe local files:
 ## Follow-Up
 
 Before pushing publicly, run a secret scan and review `git status` carefully. Any removed files that still appear in Git status should be committed as deletions on the cleanup branch.
+
+## Auth/Profile Vertical Slice
+
+Date: 2026-07-08
+
+- Updated frontend register to call the ASP.NET Core `/api/auth/signup` endpoint.
+- Updated frontend login to normalize the backend sign-in response into minimal local session data.
+- Updated frontend profile to call `/api/user/me` instead of old json-server-style `/users/{id}` routes.
+- Added a small protected route wrapper for the profile route.
+- Updated backend profile responses to use a safe DTO that does not expose password hashes.
+- Added a safe backend profile update DTO for editable profile fields only.
+- Added minimal local CORS policy for React development origins.
+
+Remaining verification:
+
+- Run full local end-to-end auth/profile testing once a local database has safe demo users.
+- Confirm deployment CORS origins before public hosting.

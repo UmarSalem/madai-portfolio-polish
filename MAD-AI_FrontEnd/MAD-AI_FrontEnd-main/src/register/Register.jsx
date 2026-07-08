@@ -2,72 +2,52 @@ import React, { useEffect, useState } from 'react';
 import './RegisterStyle.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ROUTE } from '../routes/ReactLinks';
-import bcrypt from 'bcryptjs';
-import { Config } from '../constant';
 import Navbar from '../components/layout/Navbar';
 import { register } from '../api/auth';
+import { getStoredAuthUser } from '../api/authSession';
 
 const Register = () => {
   const [fname, setFirstName] = useState('');
   const [lname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [passwords, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
 
   useEffect(() => {
-    const user = localStorage.getItem(Config.userApiTokenName);
+    const user = getStoredAuthUser();
     if (user) {
       navigate('/'); // Redirect to home if user is already logged in
     }
-  }, []);
+  }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
 
     if (!email || !passwords || !fname || !lname) {
-      alert('Please fill in all fields.');
+      setMessage('Please fill in all fields.');
       return;
     }
 
+    setIsSubmitting(true);
     try {
-      // Check if user already exists
-      const existing = await fetch(`${Config.serverUrl}/users?email=${email}`);
-      const users = await existing.json();
-      if (users.length > 0) {
-        alert("User already exists with this email.");
-        return;
-      }
-
-      // Encrypt password
-      // const salt = bcrypt.genSaltSync(10);
-      // const hashedPassword = bcrypt.hashSync(passwords, salt);
-      const encodedPassword = btoa(passwords);
-      // Save to db.json
-      const newUser = {
-        fname,
-        lname,
+      await register({
+        firstName: fname,
+        lastName: lname,
         email,
-        password: encodedPassword
-      };
-
-      const response = await fetch(`${Config.serverUrl}/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
+        password: passwords,
+        role: 'Patient',
       });
 
-      if (response.ok) {
-        alert("Registered successfully!");
-        navigate('/login');
-      } else {
-        alert("Something went wrong while registering.");
-      }
-
+      setMessage('Registered successfully. You can now log in.');
+      navigate('/login');
     } catch (error) {
-      console.error("Registration Error:", error);
-      alert("An error occurred.");
+      const apiMessage = error?.response?.data?.error || error?.response?.data?.message;
+      setMessage(apiMessage || 'Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -102,10 +82,13 @@ const Register = () => {
                       <input type="password" id="input" value={passwords} onChange={(e) => setPassword(e.target.value)} required />
                     </label><br />
                   </div>
+                  {message && <p>{message}</p>}
                   <br /><br />
 
                   <div className='buttoner-div'>
-                    <button type='submit' id='sign'>Register</button>
+                    <button type='submit' id='sign' disabled={isSubmitting}>
+                      {isSubmitting ? 'Registering...' : 'Register'}
+                    </button>
                     {/* <a href="#">Forgot Password?</a> */}
                   </div>
 

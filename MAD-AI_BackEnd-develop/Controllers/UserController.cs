@@ -32,6 +32,18 @@ namespace MADAI_BACKEND.Controllers
             return Guid.TryParse(userIdClaim, out var id) ? id : null;
         }
 
+        private static UserProfileDTO ToProfileDto(User user)
+        {
+            return new UserProfileDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = user.Role
+            };
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("all-users")]
         public async Task<IActionResult> GetAllUsers()
@@ -76,13 +88,16 @@ namespace MADAI_BACKEND.Controllers
             if (userId is not Guid actualUserId) return Unauthorized();
 
             var user = await _context.Users.FindAsync(actualUserId);
-            return user == null ? NotFound() : Ok(user);
+            return user == null ? NotFound() : Ok(ToProfileDto(user));
         }
 
         [Authorize(Roles = "Patient")]
         [HttpPut("me")]
-        public async Task<IActionResult> UpdateMyProfile([FromBody] User updated)
+        public async Task<IActionResult> UpdateMyProfile([FromBody] UpdateUserProfileDTO updated)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var userId = GetUserId();
             if (userId is not Guid actualUserId) return Unauthorized();
 
@@ -94,7 +109,7 @@ namespace MADAI_BACKEND.Controllers
             user.Email = updated.Email;
 
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(ToProfileDto(user));
         }
 
         [Authorize(Roles = "Patient")]
