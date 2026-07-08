@@ -152,8 +152,8 @@ const Contact = () => {
         <h1>Contact Us</h1>
         <p>Timing 24 Hours</p>
         <p>Contact Information</p>
-        <p><i class="ri-smartphone-line"></i>+45-71444404</p>
-        <p><i class="ri-mail-line"></i>Naumandk1@gmail.com</p>
+        <p><i class="ri-smartphone-line"></i>000-000-0000</p>
+        <p><i class="ri-mail-line"></i>demo.contact@example.test</p>
         <div className='footer-button-div'>
          <button className='call-button'>Call</button>
          <button className='call-contact-button'>Contact</button>
