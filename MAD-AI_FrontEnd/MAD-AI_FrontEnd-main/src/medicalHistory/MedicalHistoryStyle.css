@@ -1,0 +1,119 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.medicalHistory {
+ display: flex;
+ align-self: self-start;
+ flex-direction: column;
+ gap: 5px;
+ background-color: white;
+ width: 50vw;
+}
+
+#patientId {
+ color: black;
+}
+
+#title {
+ color: black;
+}
+
+.medicalHistory div {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-direction: row;
+ width: 100%;
+}
+
+.app-container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 20px;
+}
+
+.form-container h1, h2 {
+ color: #2c3e50;
+ font-weight: bold;
+ font-size: 30px;
+ text-align: center;
+}
+
+.form-container {
+ padding: 150px 30px;
+ margin-bottom: 30px;
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+}
+
+.former-group {
+ display: flex;
+ justify-content: space-between;
+ flex-direction: column;
+ width: 60vw;
+}
+
+.form-group {
+ margin-bottom: 15px;
+ display: flex;
+ justify-content: space-between;
+ flex-direction: row;
+ width: 80vw; 
+}
+
+.form-group label {
+ display: block;
+ font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+ width: 100% !important;
+ border: 1px solid black;
+ border-radius: 4px;
+ box-sizing: border-box;
+}
+
+.form-group textarea {
+ resize: vertical;
+}
+
+.add-button {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ background-color: #08866e;
+ color: white;
+ border: none;
+ width: 10vw;
+ padding: 10px 10px;
+ border-radius: 5px;
+ cursor: pointer;
+ font-size: 16px;
+ transition: 0.3s;
+ margin: 30px 0px;
+}
+
+.add-button:hover {
+ background-color: #0a9b81;
+}
+
+
+.download-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
+}

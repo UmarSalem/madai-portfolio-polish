@@ -1,0 +1,427 @@
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+.register-main-div {
+ display: flex;
+ flex-direction: row;
+ width: 100%;
+ height: 100%;
+ background-color: #ddeae3;
+}
+
+.main-first-div {
+ background-color: #ddeae3;
+ height: 100vh;
+}
+
+.main-div {
+ height: 100%;
+ width: 100%;
+ background-color: #ddeae3;
+}
+
+.login-register {
+ display: flex;
+ margin-top: 10vh;
+ flex-direction: row;
+ align-items: center;
+ color: black;
+ font-family: Arial, Helvetica, sans-serif;
+}
+
+#input {
+ border: 1px solid black;
+ background-color: #fff;
+ width: 23vw;
+ border-radius: 5px;
+ padding-left: 10px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ padding-right: 20px;
+}
+
+.inputer {
+ border: 1px solid black;
+ background-color: #fff;
+ color: black;
+ display: flex;
+ flex-direction: row;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ width: 23vw;
+ border-radius: 5px;
+ padding-left: 5px;
+ padding-right: 20px;
+}
+
+.two-google-facebook-button {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 20px;
+}
+
+#inputs {
+ padding-left: 5px;
+}
+
+.registera {
+ color: black;
+}
+
+.inputers-div {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 15px;
+ margin-top: 10vh;
+ background-color: #ddeae3;
+}
+
+.registera:hover {
+ color: #00866e;
+}
+
+#sign {
+ padding: 10px 35px;
+ background-color: #00866e;
+ color: #fff;
+ border-radius: 10px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+
+}
+
+.buttoner-div {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+}
+
+.logo {
+ height: 5vh;
+}
+
+.register-user {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 2px;
+}
+
+@media screen and (max-width: 1024px) {
+ .register-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+ }
+
+ .responsive-input {
+  margin-left: 25px;
+  width: fit-content;
+ }
+
+ .inputer {
+  margin-right: 10px;
+ }
+}
+
+@media screen and (max-width: 1000px) {
+ .inputer {
+  margin-right: 20px;
+ }
+}
+
+@media screen and (max-width: 975px) {
+ .inputer {
+  margin-right: 35px;
+ }
+}
+
+@media screen and (max-width: 950px) {
+ .responsive-input {
+  margin-left: 3vw;
+ }
+
+ #input {
+  width: 23vw;
+ }
+}
+
+@media screen and (max-width: 920px) {
+ .responsive-input {
+  margin-right: 3vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 30vw;
+ }
+
+ #input {
+  width: 30vw;
+ }
+}
+
+@media screen and (max-width: 820px) {
+ .responsive-input {
+  margin-right: 3vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 35vw;
+ }
+
+ #input {
+  width: 35vw;
+ }
+}
+
+@media screen and (max-width: 720px) {
+ .responsive-input {
+  margin-right: 3vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 40vw;
+ }
+
+ #input {
+  width: 40vw;
+ }
+}
+
+@media screen and (max-width: 620px) {
+ .responsive-input {
+  margin-right: 3vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 45vw;
+ }
+
+ #input {
+  width: 45vw;
+ }
+}
+
+@media screen and (max-width: 570px) {
+ .responsive-input {
+  margin-right: 3vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 48vw;
+ }
+
+ #input {
+  width: 48vw;
+ }
+}
+
+@media screen and (max-width: 528px) {
+ .responsive-input {
+  margin-right: 1vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 52vw;
+ }
+
+ #input {
+  width: 52vw;
+ }
+}
+
+@media screen and (max-width: 490px) {
+ .responsive-input {
+  margin-right: 1vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 54vw;
+ }
+
+ #input {
+  width: 54vw;
+ }
+}
+
+@media screen and (max-width: 475px) {
+ .responsive-input {
+  margin-right: 1vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 56vw;
+ }
+
+ #input {
+  width: 56vw;
+ }
+}
+
+@media screen and (max-width: 455px) {
+ .responsive-input {
+  margin-right: 1vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 58vw;
+ }
+
+ #input {
+  width: 58vw;
+ }
+}
+
+@media screen and (max-width: 438px) {
+ .responsive-input {
+  margin-right: 1vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 60vw;
+ }
+
+ #input {
+  width: 60vw;
+ }
+}
+
+@media screen and (max-width: 420px) {
+ .responsive-input {
+  margin-left: 5vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 63vw;
+ }
+
+ #input {
+  width: 63vw;
+ }
+}
+
+@media screen and (max-width: 384px) {
+ .responsive-input {
+  margin-left: 6vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 65vw;
+ }
+
+ #input {
+  width: 65vw;
+ }
+}
+
+@media screen and (max-width: 375px) {
+ .responsive-input {
+  margin-left: 7vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 65vw;
+ }
+
+ #input {
+  width: 65vw;
+ }
+}
+
+@media screen and (max-width: 360px) {
+ .responsive-input {
+  margin-left: 7vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 67vw;
+ }
+
+ #input {
+  width: 67vw;
+ }
+}
+
+@media screen and (max-width: 347px) {
+ .responsive-input {
+  margin-left: 7vw;
+ }
+
+ .buttoner-div {
+  margin-left: 3vw;
+ }
+
+ .inputer {
+  width: 73vw;
+ }
+
+ #input {
+  width: 73vw;
+ }
+}

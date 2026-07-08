@@ -1,0 +1,237 @@
+.symptom-checker {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+  padding-top: 300px;
+}
+
+textarea {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #00866E;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.result-box, .history-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+}
+.form-group input {
+  border: 2px solid #007BFF; /* blue highlight */
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+}
+/* Add to SymptomChecker.css */
+.form-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.history-card {
+  border: 1px solid #eee;
+  padding: 1rem;
+  border-radius: 8px;
+  background: white;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-top-color: #007bff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Updates */
+
+/* Main container */
+.symptom-checker-pro {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 1rem;
+}
+
+/* Card style */
+.sc-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  margin-bottom: 2rem;
+  padding: 2rem 2rem 1.5rem 2rem;
+}
+
+.sc-form-card {
+  border-left: 6px solid #00866E;
+}
+
+.sc-result-card {
+  border-left: 6px solid #007BFF;
+}
+
+.sc-history-card {
+  border-left: 6px solid #f39c12;
+}
+
+/* Form group */
+.sc-form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sc-form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.sc-form-group input,
+.sc-form-group textarea {
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.sc-form-group input:focus,
+.sc-form-group textarea:focus {
+  border-color: #00866E;
+  outline: none;
+}
+
+.sc-btn {
+  background: #00866E;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sc-btn:disabled {
+  background: #b2dfd7;
+  cursor: not-allowed;
+}
+
+/* Result grid */
+.sc-result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+@media (min-width: 600px) {
+  .sc-result-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Urgency badge */
+.sc-urgency {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2em 0.7em;
+  border-radius: 1em;
+  font-weight: bold;
+  color: #fff;
+  font-size: 0.95em;
+}
+.sc-urgency-low { background: #27ae60; }
+.sc-urgency-medium { background: #f39c12; }
+.sc-urgency-high { background: #e74c3c; }
+
+/* Advice box */
+.sc-advice {
+  background: #f6fafd;
+  border-left: 4px solid #007BFF;
+  padding: 0.7em 1em;
+  border-radius: 6px;
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* History */
+.sc-history-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sc-history-card li {
+  display: flex;
+  gap: 1em;
+  padding: 0.7em 0;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 0.98em;
+}
+.sc-history-date {
+  color: #888;
+  min-width: 120px;
+  font-size: 0.93em;
+}
+.sc-history-patient {
+  font-weight: 600;
+  color: #00866E;
+}
+.sc-history-symptoms {
+  color: #333;
+  flex: 1;
+  font-style: italic;
+}

@@ -1,0 +1,163 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.question-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ margin-top: 20vh;
+ gap: 50px;
+}
+
+.first-question-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ text-align: center;
+ gap: 15px;
+}
+
+.first-question-contact-div h1 {
+ color: #00866e;
+ font-weight: 900;
+ font-size: 30px;
+}
+
+.second-question-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 20px;
+}
+
+.card-contacts {
+ height: 100%;
+}
+
+.contact-page {
+ background-color: #ddeae3;
+ height: 100%;
+ width: 100%;
+}
+
+#back {
+ margin-top: 5vh;
+}
+
+.main-contact-div {
+ display: flex;
+ align-items: center;
+ flex-direction: column;
+ gap: 10px;
+ height: 100%;
+ width: 100%;
+ background-color: #ddeae3;
+ padding: 50px 10px;
+}
+
+.first-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 50px;
+ background-color: white;
+ padding: 50px 60px;
+ border-radius: 10px;
+ box-shadow: 0px 0px 10px gray;
+ margin-top: 20vh;
+ width: 100%;
+ height: 80%;
+}
+
+.contact-text-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ text-align: center;
+ width: 100%;
+ gap: 10px;
+}
+
+.contact-text-div h1 {
+ font-size: 30px;
+ font-weight: 900;
+ color: #00866e;
+}
+
+.second-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 20px;
+ margin-top: 20vh;
+ width: 100%;
+ height: 80%;
+}
+
+.map-text-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ text-align: center;
+ gap: 10px;
+}
+
+.map-text-div h1 {
+ font-size: 30px;
+ font-weight: 900;
+ color: #00866e;
+}
+
+.second-contact-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ width: 100%;
+ height: 20%;
+}
+
+.second-contact-div iframe {
+ width: 100%;
+ height: 50vh;
+ margin-top: 10vh;
+}
+
+.responsivers-div {
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+ width: 90vw;
+}
+
+#button-submit {
+ width: 12vw !important;
+ padding: 15PX 50px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ width: 100%;
+ margin-top: 2vh;
+ border-radius: 10px;
+ background-color: #00866e;
+ color: #fff;
+}
+
+#full-inputs {
+ width: 90vw;
+ background-color: white;
+ border: 1px solid black;
+ padding-left: 10px;
+ padding-top: 15px;
+ padding-bottom: 15px;
+ border-radius: 5px;
+}

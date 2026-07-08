@@ -1,0 +1,112 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.diagnory-main-file {
+ display: flex; 
+ flex-direction: column;
+ background-color: #ddeae6;
+ gap: 80px;
+}
+
+.diagnory-one {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-direction: row;
+ padding: 20px 40px;
+}
+
+.diagnory-one a {
+ color: #00866e;
+ font-weight: bold;
+}
+
+.diagnory-two {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ font-size: 23px;
+ font-weight: bold;
+}
+
+.diagnory-three {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: row;
+ gap: 50px ; 
+}
+
+.diagnory-four {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 10px;
+}
+
+.blacks-one {
+ color: #514af6;
+}
+
+.black-one  {
+ display: flex;
+ 
+}
+
+.blackers-one  {
+ display: flex;
+ align-items: flex-start;
+}
+
+.black-one-div {
+ display: flex;
+ justify-content: center;
+}
+
+.main-blackers-div {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: flex-start;
+ gap: 10px;
+}
+
+.blacker-one {
+ color: #514af6;
+ width: 10px;
+}
+
+.two-black-div {
+ display: flex;
+ justify-content: center;
+ flex-direction: row;
+ gap: 50px;
+}
+
+.twos-black-div {
+ display: flex;
+ justify-content: center;
+ flex-direction: row;
+ gap: 55px;
+}
+
+.twers-black-div {
+ display: flex;
+ justify-content: center;
+ flex-direction: row;
+ gap: 30px;
+}
+
+.diagnory-four button {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: #00866e;
+ color: #fff;
+ border-radius: 5px;
+ padding: 10px 40px;
+}

@@ -1,0 +1,99 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.main-div {
+ height: 100vh;
+ width: 100%;
+}
+
+.profile-inputer-div {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ height: 100%;
+} 
+
+.profile-header {
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: center;
+ height: 10vh;
+ margin-top: 20vh;
+ background-color: #ddeae3;
+}
+
+.profile-header h1 {
+ color: black;
+ font-size: 50px;
+ font-weight: bold;
+}
+
+.profile-form {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: 0px 50px;
+ height: 90vh;
+ background-color: #ddeae3;
+}
+
+.profile-name-inputer {
+ width: 100%;
+ display: flex;
+ align-self: flex-start;
+ flex-direction: column;
+ justify-content: center;
+ width: 40vw;
+}
+
+.profile-form button {
+ background-color: #00866e;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+
+.profile-form button:hover {
+ background-color: #05a78a;
+}
+
+.profile-inputer {
+ border: 1px solid black;
+ background-color: #fff;
+ color: black;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ border-radius: 5px;
+ padding-left: 5px;
+ padding-right: 20px;
+}
+
+@media screen and (max-width: 768px) {
+ .profile-header h1 {
+   font-size: 30px;
+ }
+ 
+ .profile-form {
+   padding: 0px 20px;
+ }
+ 
+ .profile-name-inputer {
+   width: 80vw;
+ }
+ 
+ .profile-inputer {
+   width: 100%;
+ }
+ 
+ .profile-form button {
+   width: 100%;
+ }
+ 
+}

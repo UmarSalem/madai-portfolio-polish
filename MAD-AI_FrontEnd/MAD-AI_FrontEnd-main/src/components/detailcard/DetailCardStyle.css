@@ -1,0 +1,100 @@
+*{
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.main-card-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ gap: 10px;
+ box-shadow: 0px 0px 30px #dce9e2;
+ background-color: #fff;
+ border-radius: 10px;
+}
+
+.image-dr-div {
+ display: flex;
+ width: 100%;
+ justify-content: center;
+ align-items: center;
+ gap: 10px;
+ padding-left: 10px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ padding-right: 200px;
+}
+
+.dr-text {
+ display: flex;
+ justify-content: center;
+ align-items: flex-start;
+ flex-direction: column;
+ gap: 5px;
+ font-size: 12px;
+ width: 80%;
+ font-weight: bold;
+}
+
+.dr-text h1 {
+ font-size: 15px;
+}
+
+#heart {
+ color: #a1a0a0;
+}
+
+.two-dr-button-div {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: row;
+ width: 100%;
+ height: 10vh;
+}
+
+.first-button {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: #000000;
+ color: #fff;
+ width: 50%;
+ height: 100%;
+ border-bottom-left-radius: 10px;
+}
+
+.second-button {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: #757575;
+ color: #fff;
+ width: 50%;
+ height: 100%;
+ border-bottom-right-radius: 10px;
+}
+
+.image-div {
+ display: flex;
+ justify-content: center;
+ align-items: flex-start;
+ height: 9vh;
+ width: 10vh;
+ border-radius: 50px;
+ background-color: #757575;
+}
+
+@media screen and (max-width: 380px) {
+ .image-dr-div {
+  padding-right: 150px;
+ }
+}
+
+@media screen and (max-width: 340px) {
+ .image-dr-div {
+  padding-right: 150px;
+ }
+}

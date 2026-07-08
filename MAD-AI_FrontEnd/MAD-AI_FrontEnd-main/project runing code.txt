@@ -1,0 +1,4 @@
+npx json-server db.json --port=3002
+http://localhost:3000/admin/medicalhistory
+
+npm test

@@ -1,0 +1,347 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Understanding Your Symptoms: How Our AI Symptom Checker Can Help",
+      "description": "Feeling unwell but not sure what's wrong? Learn how our intelligent AI symptom checker analyzes your symptoms to provide potential insights and guide you on your next steps towards getting the right medical attention.",
+      "tags": [
+        "AI Symptom Checker",
+        "Health Tech",
+        "Early Diagnosis",
+        "Medical AI",
+        "Understanding Symptoms"
+      ],
+      "views": 125,
+      "publishDate": "2025-06-15",
+      "image": "Red Headache Symptoms Instagram Post.png"
+    },
+    {
+      "id": "2",
+      "title": "Navigating Common Cold vs. Flu: A Guide Using Our AI Disease Information",
+      "description": "Is it just a common cold or something more serious like the flu? This post breaks down the differentiating symptoms and explains how our AI-powered disease information can help you understand the nuances and when to seek professional advice.",
+      "tags": [
+        "Common Cold",
+        "Influenza",
+        "Symptom Difference",
+        "AI Health Assistant",
+        "Disease Information"
+      ],
+      "views": 210,
+      "publishDate": "2025-06-22",
+      "image": "Green Illustrative Cough and Sneezes Spread Diseases School Poster.png"
+    },
+    {
+      "id": "3",
+      "title": "The Future of Finding a Doctor: AI-Powered Doctor Matching",
+      "description": "Tired of endless searches for the right doctor? Discover how our AI algorithm helps you find doctors based on your specific needs, symptoms, and our comprehensive disease database, making healthcare more accessible and personalized.",
+      "tags": [
+        "Find a Doctor",
+        "AI Healthcare",
+        "Personalized Medicine",
+        "Doctor Match",
+        "Health Technology"
+      ],
+      "views": 180,
+      "publishDate": "2025-07-01",
+      "image": "blue find doctor modern instagram post.jpg"
+    },
+    {
+      "id": "4",
+      "title": "Understanding Migraines: Causes, Symptoms, and When to Consult a Doctor",
+      "description": "Migraines are more than just headaches. This blog post delves into the common causes, varying symptoms of migraines, and how our AI symptom checker can assist in identifying potential triggers, while also emphasizing when it's crucial to consult a healthcare professional for diagnosis and treatment.",
+      "tags": [
+        "Migraine",
+        "Headache",
+        "Neurology",
+        "Symptom Analysis",
+        "Doctor Consultation",
+        "Disease Deep Dive"
+      ],
+      "views": 155,
+      "publishDate": "2025-07-10",
+      "image": "Blue Modern Online Doctor Consultation Instagram Post.jpg"
+    }
+  ],
+  "recommendation": [
+    {
+      "name": "OLCEA - Øjenlægernes Center Aarhus",
+      "address": "Ferdinand Sallings Stræde 2, 1 sal, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "disease": "head pain",
+      "latitude": "56.1541185",
+      "longitude": "10.2077983",
+      "placeId": "ChIJlSeyaGVTEYRGHsMCeQP62A",
+      "phoneNumber": "32 22 33 34",
+      "website": "http://olcea.dk/",
+      "rating": 4.7,
+      "id": "8675"
+    },
+    {
+      "name": "Dr. Smith",
+      "address": "123 Street",
+      "latitude": 55.6761,
+      "longitude": 12.5683,
+      "place_id": "xyz123",
+      "phone_number": "123-456-7890",
+      "website": "http://drsmith.com",
+      "rating": 4.5,
+      "specialty": "neurology",
+      "location": "Copenhagen",
+      "id": "0c2d"
+    },
+    {
+      "name": "Øjenklinikken Aros - Grå stær & Zeiss multifokal linseoperation.",
+      "address": "Østergade 9, 3. sal, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "specialty": "cardiology",
+      "latitude": "56.1543626",
+      "longitude": "10.2058433",
+      "placeId": "ChIJzyHq1M_TEYRPqFFe61kUAE",
+      "phoneNumber": "86 12 37 60",
+      "website": "http://www.arosklinik.dk/",
+      "rating": 3.5,
+      "id": "5ef1"
+    },
+    {
+      "name": "Mindelegat For Øjenlæge Hans Jørgen Jensen & Hustru Ebba Jensen",
+      "address": "Skolegyde 1, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "specialty": "head pain",
+      "latitude": "56.1566674",
+      "longitude": "10.2116236",
+      "placeId": "ChIJrJRVBLzc_TEYRj5JQQHSzx00",
+      "phoneNumber": null,
+      "website": null,
+      "rating": null,
+      "id": "dd44"
+    }
+  ],
+  "find_doctor": [
+    {
+      "name": "OLCEA - Øjenlægernes Center Aarhus",
+      "address": "Ferdinand Sallings Stræde 2, 1 sal, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "specialty": "head pain",
+      "latitude": "56.1541185",
+      "longitude": "10.2077983",
+      "placeId": "ChIJlSeyaGVTEYRGHsMCeQP62A",
+      "phoneNumber": "32 22 33 34",
+      "website": "http://olcea.dk/",
+      "rating": 4.7,
+      "id": "5dd5"
+    },
+    {
+      "name": "Dr. Smith",
+      "address": "123 Street",
+      "latitude": 55.6761,
+      "longitude": 12.5683,
+      "place_id": "xyz123",
+      "phone_number": "123-456-7890",
+      "website": "http://drsmith.com",
+      "rating": 4.5,
+      "disease": "Eye",
+      "location": "Copenhagen",
+      "id": "f3d6"
+    },
+    {
+      "name": "Øjenklinikken Aros - Grå stær & Zeiss multifokal linseoperation.",
+      "address": "Østergade 9, 3. sal, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "disease": "chest pain",
+      "latitude": "56.1543626",
+      "longitude": "10.2058433",
+      "placeId": "ChIJzyHq1M_TEYRPqFFe61kUAE",
+      "phoneNumber": "86 12 37 60",
+      "website": "http://www.arosklinik.dk/",
+      "rating": 3.5,
+      "id": "1ed2"
+    },
+    {
+      "name": "Mindelegat For Øjenlæge Hans Jørgen Jensen & Hustru Ebba Jensen",
+      "address": "Skolegyde 1, 8000 Aarhus, Denmark",
+      "city": "Aarhus",
+      "disease": "infection in eyes",
+      "latitude": "56.1566674",
+      "longitude": "10.2116236",
+      "placeId": "ChIJrJRVBLzc_TEYRj5JQQHSzx00",
+      "phoneNumber": null,
+      "website": null,
+      "rating": null,
+      "id": "6c59"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "users": [
+    {
+      "id": "3066",
+      "fname": "res",
+      "lname": "sdd",
+      "email": "test1@gmail.com",
+      "password": "MTIzNA=="
+    },
+    {
+      "fname": "abubakar12",
+      "lname": "islam34",
+      "email": "abu6759463@gmail.com",
+      "password": "VGVzdDEyMzQ=",
+      "id": "b99e"
+    },
+    {
+      "id": "a81f",
+      "fname": "Hanzla",
+      "lname": "khan",
+      "email": "hanzla7658@gmail.com",
+      "password": "MTIzNA=="
+    }
+  ],
+  "medical_history": [
+    {
+      "id": "3933",
+      "patientId": "sdfsdf345345",
+      "title": "sdfsdfsdf",
+      "description": "sdfsdfsdf",
+      "fileName": "___National Testing Service___.pdf",
+      "createdAt": "2025-05-24T15:25:00.033Z"
+    },
+    {
+      "id": "3929",
+      "patientId": "testu57657657",
+      "userId": "3066",
+      "title": "sfsfsdfsdf",
+      "description": "fsdsdfsdf",
+      "fileName": "AI Comic Factory - a Hugging Face Space by jbilcke-hf.pdf",
+      "createdAt": "2025-05-24T15:44:14.215Z"
+    }
+  ],
+  "medical_report": [
+    {
+      "id": "3929",
+      "userId": "3066",
+      "title": "sfsfsdfsdf",
+      "description": "fsdsdfsdf",
+      "fileName": "AI Comic Factory - a Hugging Face Space by jbilcke-hf.pdf",
+      "createdAt": "2025-05-24T15:44:14.215Z"
+    }
+  ],
+  "symptoms": [
+    {
+      "id": "2346",
+      "text": "redness, water in eyes",
+      "date": "5/24/2025, 6:43:27 PM"
+    },
+    {
+      "id": "2cd2",
+      "patient": "asdas",
+      "symptoms": "water in eyes, irritation in eyes",
+      "date": "5/24/2025, 7:09:54 PM"
+    },
+    {
+      "id": "028d",
+      "patient": "umer ",
+      "userId": "3066",
+      "symptoms": "irritation in eyes, water in eyes",
+      "date": "5/24/2025, 8:55:55 PM"
+    },
+    {
+      "id": "ce5e",
+      "patient": "abubakr",
+      "userId": "b99e",
+      "symptoms": "eyes infection, water in eyes",
+      "date": "5/24/2025, 9:39:14 PM"
+    }
+  ],
+  "results": [
+    {
+      "id": "1748094207284",
+      "enteredSymptoms": "redness, water in eyes",
+      "possibleConditions": [
+        "Common Cold",
+        "Flu",
+        "Allergies"
+      ],
+      "advice": "Please consult a general physician if symptoms persist.",
+      "date": "5/24/2025, 6:43:27 PM"
+    },
+    {
+      "id": "1748095794885",
+      "patientName": "asdas",
+      "enteredSymptoms": "water in eyes, irritation in eyes",
+      "possibleConditions": [
+        "Allergic Conjunctivitis",
+        "Dry Eye Syndrome",
+        "Blepharitis",
+        "Viral Conjunctivitis",
+        "Bacterial Conjunctivitis",
+        "Foreign Body in Eye",
+        "Environmental Irritants (e.g., smoke, dust)"
+      ],
+      "advice": "Based on the symptoms reported (watery eyes and irritation), a variety of conditions could be the cause. It is important to determine the specific cause for effective treatment. Avoid rubbing your eyes, as this can worsen irritation and potentially spread infection. If symptoms persist or worsen, or if you experience vision changes, pain, or light sensitivity, seek prompt medical attention.",
+      "urgencyLevel": "low",
+      "recommendedActions": [
+        "Over-the-counter artificial tears",
+        "Warm compresses to the eyelids",
+        "Avoid potential irritants",
+        "Good hand hygiene",
+        "Consult an eye doctor (ophthalmologist or optometrist) if symptoms worsen or persist beyond a few days."
+      ],
+      "date": "5/24/2025, 7:09:54 PM"
+    },
+    {
+      "id": "1748102155753",
+      "patientName": "umer ",
+      "enteredSymptoms": "irritation in eyes, water in eyes",
+      "possibleConditions": [
+        "Allergic Conjunctivitis",
+        "Viral Conjunctivitis",
+        "Dry Eye Syndrome",
+        "Blepharitis",
+        "Irritant Exposure (e.g., smoke, dust, chemicals)",
+        "Foreign Body in Eye"
+      ],
+      "advice": "The symptoms described (eye irritation and watery eyes) can be caused by various conditions. It is important to determine the exact cause to provide appropriate treatment. While some causes are mild and self-limiting, others require medical attention to prevent complications. Avoid rubbing your eyes, as this can worsen the irritation and potentially introduce bacteria. It is recommended to seek professional medical advice from an eye doctor (ophthalmologist or optometrist) for a proper diagnosis and treatment plan.",
+      "urgencyLevel": "medium",
+      "recommendedActions": [
+        "Consult an ophthalmologist or optometrist for a comprehensive eye exam",
+        "Avoid rubbing your eyes",
+        "Use artificial tears (over-the-counter) for temporary relief of dryness and irritation",
+        "Wash your hands frequently to prevent the spread of potential infection",
+        "If you suspect a chemical exposure, flush your eyes with copious amounts of clean water for at least 15 minutes and seek immediate medical attention",
+        "Remove contact lenses if you wear them and do not reinsert them until evaluated by a doctor."
+      ],
+      "date": "5/24/2025, 8:55:55 PM"
+    },
+    {
+      "id": "1748104754901",
+      "patientName": "abubakr",
+      "enteredSymptoms": "eyes infection, water in eyes",
+      "possibleConditions": [
+        "Conjunctivitis (Pinkeye)",
+        "Allergic Conjunctivitis",
+        "Dry Eye Syndrome",
+        "Blocked Tear Duct",
+        "Corneal Abrasion/Ulcer"
+      ],
+      "advice": "Based on the reported symptoms of eye infection and watery eyes, a proper diagnosis requires a physical examination by a medical professional. Do not self-treat. The possibilities range from mild to potentially sight-threatening. Avoid touching your eyes and practice good hygiene to prevent spread of infection.",
+      "urgencyLevel": "medium",
+      "recommendedActions": [
+        "Consult an ophthalmologist or general practitioner for a thorough eye examination",
+        "Avoid rubbing your eyes",
+        "Wash hands frequently with soap and water",
+        "Discontinue contact lens wear if applicable",
+        "Use a clean, damp cloth to gently clean any discharge around the eyes"
+      ],
+      "date": "5/24/2025, 9:39:14 PM"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+}
+
+.carder-div {
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ background-color: #fff;
+ border-radius: 15px;
+ box-shadow: 0 0 5px #f7f7f7;
+ padding-bottom: 30px;
+}
+
+.carder-div p {
+ padding-left: 10px;
+ padding-right: 10px;
+}
+
+.carder-div a {
+ padding-left: 10px;
+}
+
+.carder-div button {
+ margin-left: 10px;
+}
+
+.views-date {
+ display: flex;
+ justify-content: space-between;
+ gap: 30px;
+ flex-direction: row;
+ align-items: center;
+ font-family: Arial, Helvetica, sans-serif;
+}
+
+#anchor-tag {
+ color: #a6a5fd;
+}
+
+#button-read {
+ border: none;
+ padding: 8px 25px;
+ width: 10vw;
+ border-radius: 8px;
+ background-color: #3a3a3a;
+ color: #fff;
+}
+
+@media screen and (max-width: 1285px) {
+ #button-read {
+  width: 10vw;
+ }
+}
+
+@media screen and (max-width: 1270px) {
+ #button-read {
+  width: 13vw;
+ }
+}
+
+@media screen and (max-width: 978px) {
+ #button-read {
+  width: 15vw;
+ }
+}
+
+@media screen and (max-width: 847px) {
+ #button-read {
+  width: 18vw;
+ }
+}
+
+@media screen and (max-width: 707px) {
+ #button-read {
+  width: 20vw;
+ }
+}
+
+@media screen and (max-width: 636px) {
+ #button-read {
+  width: 25vw;
+ }
+}
+
+@media screen and (max-width: 509px) {
+ #button-read {
+  width: 30vw;
+ }
+}
+
+@media screen and (max-width: 424px) {
+ #button-read {
+  width: 35vw;
+ }
+}
+
+@media screen and (max-width: 363px) {
+ #button-read {
+  width: 40vw;
+ }
+}
+
+#lorem {
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 20px;
+ font-weight: 520;
+}
+
+#ones-image {
+
+  width: 100%;           /* or fixed like 300px */
+  height: 200px;         /* Set desired height */
+  object-fit: cover;     /* Keeps image proportion while filling the box */
+  border-radius: 8px;    /* Optional for rounded corners */
+
+}
+
+.mainer-div {
+ display: flex;
+ align-items: center;
+ flex-direction: row;
+ width: 100%;
+ padding-left: 10px;
+ padding-right: 10px;
+ justify-content: center;
+}
+
+

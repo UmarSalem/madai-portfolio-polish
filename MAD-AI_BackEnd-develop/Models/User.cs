@@ -1,0 +1,41 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace MADAI_BACKEND.Models
+{
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum UserRole
+    {
+        Admin,
+        Patient
+    }
+
+    public class User
+    {
+        [Key]
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        [Required]
+        public required string FirstName { get; set; }
+
+        [Required]
+        public required string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public required string Email { get; set; }
+
+        [Required]
+        public required string PasswordHash { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; } = UserRole.Patient;
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public ICollection<SymptomEntry> SymptomEntries { get; set; } = new List<SymptomEntry>();
+        public ICollection<MedicalReport> MedicalReports { get; set; } = new List<MedicalReport>();
+
+    }
+}
