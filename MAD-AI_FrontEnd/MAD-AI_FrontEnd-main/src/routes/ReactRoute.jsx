@@ -31,7 +31,7 @@ const ReactRoute = () => {
        <Route path={ROUTE.Contact} element={<Contact/>}/>
        <Route path={ROUTE.Record} element={<Record/>}/>
        <Route path={ROUTE.Recommendation} element={<Recommendation/>}/>
-       <Route path={ROUTE.SymptomChecker} element={<SymptomChecker/>}/>
+       <Route path={ROUTE.SymptomChecker} element={<ProtectedRoute><SymptomChecker/></ProtectedRoute>}/>
        <Route path={ROUTE.MedicalHistory} element={<MedicalHistory/>}/>
        <Route path={ROUTE.DoctorSearch} element={<DoctorSearch/>}/>
        <Route path={ROUTE.Profile} element={<ProtectedRoute><Profile/></ProtectedRoute>}/>

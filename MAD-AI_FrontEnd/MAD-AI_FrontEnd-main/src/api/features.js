@@ -9,9 +9,8 @@ export const searchDoctors = (location, specialty) =>
 
 //Symptom Checker
 export const checkSymptoms = ({ patientName, symptomsText, dateSubmitted }) =>
-  httpClient.post('/api/symptomchecker', {
+  httpClient.post('/api/SymptomChecker', {
     patientName,
     symptomsText,
     dateSubmitted,
   });
-

@@ -29,8 +29,7 @@ namespace MADAI_BACKEND.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!Guid.TryParse(userIdClaim, out Guid userId))
+            if (!TryGetCurrentUserId(out Guid userId))
                 return Unauthorized("Invalid or missing user ID.");
 
             var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
@@ -68,27 +67,54 @@ namespace MADAI_BACKEND.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetResult(Guid id)
         {
+            if (!TryGetCurrentUserId(out Guid userId))
+                return Unauthorized("Invalid or missing user ID.");
+
             var result = await _context.AnalysisResults
-                .FirstOrDefaultAsync(r => r.SymptomEntryId == id);
+                .FirstOrDefaultAsync(r => r.SymptomEntryId == id && r.UserId == userId);
 
             if (result == null)
                 return NotFound();
 
-            return Ok(result);
+            return Ok(new AnalysisResultDTO
+            {
+                Summary = result.Summary,
+                SuggestedConditions = SplitStoredList(result.SuggestedConditions),
+                NextSteps = SplitStoredList(result.NextSteps)
+            });
         }
 
         [HttpGet("my-symptoms")]
         public async Task<IActionResult> GetMySymptoms()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!Guid.TryParse(userIdClaim, out Guid userId))
+            if (!TryGetCurrentUserId(out Guid userId))
                 return Unauthorized("Invalid or missing user ID.");
 
             var entries = await _context.SymptomEntries
                 .Where(e => e.UserId == userId)
+                .Select(e => new
+                {
+                    e.Id,
+                    e.PatientName,
+                    e.SymptomsText,
+                    e.DateSubmitted
+                })
                 .ToListAsync();
 
             return Ok(entries);
+        }
+
+        private bool TryGetCurrentUserId(out Guid userId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Guid.TryParse(userIdClaim, out userId);
+        }
+
+        private static string[] SplitStoredList(string? value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? Array.Empty<string>()
+                : value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         }
     }
 }

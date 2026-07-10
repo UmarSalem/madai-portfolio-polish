@@ -2,58 +2,48 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import SymptomChecker from './SymptomChecker';
 import { MemoryRouter } from 'react-router';
+import { checkSymptoms } from '../api/features';
 
-// Simple mock for axios (no need for jest.mock in CRA)
-jest.mock('axios', () => ({
-  post: jest.fn()
+jest.mock('../api/features', () => ({
+  checkSymptoms: jest.fn()
 }));
 
 describe('SymptomChecker', () => {
   beforeEach(() => {
-    // Mock localStorage
-    Storage.prototype.getItem = jest.fn(() => JSON.stringify({ id: '123' }));
-    
-    // Mock API responses
-    require('axios').post.mockImplementation((url) => {
-      if (url.includes('generativelanguage')) {
-        return Promise.resolve({
-          data: {
-            candidates: [{
-              content: {
-                parts: [{
-                  text: JSON.stringify({
-                    possibleConditions: ["Migraine"],
-                    advice: "Rest",
-                    urgencyLevel: "low",
-                    recommendedActions: ["Take medicine"]
-                  })
-                }]
-              }
-            }]
-          }
-        });
+    checkSymptoms.mockReset();
+    checkSymptoms.mockResolvedValue({
+      data: {
+        summary: 'Demo symptom checker response only.',
+        suggestedConditions: ['Demo-only possible condition'],
+        nextSteps: ['Use fictional demo data only.']
       }
-      return Promise.resolve({ data: {} });
     });
   });
 
-  test('submits form successfully', async () => {
-  render(
-    <MemoryRouter>
-      <SymptomChecker />
-    </MemoryRouter>
-  );
-    
-    fireEvent.change(screen.getByLabelText(/patient name/i), {
-      target: { value: 'John' }
+  test('shows disclaimer and submits demo symptoms successfully', async () => {
+    render(
+      <MemoryRouter>
+        <SymptomChecker />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/educational demo and not medical advice/i)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText(/demo patient name/i), {
+      target: { value: 'Demo Patient' }
     });
-    fireEvent.change(screen.getByLabelText(/symptoms/i), {
-      target: { value: 'headache' }
+    fireEvent.change(screen.getByLabelText(/demo symptoms/i), {
+      target: { value: 'fictional headache' }
     });
-    fireEvent.click(screen.getByText(/check symptoms/i));
+    fireEvent.click(screen.getByRole('button', { name: /check demo symptoms/i }));
 
     await waitFor(() => {
-      expect(screen.getByText('Diagnosis for John')).toBeInTheDocument();
+      expect(checkSymptoms).toHaveBeenCalledWith(expect.objectContaining({
+        patientName: 'Demo Patient',
+        symptomsText: 'fictional headache'
+      }));
+      expect(screen.getByText('Demo Result')).toBeInTheDocument();
+      expect(screen.getByText('Demo symptom checker response only.')).toBeInTheDocument();
     });
   });
 });

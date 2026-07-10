@@ -84,3 +84,21 @@ Remaining verification:
 
 - Run full local end-to-end auth/profile testing once a local database has safe demo users.
 - Confirm deployment CORS origins before public hosting.
+
+## Symptom Checker Vertical Slice
+
+Date: 2026-07-08
+
+- Updated the React symptom checker to call the ASP.NET Core `/api/SymptomChecker` endpoint through the shared Axios client.
+- Protected the symptom checker route so bearer-token behavior matches the backend `[Authorize]` endpoint.
+- Added a visible medical disclaimer and no-real-patient-data warning to the symptom checker screen.
+- Added inline loading, empty, error, and result states for the demo flow.
+- Added request length validation to the backend symptom checker DTO.
+- Updated backend symptom analysis handling so missing placeholder OpenRouter configuration or provider failure returns a safe demo response instead of crashing.
+- Updated related backend symptom result/history endpoints to filter by the authenticated user and return safer DTO-shaped data instead of EF entities.
+
+Remaining verification:
+
+- Run an end-to-end symptom checker test with a fictional demo account and a local safe database.
+- Decide whether public demo deployments should store submitted fictional symptoms or switch this feature to non-persistent demo mode.
+- Confirm deployment environment variables never contain provider secrets in Git.
