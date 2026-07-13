@@ -7,7 +7,10 @@
         public string Address { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string Website { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public string Specialty { get; set; } = string.Empty;
         public double Rating { get; set; }
         public int UserRatingsTotal { get; set; }
+        public bool IsDemo { get; set; }
     }
 }

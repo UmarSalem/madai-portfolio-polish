@@ -9,7 +9,7 @@ This draft maps current frontend screens to current or expected backend endpoint
 | Profile | `getMyProfile()` / `updateMyProfile(data)` -> `/api/user/me` | `GET /api/user/me`, `PUT /api/user/me` | Updated | Uses bearer token through Axios interceptor. Backend returns safe profile DTO without password hash. |
 | Symptom checker | `checkSymptoms(data)` -> `POST /api/SymptomChecker` | `POST /api/SymptomChecker` | Updated | Requires bearer token. Uses safe DTO request/response shapes and visible demo medical disclaimer. |
 | My symptoms/history | Local component history only or old local storage paths | `GET /api/SymptomChecker/my-symptoms` | Missing | Frontend does not appear fully wired to this backend endpoint. |
-| Doctor search | `GET /api/doctors/search?location=&specialty=` | `GET /api/Doctors/search?location=&specialty=` | Needs verification | Requires `Patient` role. Backend doctor service registration and maps config need verification. |
+| Doctor search | `searchDoctors(location, specialty)` -> `GET /api/Doctors/search?location=&specialty=` | `GET /api/Doctors/search?location=&specialty=` | Updated | Requires `Patient` role. Uses shared Axios bearer token. Falls back to fictional demo doctors if Google Places config is missing/unavailable. |
 | Recommendation | `GET /recommendation` | Needs verification | Missing | Backend does not appear to expose a matching recommendation endpoint. Could become static fake frontend data. |
 | Medical report upload/list | `/medical_report` json-server-style calls | `POST /api/MedicalReport/upload-report`, `GET /api/MedicalReport/my-reports` | Mismatch | Frontend currently posts Base64/json data; backend expects multipart form file. |
 | Medical report download | Uses `fileData` from json-server-style data | `GET /api/MedicalReport/download-report/{id}` | Mismatch | Frontend needs backend download flow if this feature remains. |
@@ -155,3 +155,41 @@ This draft maps current frontend screens to current or expected backend endpoint
 - External provider note: The backend can call OpenRouter when a real provider key is configured outside Git. If the key is missing, placeholder-only, or the provider fails, the backend returns a safe demo fallback DTO instead of crashing. Sending real health data to an external provider remains blocked by project policy.
 - Related backend endpoints: `GET /api/SymptomChecker/{id}` now filters to the authenticated user and returns the same safe result DTO shape. `GET /api/SymptomChecker/my-symptoms` now returns a minimal projected history shape instead of EF navigation entities, but the frontend is not wired to this endpoint yet.
 - Remaining verification: Run a local end-to-end check with a safe demo user after the backend database is initialized locally. Confirm whether stored symptom entries should remain part of the public demo or become in-memory/static-only later.
+
+## Doctor Search Contract
+
+### Search Doctors
+
+- Frontend screen/component: `DoctorSearch`
+- Frontend API function: `searchDoctors(location, specialty)`
+- Backend endpoint: `GET /api/Doctors/search`
+- Auth required: Yes, bearer token. Backend requires the `Patient` role.
+- Query parameters:
+
+```text
+location=Demo City
+specialty=Cardiology
+```
+
+- Response body:
+
+```json
+[
+  {
+    "name": "Demo Cardiology Clinic",
+    "address": "100 Demo Health Street",
+    "phoneNumber": "Demo phone not available",
+    "website": "https://example.test/madai-demo-clinic",
+    "location": "Demo City",
+    "specialty": "Cardiology",
+    "rating": 4.6,
+    "userRatingsTotal": 24,
+    "isDemo": true
+  }
+]
+```
+
+- Status after this task: Updated. The frontend now uses the shared Axios client and the backend `/api/Doctors/search` endpoint. The doctor search route is protected so token behavior matches the backend authorization requirement.
+- External API dependency: The backend can use Google Places when `GoogleMaps:ApiKey` is configured outside Git. If the key is missing, placeholder-only, or Google Places fails, the backend returns fictional demo doctor data instead of crashing or exposing a secret.
+- Data safety note: Committed fallback data uses fictional names, fictional addresses, no real phone numbers, and `.example.test` demo websites.
+- Remaining verification: Run an end-to-end doctor search with a fictional patient login after local build/restore works. Confirm whether the public portfolio should always force demo results or allow live Google Places only in private/local environments.

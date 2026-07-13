@@ -94,6 +94,18 @@ You can also explain:
 - The screen has visible demo-only and not-medical-advice wording.
 - The backend returns a safe demo fallback if external AI configuration is missing or unavailable.
 
+Doctor search refactor:
+
+"I aligned the doctor search React flow with the ASP.NET Core API and improved safe handling around external API/demo doctor data."
+
+You can also explain:
+
+- The doctor search now calls `/api/Doctors/search` through the shared Axios client.
+- The route is protected because the backend endpoint requires a patient bearer token.
+- The backend `DoctorService` is registered correctly in dependency injection.
+- Google Places configuration is read from `GoogleMaps:ApiKey`, with no API key committed to Git.
+- If Google Places is not configured or fails, the backend returns fictional demo doctors instead of crashing.
+
 ## AI-Assisted Development
 
 Use this wording:

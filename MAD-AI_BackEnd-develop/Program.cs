@@ -62,6 +62,7 @@ builder.Services.AddScoped<ISymptomService, SymptomService>();
 builder.Services.AddScoped<IMedicalReportService, MedicalReportService>();
 builder.Services.AddScoped<IAIRecommendationService, AIRecommendationService>();
 builder.Services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
+builder.Services.AddHttpClient<IDoctorService, DoctorService>();
 
 // ✅ HttpClient for OpenRouter API
 builder.Services.AddHttpClient();
