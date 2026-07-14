@@ -11,7 +11,7 @@ const DetailCard = () => {
             <div className='image-div'>
             </div>
             <div className='dr-text'>
-              <h1>Dr Nauman Iftikhar</h1>
+              <h1>Dr Demo Specialist</h1>
               <p id='heart'>Heart Specialist</p>
               <p>Experience:10+</p>
               <p id='heart'>Charges 5000 Rs</p>

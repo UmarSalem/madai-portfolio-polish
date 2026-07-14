@@ -59,19 +59,30 @@ Examples of values that must stay out of Git:
 - `dist/`
 - `coverage/`
 
-## Files To Remove Before Public Deployment
+## Cleanup Completed In Portfolio Safety Pass
 
-Cleanup checklist:
+The following unsafe local artifacts were removed or replaced during the cleanup pass:
 
-- `MAD-AI_BackEnd-develop/MADAI.db`
-- `MAD-AI_BackEnd-develop/MADAI.db-wal`
-- `MAD-AI_BackEnd-develop/MADAI.db-shm`
-- `MAD-AI_BackEnd-develop/uploads/`
-- `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/db.json`, or replace it with fully fictional demo content.
-- Any local generated `bin/` and `obj/` folders.
+- Removed `MAD-AI_BackEnd-develop/MADAI.db`.
+- Removed `MAD-AI_BackEnd-develop/MADAI.db-wal`.
+- Removed `MAD-AI_BackEnd-develop/MADAI.db-shm`.
+- Removed uploaded report content from `MAD-AI_BackEnd-develop/uploads/`.
+- Replaced `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/db.json` with fictional demo-only data.
+- Removed generated `bin`/`obj` references from the backend project file.
+- Replaced committed secret-like values with placeholders.
+- Added safe placeholder-only example configuration files.
+
+The repository should still be scanned before every public push. If new local database, upload, build, or secret files appear, do not commit them.
+
+## Files To Keep Out Of Public Deployment
+
+Ongoing cleanup checklist:
+
+- Any future `*.db`, `*.db-wal`, or `*.db-shm` files.
+- Any future uploaded report files or `uploads/` content.
+- Any future local `bin/`, `obj/`, `node_modules/`, `build/`, `dist/`, or `coverage/` artifacts.
 - Any real API keys or JWT secrets in settings/config files.
-
-These files were not removed in this documentation task. They are listed so cleanup can be done deliberately in a later safety task.
+- Any real user, patient, clinic, report, or medical-history data.
 
 ## Why Real Patient Data Must Not Be Used
 

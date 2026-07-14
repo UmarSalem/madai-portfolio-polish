@@ -4,8 +4,8 @@ const inputSlice = createSlice({
   name: "input",
   initialState: { 
     value: { 
-      email: "hanzla7658@gmail.com", 
-      password: "expert123" 
+      email: "demo.patient@example.test", 
+      password: "demo-placeholder-do-not-use" 
     }
   },
   reducers: {
