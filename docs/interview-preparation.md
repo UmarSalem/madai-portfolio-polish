@@ -106,6 +106,19 @@ You can also explain:
 - Google Places configuration is read from `GoogleMaps:ApiKey`, with no API key committed to Git.
 - If Google Places is not configured or fails, the backend returns fictional demo doctors instead of crashing.
 
+Report upload/history refactor:
+
+"I reviewed and safer-aligned the report upload/history flow because file uploads and medical text require stronger privacy and demo-data handling."
+
+You can also explain:
+
+- The frontend now uses multipart form-data for PDF upload through the shared Axios client.
+- The upload screen warns users not to upload real medical reports or private health information.
+- The backend validates PDF type and size for the demo.
+- New demo uploads store metadata and analysis only, not PDF bytes or extracted report text.
+- Report downloads are disabled in the safe portfolio demo.
+- If AI provider configuration is missing or unavailable, the backend returns a safe demo analysis response.
+
 ## AI-Assisted Development
 
 Use this wording:

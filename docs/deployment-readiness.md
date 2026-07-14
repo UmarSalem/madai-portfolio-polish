@@ -55,6 +55,18 @@ Render can host an ASP.NET Core backend, but the current backend is not ready. B
 - Decide whether SQLite is acceptable for the demo or switch to a managed database later.
 - Review Dockerfile because it currently uses Windows Nano Server images. A Linux-friendly setup is usually easier on common hosting platforms.
 
+## Report Upload Status
+
+Current status: safer for local demo testing, but still not ready for unrestricted public uploads.
+
+The report upload/history slice now uses multipart form-data, PDF/size validation, safe DTO responses, and metadata-only storage for new demo uploads. Uploaded PDFs are not written to `uploads/`, file bytes are not stored for new demo uploads, and downloads are disabled for the safe portfolio demo.
+
+Before public deployment, decide whether to:
+
+- Disable report uploads entirely and show a static fictional demo.
+- Keep metadata-only demo uploads for authenticated fictional users.
+- Add a full production-grade privacy, retention, deletion, and consent model before allowing any real files.
+
 ## Required Work Before Deployment
 
 - Environment configuration.

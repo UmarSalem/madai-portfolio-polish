@@ -14,3 +14,19 @@ export const checkSymptoms = ({ patientName, symptomsText, dateSubmitted }) =>
     symptomsText,
     dateSubmitted,
   });
+
+
+//Medical Reports
+export const uploadMedicalReport = ({ patientName, file }) => {
+  const formData = new FormData();
+  formData.append('PatientName', patientName);
+  formData.append('File', file);
+
+  return httpClient.post('/api/MedicalReport/upload-report', formData);
+};
+
+export const getMyMedicalReports = () =>
+  httpClient.get('/api/MedicalReport/my-reports');
+
+export const getMedicalHistory = () =>
+  httpClient.get('/api/user/medical-history');

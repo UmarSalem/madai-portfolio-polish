@@ -1,180 +1,209 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './MedicalHistoryStyle.css';
 import Navbar from '../components/layout/Navbar';
-import axios from 'axios';
-import { Config } from '../constant';
+import { getMyMedicalReports, uploadMedicalReport } from '../api/features';
+
+const MAX_REPORT_SIZE_BYTES = 2 * 1024 * 1024;
+
+const isPdfFile = (file) => {
+  return file && (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'));
+};
+
+const normalizeReport = (report) => ({
+  id: report?.id || `${report?.fileName || 'report'}-${report?.dateUploaded || Date.now()}`,
+  patientName: report?.patientName || 'Demo Patient',
+  fileName: report?.fileName || 'demo-report.pdf',
+  dateUploaded: report?.dateUploaded ? new Date(report.dateUploaded).toLocaleString() : 'N/A',
+  summary: report?.summary || 'No demo analysis returned.',
+  suggestedConditions: Array.isArray(report?.suggestedConditions) ? report.suggestedConditions : [],
+  nextSteps: Array.isArray(report?.nextSteps) ? report.nextSteps : [],
+  downloadAvailable: Boolean(report?.downloadAvailable),
+  isDemo: report?.isDemo !== false,
+});
 
 function MedicalHistory() {
-  const [patientId, setPatientId] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [patientName, setPatientName] = useState('Demo Patient');
   const [file, setFile] = useState(null);
-  const [entries, setEntries] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const fileInputRef = useRef(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const loadReports = async () => {
+    setLoading(true);
+    setError('');
 
-useEffect(() => {
-  // const storedUser = JSON.parse(localStorage.getItem(Config.userApiTokenName));
-  // const userId = storedUser?.id;
-
-  // if (!userId) {
-  //   alert('User not found in local storage.');
-  //   return;
-  // }
-
-  const fetchMedicalHistory = async () => {
     try {
-      const response = await axios.get(`${Config.serverUrl}/medical_history`);
-      setEntries(response.data);
-    } catch (error) {
-      console.error('Failed to fetch medical history:', error);
-      alert('Unable to fetch medical history.');
+      const response = await getMyMedicalReports();
+      const normalizedReports = Array.isArray(response.data)
+        ? response.data.map(normalizeReport)
+        : [];
+
+      setReports(normalizedReports);
+    } catch (requestError) {
+      const status = requestError?.response?.status;
+      setError(status === 401
+        ? 'Please log in before viewing demo reports.'
+        : 'Unable to load demo report history right now.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  fetchMedicalHistory();
-}, []);
- const handleAdd = async () => {
-    if (!patientId || !title || !description || !file) {
-      alert('Please fill in all fields.');
+  useEffect(() => {
+    loadReports();
+  }, []);
+
+  const handleFileChange = (event) => {
+    setError('');
+    setSuccess('');
+    setFile(event.target.files?.[0] || null);
+  };
+
+  const handleUpload = async (event) => {
+    event.preventDefault();
+    setError('');
+    setSuccess('');
+
+    const trimmedPatientName = patientName.trim();
+
+    if (!trimmedPatientName) {
+      setError('Please enter a fictional demo patient name.');
       return;
     }
- const storedUser = JSON.parse(localStorage.getItem(Config.userApiTokenName));
-  const userId = storedUser?.id;
 
-  if (!userId) {
-    alert('User not found in local storage.');
-    return;
-  }
-    // Convert file to base64 for storage in db.json
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async () => {
-      const base64File = reader.result;
+    if (!file) {
+      setError('Please select a fictional demo PDF file.');
+      return;
+    }
 
-      try {
-        const response = await axios.post( `${Config.serverUrl}/medical_history`, {
-          patientId,
-          userId,
-          title,
-          description,
-          fileName: file.name,
-          fileData: base64File,
-          createdAt: new Date().toISOString()
-        });
+    if (!isPdfFile(file)) {
+      setError('Only PDF files are accepted for this demo.');
+      return;
+    }
 
-        alert('Medical history uploaded successfully.');
-        setEntries([...entries, response.data]);
-        // Reset form
-        setPatientId('');
-        setTitle('');
-        setDescription('');
-        setFile(null);
-      } catch (error) {
-        console.error(error);
-        alert('Upload failed.');
+    if (file.size > MAX_REPORT_SIZE_BYTES) {
+      setError('Demo report files must be 2 MB or smaller.');
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const response = await uploadMedicalReport({
+        patientName: trimmedPatientName,
+        file,
+      });
+
+      setReports(prev => [normalizeReport(response.data), ...prev]);
+      setSuccess('Demo report uploaded. The PDF content was not stored for this safe portfolio demo.');
+      setPatientName('Demo Patient');
+      setFile(null);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
-    };
-    reader.onerror = (error) => {
-      console.error('Error converting file:', error);
-      alert('File conversion failed.');
-    };
+    } catch (requestError) {
+      const status = requestError?.response?.status;
+      if (status === 400 && requestError.response?.data) {
+        setError(typeof requestError.response.data === 'string'
+          ? requestError.response.data
+          : 'The demo report could not be accepted. Check that it is a small PDF.');
+      } else if (status === 401) {
+        setError('Please log in before uploading a demo report.');
+      } else {
+        setError('Unable to upload the demo report right now. Please try again later.');
+      }
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
     <section>
-      {/* <Navbar /> */}
-      <div className='form-container'>
-  <h1>Only For Admin</h1>
-  <h1>Medical History Upload</h1>
+      <Navbar />
+      <div className="medical-history-page">
+        <div className="medical-report-panel">
+          <h1>Medical Report Demo</h1>
+          <p className="report-safety-warning">
+            Educational demo only. Do not upload real medical reports or private health information.
+          </p>
 
-  <div className="form-and-table-wrapper">
-    {/* Form Section */}
-    <div className='former-group'>
-        <label style={{ fontWeight: 'bold' }}>Patient ID:</label>
-      <div className="form-group">
-        <input
-          value={patientId}
-          onChange={(e) => setPatientId(e.target.value)}
-          type="text"
-          placeholder="Enter Patient UUID"
-        />
+          <form className="medical-report-form" onSubmit={handleUpload}>
+            <div className="medical-report-field">
+              <label htmlFor="report-patient-name">Demo Patient Name</label>
+              <input
+                id="report-patient-name"
+                value={patientName}
+                onChange={(event) => setPatientName(event.target.value)}
+                type="text"
+                placeholder="Demo Patient"
+                disabled={uploading}
+              />
+            </div>
+
+            <div className="medical-report-field">
+              <label htmlFor="report-file">Demo PDF Report</label>
+              <input
+                id="report-file"
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={handleFileChange}
+                disabled={uploading}
+              />
+              <span className="report-field-help">PDF only, maximum 2 MB. Use fictional files only.</span>
+            </div>
+
+            {error && <p className="medical-report-error">{error}</p>}
+            {success && <p className="medical-report-success">{success}</p>}
+
+            <button type="submit" className="medical-report-button" disabled={uploading}>
+              {uploading ? 'Uploading...' : 'Upload Demo Report'}
+            </button>
+          </form>
+        </div>
+
+        <div className="medical-report-history">
+          <h2>Demo Report History</h2>
+
+          {loading && <p className="medical-report-empty">Loading demo reports...</p>}
+
+          {!loading && reports.length === 0 && (
+            <p className="medical-report-empty">No demo reports yet.</p>
+          )}
+
+          {reports.length > 0 && (
+            <div className="medical-report-grid">
+              {reports.map((report) => (
+                <article key={report.id} className="medical-report-card">
+                  <div className="medical-report-card-header">
+                    <h3>{report.fileName}</h3>
+                    {report.isDemo && <span>Demo</span>}
+                  </div>
+                  <p><strong>Patient:</strong> {report.patientName}</p>
+                  <p><strong>Uploaded:</strong> {report.dateUploaded}</p>
+                  <p><strong>Download:</strong> {report.downloadAvailable ? 'Available' : 'Disabled for safe demo'}</p>
+                  <div className="medical-report-summary">
+                    <strong>Analysis summary:</strong>
+                    <p>{report.summary}</p>
+                  </div>
+                  {report.nextSteps.length > 0 && (
+                    <div>
+                      <strong>Next steps:</strong>
+                      <ul>
+                        {report.nextSteps.map((step, index) => <li key={index}>{step}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-
-        <label style={{ fontWeight: 'bold' }}>Title:</label>
-      <div className="form-group">
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          type="text"
-          placeholder="Enter Title"
-        />
-      </div>
-
-        <label style={{ fontWeight: 'bold' }}>Description:</label>
-      <div className="form-group">
-        <input
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          type="text"
-          placeholder="Enter Description"
-        />
-      </div>
-
-        <label style={{ fontWeight: 'bold' }}>Upload File (PDF):</label>
-      <div className="form-group">
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={handleFileChange}
-        />
-      </div>
-
-      <button onClick={handleAdd} id='add-button'>
-        Submit
-      </button>
-    </div>
-
-    {/* Table Section */}
-    <div className="table-section">
-      {entries.length === 0 ? (
-        <p>No records yet.</p>
-      ) : (
-        <table className="doctor-table">
-          <thead>
-            <tr>
-              <th>Patient ID</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>File</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.map((entry, index) => (
-              <tr key={index}>
-                <td>{entry.patientId}</td>
-                <td>{entry.title}</td>
-                <td>{entry.description}</td>
-                <td>
-                  <a
-                    href={entry.fileData}
-                    download={entry.fileName}
-                    className="download-btn"
-                  >
-                    Download File
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  </div>
-</div>
-
     </section>
   );
 }

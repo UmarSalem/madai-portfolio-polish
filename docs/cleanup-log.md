@@ -122,3 +122,26 @@ Remaining verification:
 - Run frontend build/tests after Node/npm is available.
 - Test doctor search end-to-end with a fictional patient account.
 - Decide whether public deployments should allow live Google Places results or force fictional demo results only.
+
+## Report Upload/History Vertical Slice
+
+Date: 2026-07-13
+
+- Updated the React medical report/history screen to call ASP.NET Core report endpoints through the shared Axios client.
+- Updated the AI doctor route to reuse the same safe report demo component instead of the old mock `/medical_report` flow.
+- Protected report upload/history routes because the backend endpoints require authentication.
+- Added visible warning text: educational demo only, do not upload real medical reports or private health information.
+- Added frontend PDF type and 2 MB size validation.
+- Removed frontend Base64 file conversion and download links for uploaded report content.
+- Updated backend upload handling to validate PDF files and store metadata/analysis only for new demo uploads.
+- Disabled writing uploaded PDFs to `uploads/` and disabled storing file bytes for new demo uploads.
+- Updated backend report/history endpoints to return safe DTOs instead of exposing file bytes or EF entities.
+- Updated report analysis to return a safe demo fallback when OpenRouter configuration is missing, placeholder-only, PDF parsing fails, or the provider is unavailable.
+- Removed an unused medical-history copy file that contained old real-looking clinic data.
+
+Remaining verification:
+
+- Run backend build after NuGet restore access is available.
+- Run frontend build/tests after Node/npm is available.
+- Test upload/list with a fictional tiny PDF and a fictional patient account.
+- Decide whether public deployment should disable report uploads entirely or keep metadata-only demo uploads.

@@ -147,14 +147,9 @@ namespace MADAI_BACKEND.Controllers
                 .FirstOrDefaultAsync(r => r.Id == id && r.UserId == actualUserId);
 
             if (report == null || string.IsNullOrEmpty(report.FilePath))
-                return NotFound("Medical report not found.");
+                return NotFound("Report downloads are disabled for the safe demo.");
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "uploads", report.FilePath);
-            if (!System.IO.File.Exists(path))
-                return NotFound("File not found on server.");
-
-            var fileBytes = await System.IO.File.ReadAllBytesAsync(path);
-            return File(fileBytes, "application/pdf", Path.GetFileName(path));
+            return NotFound("Report downloads are disabled for the safe demo.");
         }
 
         [HttpGet("ai-health-recommendation")]

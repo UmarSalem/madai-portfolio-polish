@@ -15,6 +15,7 @@ namespace MADAI_BACKEND.Controllers
     [ApiController]
     public class MedicalReportController : ControllerBase
     {
+        private const long MaxDemoReportBytes = 2 * 1024 * 1024;
         private readonly AppDbContext _context;
         private readonly IMedicalReportService _reportService;
 
@@ -40,31 +41,21 @@ namespace MADAI_BACKEND.Controllers
             if (userId == null)
                 return Unauthorized("Invalid user ID.");
 
+            if (!IsPdf(reportDto.File))
+                return BadRequest("Only PDF files are accepted for this demo.");
+
+            if (reportDto.File.Length > MaxDemoReportBytes)
+                return BadRequest("Demo report files must be 2 MB or smaller.");
+
             var analysisResult = await _reportService.AnalyzeMedicalReportAsync(reportDto);
-
-            byte[] fileBytes;
-            using (var ms = new MemoryStream())
-            {
-                await reportDto.File.CopyToAsync(ms);
-                fileBytes = ms.ToArray();
-            }
-
-            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
-            if (!Directory.Exists(uploadsDir))
-                Directory.CreateDirectory(uploadsDir);
-
-            var filePath = Path.Combine(uploadsDir, reportDto.File.FileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await fileStream.WriteAsync(fileBytes, 0, fileBytes.Length);
-            }
+            var safeFileName = Path.GetFileName(reportDto.File.FileName);
 
             var report = new MedicalReport
             {
                 PatientName = reportDto.PatientName,
-                FileName = reportDto.File.FileName,
-                FilePath = $"/uploads/{reportDto.File.FileName}",
-                FileData = fileBytes,
+                FileName = safeFileName,
+                FilePath = string.Empty,
+                FileData = null,
                 AnalysisSummary = analysisResult.Summary,
                 SuggestedConditions = string.Join(",", analysisResult.SuggestedConditions ?? new string[] { }),
                 NextSteps = string.Join(",", analysisResult.NextSteps ?? new string[] { }),
@@ -74,24 +65,34 @@ namespace MADAI_BACKEND.Controllers
             _context.MedicalReports.Add(report);
             await _context.SaveChangesAsync();
 
-            return Ok(analysisResult);
+            return Ok(ToSummaryDto(report));
         }
 
         [HttpGet("download-report/{id}")]
         public async Task<IActionResult> DownloadReport(Guid id)
         {
-            var report = await _context.MedicalReports.FindAsync(id);
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized();
 
-            if (report == null || report.FileData == null)
-                return NotFound(new { message = "Report not found or file is missing." });
+            var report = await _context.MedicalReports
+                .FirstOrDefaultAsync(r => r.Id == id && r.UserId == userId.Value);
 
-            return File(report.FileData, "application/pdf", report.FileName);
+            if (report == null)
+                return NotFound(new { message = "Report downloads are disabled for the safe demo." });
+
+            return NotFound(new { message = "Report downloads are disabled for the safe demo." });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReport(Guid id)
         {
-            var report = await _context.MedicalReports.FindAsync(id);
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized();
+
+            var report = await _context.MedicalReports
+                .FirstOrDefaultAsync(r => r.Id == id && r.UserId == userId.Value);
             if (report == null)
                 return NotFound();
 
@@ -114,9 +115,42 @@ namespace MADAI_BACKEND.Controllers
 
             var reports = await _context.MedicalReports
                 .Where(r => r.UserId == userId.Value)
+                .OrderByDescending(r => r.DateUploaded)
                 .ToListAsync();
 
-            return Ok(reports);
+            return Ok(reports.Select(ToSummaryDto));
+        }
+
+        private static bool IsPdf(IFormFile file)
+        {
+            var extension = Path.GetExtension(file.FileName);
+            return file.Length > 0
+                && string.Equals(extension, ".pdf", StringComparison.OrdinalIgnoreCase)
+                && (string.Equals(file.ContentType, "application/pdf", StringComparison.OrdinalIgnoreCase)
+                    || string.IsNullOrWhiteSpace(file.ContentType));
+        }
+
+        private static MedicalReportSummaryDTO ToSummaryDto(MedicalReport report)
+        {
+            return new MedicalReportSummaryDTO
+            {
+                Id = report.Id,
+                PatientName = report.PatientName,
+                FileName = report.FileName,
+                DateUploaded = report.DateUploaded,
+                Summary = report.AnalysisSummary,
+                SuggestedConditions = SplitStoredList(report.SuggestedConditions),
+                NextSteps = SplitStoredList(report.NextSteps),
+                DownloadAvailable = false,
+                IsDemo = true
+            };
+        }
+
+        private static string[] SplitStoredList(string? value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? Array.Empty<string>()
+                : value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         }
     }
 }
