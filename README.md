@@ -100,20 +100,25 @@ Known unsafe local artifacts are listed in [Safety and Privacy](docs/safety-and-
 - [Safety and Privacy](docs/safety-and-privacy.md)
 - [Deployment Readiness](docs/deployment-readiness.md)
 - [API Contract Draft](docs/api-contract.md)
-- [Frontend Learning Notes](docs/frontend-learning-notes.md)
+- [Frontend Learning Notes](docs/frontend/01-frontend-overview.md)
+- [Older Frontend Learning Notes](docs/frontend-learning-notes.md)
 - [Interview Preparation](docs/interview-preparation.md)
 - [Technical Audit](docs/audit/medai-technical-audit.md)
 
 Note: the previous audit file keeps its historical filename, but the correct project name going forward is Madai.
 
+## Frontend Learning Notes
+
+Detailed frontend learning and interview notes are in [docs/frontend](docs/frontend/). They explain the current React structure, routes, API integration, auth flow, hooks, feature slices, UI notes, and small next tasks using the actual Madai code.
+
 ## Known Limitations
 
-- Some frontend screens still call json-server style endpoints while the backend exposes ASP.NET API routes.
-- Frontend registration/profile/report/history calls need to be aligned with backend endpoints.
-- Backend CORS is not configured yet.
-- Secrets and private-looking demo data need cleanup before public release.
-- SQLite database and upload artifacts are currently local cleanup targets.
-- Tests appear stale and should be repaired after the API contract is clarified.
+- Some older frontend screens may still call json-server style endpoints while the backend exposes ASP.NET API routes. Needs verification.
+- Auth/profile, symptom checker, doctor search, and report upload/history have been aligned as vertical slices.
+- Backend CORS and deployment origins need verification before public hosting.
+- Secrets and private-looking demo data must continue to be checked before public release.
+- SQLite database, upload artifacts, and generated build outputs must remain out of Git.
+- Tests are limited and should be expanded after each feature contract is stabilized.
 - The backend Dockerfile is currently Visual Studio/Windows-container oriented and may need changes for common hosting platforms.
 
 ## Roadmap
