@@ -101,6 +101,7 @@ Known unsafe local artifacts are listed in [Safety and Privacy](docs/safety-and-
 - [Deployment Readiness](docs/deployment-readiness.md)
 - [API Contract Draft](docs/api-contract.md)
 - [Frontend Learning Notes](docs/frontend/01-frontend-overview.md)
+- [Backend Learning Notes](docs/backend/01-backend-overview.md)
 - [Older Frontend Learning Notes](docs/frontend-learning-notes.md)
 - [Interview Preparation](docs/interview-preparation.md)
 - [Technical Audit](docs/audit/medai-technical-audit.md)
@@ -110,6 +111,10 @@ Note: the previous audit file keeps its historical filename, but the correct pro
 ## Frontend Learning Notes
 
 Detailed frontend learning and interview notes are in [docs/frontend](docs/frontend/). They explain the current React structure, routes, API integration, auth flow, hooks, feature slices, UI notes, and small next tasks using the actual Madai code.
+
+## Backend Learning Notes
+
+Detailed backend learning and interview notes are in [docs/backend](docs/backend/). They explain the current ASP.NET Core structure, controllers, services, DTOs, EF Core, JWT auth, configuration, external services, file upload safety, deployment readiness, and small next tasks using the actual Madai code.
 
 ## Known Limitations
 
