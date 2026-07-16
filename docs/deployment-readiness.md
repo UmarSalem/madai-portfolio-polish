@@ -67,6 +67,19 @@ Before public deployment, decide whether to:
 - Keep metadata-only demo uploads for authenticated fictional users.
 - Add a full production-grade privacy, retention, deletion, and consent model before allowing any real files.
 
+## CI Status
+
+Current status: basic build validation configured.
+
+The repository now includes GitHub Actions workflows for pull requests and pushes to `develop` and `main`:
+
+- Frontend CI builds the React app from `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`.
+- Backend CI restores and builds the ASP.NET Core solution from `MAD-AI_BackEnd-develop`.
+
+These workflows are CI checks only. They do not deploy the frontend, deploy the backend, publish Docker images, or require production secrets.
+
+Frontend tests and backend tests are not required checks yet. The next step is to review and stabilize tests feature by feature before making them block pull requests.
+
 ## Required Work Before Deployment
 
 - Environment configuration.
@@ -75,7 +88,7 @@ Before public deployment, decide whether to:
 - Remove DB/upload files.
 - Fake seed data.
 - API contract cleanup.
-- CI/CD.
+- Deployment workflows after CI is stable.
 
 ## Suggested Deployment Order
 

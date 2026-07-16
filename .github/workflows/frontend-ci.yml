@@ -1,0 +1,43 @@
+name: Madai Frontend CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build React frontend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Build frontend
+        run: npm run build

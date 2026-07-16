@@ -21,8 +21,10 @@ Small GitHub-style tasks for future branches.
 
 ## CI/CD
 
-- [ ] Add GitHub Actions frontend build workflow.
-- [ ] Add GitHub Actions backend build workflow.
+- [x] Add GitHub Actions frontend build workflow.
+- [x] Add GitHub Actions backend build workflow.
+- [ ] Review and stabilize frontend tests before making them required CI checks.
+- [ ] Add backend test project before making backend tests required CI checks.
 - [ ] Add secret scan check.
 - [ ] Add artifact safety check for DB/upload/build files.
 

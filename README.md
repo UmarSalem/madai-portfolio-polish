@@ -121,6 +121,10 @@ Detailed backend learning and interview notes are in [docs/backend](docs/backend
 
 Detailed full-stack notes are in [docs/fullstack](docs/fullstack/). They connect the React frontend, ASP.NET Core backend, EF Core database, API contracts, auth/token flow, external services, deployment flow, and interview preparation using the actual Madai code.
 
+## CI/CD Status
+
+Basic GitHub Actions build checks are configured for the frontend and backend. These checks validate builds on pull requests and pushes to `develop` and `main`, but they do not deploy anything yet. See [CI/CD](docs/ci-cd.md).
+
 ## Known Limitations
 
 - Some older frontend screens may still call json-server style endpoints while the backend exposes ASP.NET API routes. Needs verification.

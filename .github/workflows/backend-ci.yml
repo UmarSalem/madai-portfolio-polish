@@ -1,0 +1,50 @@
+name: Madai Backend CI
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ASP.NET Core backend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: MAD-AI_BackEnd-develop
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore MADAI-BACKEND.sln
+
+      - name: Build backend
+        run: dotnet build MADAI-BACKEND.sln --configuration Release --no-restore
+
+      - name: Check for backend test projects
+        id: test_projects
+        shell: bash
+        run: |
+          if find . -name '*Tests.csproj' -o -name '*.Tests.csproj' | grep -q .; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run backend tests
+        if: steps.test_projects.outputs.found == 'true'
+        run: dotnet test MADAI-BACKEND.sln --configuration Release --no-build
