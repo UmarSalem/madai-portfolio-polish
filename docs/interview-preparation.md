@@ -83,6 +83,17 @@ You can also explain:
 - Profile now calls `/api/user/me` with the bearer token.
 - The backend returns a safe profile DTO instead of exposing password hashes.
 
+Symptom checker refactor:
+
+"I aligned the symptom checker React flow with the ASP.NET Core API and added safer demo/disclaimer handling for a health-related feature."
+
+You can also explain:
+
+- The symptom checker now calls `/api/SymptomChecker` through the shared Axios client.
+- The route is protected because the backend endpoint requires a bearer token.
+- The screen has visible demo-only and not-medical-advice wording.
+- The backend returns a safe demo fallback if external AI configuration is missing or unavailable.
+
 ## AI-Assisted Development
 
 Use this wording:
