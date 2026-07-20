@@ -17,6 +17,6 @@ namespace MADAI_BACKEND.Models.DTO
         [Required]
         public required string Password { get; set; }
 
-        public UserRole Role { get; set; } //= UserRole.Patient;
+        public UserRole Role { get; set; } = UserRole.Patient;
     }
 }

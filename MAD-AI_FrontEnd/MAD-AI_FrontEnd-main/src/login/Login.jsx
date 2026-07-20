@@ -2,34 +2,41 @@ import React, { useEffect, useState } from 'react';
 import './LoginStyle.css';
 import { Link, NavLink, useNavigate } from 'react-router';
 import { ROUTE } from '../routes/ReactLinks';
-import { Config } from '../constant';
 import Navbar from '../components/layout/Navbar';
 import { login } from '../api/auth';
+import { getStoredAuthUser, saveAuthUser } from '../api/authSession';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem(Config.userApiTokenName);
-    if (user) {
+    const user = getStoredAuthUser();
+    if (user?.token) {
       navigate('/'); // Redirect to home if user is already logged in
     }
-  }, []);
+  }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
     if (!email || !password) {
-      alert('Please fill in all fields.');
+      setMessage('Please fill in all fields.');
       return;
     }
+    setIsSubmitting(true);
     try {
       const res = await login(email, password);
-      localStorage.setItem(Config.userApiTokenName, JSON.stringify(res.data));
-      alert("Login successful!");
+      saveAuthUser(res.data);
+      setMessage('Login successful.');
       navigate('/doctor');
     } catch (error) {
-      alert("Login failed.");
+      const apiMessage = error?.response?.data?.message;
+      setMessage(apiMessage || 'Login failed. Please check your email and password.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -74,8 +81,11 @@ const Login = () => {
                       /><br />
                     </label><br />
                   </div>
+                  {message && <p>{message}</p>}
                   <div className='buttoner-div'>
-                    <button id='sign' type='submit'>Sign In</button>
+                    <button id='sign' type='submit' disabled={isSubmitting}>
+                      {isSubmitting ? 'Signing in...' : 'Sign In'}
+                    </button>
                     <a className='forgot-a-password' href="#">Forgot Password?</a>
                   </div>
                 </div>

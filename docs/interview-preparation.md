@@ -72,6 +72,17 @@ Say:
 
 "Because it was a student group project, the code has signs of multiple development stages. Some frontend features still call mock json-server endpoints while the backend has real ASP.NET routes. I documented those mismatches in an API contract and planned a vertical-slice refactor so each feature becomes stable without rewriting the whole app."
 
+Auth/profile refactor:
+
+"I fixed the frontend/backend API contract for register, login, and profile so the React frontend uses the ASP.NET Core API instead of old json-server-style endpoints."
+
+You can also explain:
+
+- Register now calls `/api/auth/signup`.
+- Login calls `/api/auth/signin` and stores only minimal normalized session data.
+- Profile now calls `/api/user/me` with the bearer token.
+- The backend returns a safe profile DTO instead of exposing password hashes.
+
 ## AI-Assisted Development
 
 Use this wording:

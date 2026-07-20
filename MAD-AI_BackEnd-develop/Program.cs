@@ -16,6 +16,17 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:3000", "http://localhost:3002")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // ✅ Swagger + JWT Support
 builder.Services.AddSwaggerGen(c =>
 {
@@ -90,6 +101,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("LocalFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
