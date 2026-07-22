@@ -1,13 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button/button";
 import Card from "../components/card/Card";
 import Cards from "../components/cards/Cards";
 import DataCards from "../components/dataCards/DataCards";
 import "./HomeStyle.css";
-import { Link } from "react-router";
-import { ROUTE } from "../routes/ReactLinks";
-import { LuLogIn } from "react-icons/lu";
-import { MdLogout } from "react-icons/md";
 import Navbar from "../components/layout/Navbar";
 import { Config } from "../constant";
 import axios from "axios";
@@ -54,7 +50,7 @@ const Home = () => {
                 </div>
               </div>
               <figure className="new-second-div grid sm:order-2 order-1">
-                <img className="new-image" src={"/doctor.png"} />
+                <img className="new-image" src={"/doctor.png"} alt="Doctor consultation illustration" />
               </figure>
             </div>
           </div>
@@ -86,7 +82,7 @@ const Home = () => {
               <button className="book">Book Appointment</button>
             </div>
             <figure className="part-two-of-four grid sm:order-2 order-1">
-              <img className="one-image" src={"/doctors.png"} />
+              <img className="one-image" src={"/doctors.png"} alt="Doctors team illustration" />
             </figure>
           </div>
         </section>
@@ -107,10 +103,10 @@ const Home = () => {
         <section>
           <div className="footer-div">
             <div className="footer-first-div">
-              <i class="ri-twitter-line"></i>
-              <i class="ri-facebook-box-line"></i>
-              <i class="ri-swap-line"></i>
-              <i class="ri-instagram-line"></i>
+              <i className="ri-twitter-line"></i>
+              <i className="ri-facebook-box-line"></i>
+              <i className="ri-swap-line"></i>
+              <i className="ri-instagram-line"></i>
             </div>
             <div className="footer-second-div">
               <div className="footer-second-div-part-one">
@@ -135,10 +131,10 @@ const Home = () => {
                 <p>Timing 24 Hours</p>
                 <p>Contact Information</p>
                 <p>
-                  <i class="ri-smartphone-line"></i>1122-1122
+                  <i className="ri-smartphone-line"></i>1122-1122
                 </p>
                 <p>
-                  <i class="ri-mail-line"></i>my-ai-doctor@mad.com
+                  <i className="ri-mail-line"></i>demo.contact@example.test
                 </p>
                 <div className="footer-button-div">
                   <button className="call-button">Call</button>

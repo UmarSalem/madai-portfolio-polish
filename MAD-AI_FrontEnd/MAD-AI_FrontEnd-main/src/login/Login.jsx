@@ -60,7 +60,7 @@ const Login = () => {
                 <div className='three-main-or-div'>
 
                   <div className='responsive-div' >
-                    <label for="Email ID">Email ID <br />
+                    <label>Email ID <br />
                       <input
                         type="email"
                         id="input"
@@ -70,7 +70,7 @@ const Login = () => {
                         required
                       />
                     </label> <br />
-                    <label for="Password">Password <br />
+                    <label>Password <br />
                       <input
                         type="password"
                         id="input"
@@ -86,7 +86,7 @@ const Login = () => {
                     <button id='sign' type='submit' disabled={isSubmitting}>
                       {isSubmitting ? 'Signing in...' : 'Sign In'}
                     </button>
-                    <a className='forgot-a-password' href="#">Forgot Password?</a>
+                    <button className='forgot-a-password' type="button">Forgot Password?</button>
                   </div>
                 </div>
               </form>

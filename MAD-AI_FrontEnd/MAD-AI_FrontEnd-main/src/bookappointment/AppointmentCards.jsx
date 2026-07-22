@@ -11,13 +11,13 @@ const AppointmentCards = () => {
             <section>
                <div className='diagnory-one'>
                   <div id='back'>
-                     <a href="#">{'< Back'}</a>
+                     <a href="/">{'< Back'}</a>
                   </div>
                   <div>
                      <button className='book'>Book Appointment</button>
                   </div>
                   <div id='log-out'>
-                     <a href="#">Log Out</a>
+                     <button type="button">Log Out</button>
                   </div>
                </div>
             </section>
@@ -26,15 +26,15 @@ const AppointmentCards = () => {
                <div className='main-inputs-search'>
                   <div className='search-doctor'>
                      <div className='two-icons-text'>
-                        <i class="ri-search-2-line"></i><input type="text" placeholder='Search Doctors, Specialist' />
+                        <i className="ri-search-2-line"></i><input type="text" placeholder='Search Doctors, Specialist' />
                      </div>
                   </div>
                   <div className='search-location'>
                      <div className='twos-icons-text'>
-                        <i class="ri-map-pin-2-fill"></i><input type="text" placeholder='Select Location' />
+                        <i className="ri-map-pin-2-fill"></i><input type="text" placeholder='Select Location' />
                      </div>
                      <div>
-                        <i class="ri-arrow-down-s-fill"></i>
+                        <i className="ri-arrow-down-s-fill"></i>
                      </div>
                   </div>
 

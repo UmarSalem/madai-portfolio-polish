@@ -7,7 +7,6 @@ import { Config } from '../constant';
 function Recommendation() {
   const [disease, setDisease] = useState('');
   const [location, setLocation] = useState('');
-  const [allEntries, setAllEntries] = useState([]);  // all data fetched from API
   const [filteredEntries, setFilteredEntries] = useState([]); // filtered data to display
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +20,6 @@ function Recommendation() {
     try {
       // Fetch all data first without parameters
       const response = await fetch(`${Config.serverUrl}/recommendation`);
-      setAllEntries(response.data);
 
       // Filter locally
       const filtered = response.data.filter((entry) => {
