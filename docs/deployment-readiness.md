@@ -55,6 +55,31 @@ Render can host an ASP.NET Core backend, but the current backend is not ready. B
 - Decide whether SQLite is acceptable for the demo or switch to a managed database later.
 - Review Dockerfile because it currently uses Windows Nano Server images. A Linux-friendly setup is usually easier on common hosting platforms.
 
+## Report Upload Status
+
+Current status: safer for local demo testing, but still not ready for unrestricted public uploads.
+
+The report upload/history slice now uses multipart form-data, PDF/size validation, safe DTO responses, and metadata-only storage for new demo uploads. Uploaded PDFs are not written to `uploads/`, file bytes are not stored for new demo uploads, and downloads are disabled for the safe portfolio demo.
+
+Before public deployment, decide whether to:
+
+- Disable report uploads entirely and show a static fictional demo.
+- Keep metadata-only demo uploads for authenticated fictional users.
+- Add a full production-grade privacy, retention, deletion, and consent model before allowing any real files.
+
+## CI Status
+
+Current status: basic build validation configured.
+
+The repository now includes GitHub Actions workflows for pull requests and pushes to `develop` and `main`:
+
+- Frontend CI builds the React app from `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`.
+- Backend CI restores and builds the ASP.NET Core solution from `MAD-AI_BackEnd-develop`.
+
+These workflows are CI checks only. They do not deploy the frontend, deploy the backend, publish Docker images, or require production secrets.
+
+Frontend tests and backend tests are not required checks yet. The next step is to review and stabilize tests feature by feature before making them block pull requests.
+
 ## Required Work Before Deployment
 
 - Environment configuration.
@@ -63,7 +88,7 @@ Render can host an ASP.NET Core backend, but the current backend is not ready. B
 - Remove DB/upload files.
 - Fake seed data.
 - API contract cleanup.
-- CI/CD.
+- Deployment workflows after CI is stable.
 
 ## Suggested Deployment Order
 

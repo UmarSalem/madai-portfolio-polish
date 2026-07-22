@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './RecordStyle.css';
-import { useNavigate } from 'react-router';
 
 function Record() {
    const [patients, setPatients] = useState([]);
-   const [newPatient, setNewPatient] = useState({
-      firstName: '',
-      lastName: '',
-      age: '',
-      date: new Date().toISOString().split('T')[0],
-      symptoms: '',
-   });
-   const navigate = useNavigate();
 
    useEffect(() => {
       const loadPatients = () => {
@@ -24,32 +15,6 @@ function Record() {
       window.addEventListener('storage', loadPatients);
       return () => window.removeEventListener('storage', loadPatients);
    }, []);
-
-   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setNewPatient({
-         ...newPatient,
-         [name]: value,
-      });
-   };
-
-   const addPatient = () => {
-      if (newPatient.firstName && newPatient.lastName && newPatient.age && newPatient.symptoms) {
-         const updatedPatients = [...patients, newPatient];
-         setPatients(updatedPatients);
-         localStorage.setItem('patients', JSON.stringify(updatedPatients));
-
-         setNewPatient({
-            firstName: '',
-            lastName: '',
-            age: '',
-            date: new Date().toISOString().split('T')[0],
-            symptoms: '',
-         });
-      } else {
-         alert('Please fill in all fields');
-      }
-   };
 
    const deletePatient = (index) => {
       const updatedPatients = patients.filter((_, i) => i !== index);

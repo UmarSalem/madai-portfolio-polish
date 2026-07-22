@@ -10,10 +10,10 @@ const DiagnorySummary = () => {
         <section>
           <div className='diagnory-one'>
             <div id='back'>
-              <a href="#">{'< Back'}</a>
+              <a href="/">{'< Back'}</a>
             </div>
             <div id='log-out'>
-              <a href="#">Log Out</a>
+              <button type="button">Log Out</button>
             </div>
           </div>
         </section>
@@ -34,7 +34,7 @@ const DiagnorySummary = () => {
                   <p>Patient Name:</p>
                 </div>
                 <div className='blacks-one'>
-                  <p>Umar Saleem</p>
+                  <p>Demo Patient</p>
                 </div>
               </div>
 
@@ -43,7 +43,7 @@ const DiagnorySummary = () => {
                   <p>Diagnosis:</p>
                 </div>
                 <div className='blacks-one'>
-                  <p>Influenza</p>
+                  <p>Fictional demo diagnosis</p>
                 </div>
               </div>
 
@@ -54,7 +54,7 @@ const DiagnorySummary = () => {
                   </div>
                 </div>
                 <div className='blacker-one'>
-                  <p>Fever, cough, headache</p>
+                  <p>Example symptom text for demo only</p>
                 </div>
               </div>
 
@@ -65,7 +65,7 @@ const DiagnorySummary = () => {
                   </div>
                 </div>
                 <div className='blacker-one'>
-                  <p>Paracetamol, Cough Syrup, Ibuprofen</p>
+                  <p>Demo recommendation text only</p>
                 </div>
               </div>
 

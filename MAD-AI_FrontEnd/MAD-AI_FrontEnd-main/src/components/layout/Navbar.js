@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const handleLogOut = () => {
 
-    const user = localStorage.removeItem(Config.userApiTokenName);
+    localStorage.removeItem(Config.userApiTokenName);
 
     navigate('/'); // Redirect to home if user is already logged in
 
@@ -50,7 +50,7 @@ const Navbar = () => {
       <header>
         <div className="main-navbars-div">
           <div className="logo">
-            <img id="logoOne" src={"/logoOne.png"} />
+            <img id="logoOne" src={"/logoOne.png"} alt="Madai logo" />
           </div>
           <nav className="nav-bar">
             <ul>
@@ -98,7 +98,7 @@ const Navbar = () => {
                         to="/profile"
                         onClick={() => setIsOpen(false)}
                       >
-                        <i class="ri-profile-line"></i> Profile
+                        <i className="ri-profile-line"></i> Profile
                       </Link>
                       <Link
                         to="/symptomChecker"

@@ -2,8 +2,8 @@
 {
     public class MedicalHistoryDTO
     {
-        public List<SymptomEntry> Symptoms { get; set; } = new();
-        public List<MedicalReport> Reports { get; set; } = new();
-        public List<AnalysisResult> AIResponses { get; set; } = new();
+        public List<SymptomHistoryDTO> Symptoms { get; set; } = new();
+        public List<MedicalReportSummaryDTO> Reports { get; set; } = new();
+        public List<AnalysisResultDTO> AIResponses { get; set; } = new();
     }
 }

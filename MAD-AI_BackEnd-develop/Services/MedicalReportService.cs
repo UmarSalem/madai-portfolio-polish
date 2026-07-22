@@ -27,24 +27,35 @@ namespace MADAI_BACKEND.Services
         {
             var client = _httpClientFactory.CreateClient();
             var apiKey = _configuration.GetValue<string>("OpenRouter:ApiKey");
-            if (string.IsNullOrEmpty(apiKey))
+            if (IsMissingProviderConfig(apiKey))
             {
-                throw new ApplicationException("OpenRouter API key is not configured.");
+                return CreateDemoFallbackResult();
             }
 
-            // Extract text from PDF using PdfPig
-            string extractedText = ExtractTextFromPdf(report.File);
+            string extractedText;
+            try
+            {
+                extractedText = ExtractTextFromPdf(report.File);
+            }
+            catch
+            {
+                return CreateDemoFallbackResult();
+            }
 
-            // Construct the request body
+            if (string.IsNullOrWhiteSpace(extractedText))
+            {
+                return CreateDemoFallbackResult();
+            }
+
             var systemMessage = new
             {
                 role = "system",
-                content = "You are a medical diagnostic assistant.\r\n\r\nCarefully read the attached medical report. Extract all key test values (e.g., blood levels, vitals, imaging results). For each result:\r\n\r\n- Compare it with the normal reference range (if provided or implied).\r\n- Clearly highlight **any values that are too high or too low**.\r\n- Explain the clinical significance briefly and in plain language.\r\n- Provide possible conditions or diagnoses related to these abnormalities.\r\n- Format your findings as clear bullet points for readability.\r\n\r\nBe accurate, concise, and helpful. Assume the report belongs to a general patient unless specific demographics are mentioned. and response in the bullet form."
+                content = "You are supporting an educational demo only. Do not diagnose. Do not claim certainty. Summarize fictional report text safely and remind the user this is not medical advice."
             };
             var userMessage = new
             {
                 role = "user",
-                content = $"Patient Name: {report.PatientName}, Report Text: {extractedText}"
+                content = $"Demo patient name: {report.PatientName}, Demo report text: {TrimForProvider(extractedText)}"
             };
 
             var requestBody = new
@@ -63,26 +74,31 @@ namespace MADAI_BACKEND.Services
             try
             {
                 var response = await client.SendAsync(request);
-                var responseJson = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new ApplicationException($"API call failed: {response.StatusCode}\nResponse: {responseJson}");
+                    return CreateDemoFallbackResult();
                 }
 
+                var responseJson = await response.Content.ReadAsStringAsync();
                 using var jsonDoc = JsonDocument.Parse(responseJson);
                 var summaryText = jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
 
                 return new MedicalReportResultDTO
                 {
                     Summary = summaryText,
-                    SuggestedConditions = new string[] { },
-                    NextSteps = new string[] { }
+                    SuggestedConditions = Array.Empty<string>(),
+                    NextSteps = new[]
+                    {
+                        "This demo response is not medical advice.",
+                        "Do not upload real medical reports to this portfolio demo.",
+                        "For real report interpretation, contact a qualified healthcare professional."
+                    }
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                throw new ApplicationException("Failed to analyze the medical report.", ex);
+                return CreateDemoFallbackResult();
             }
         }
 
@@ -105,6 +121,38 @@ namespace MADAI_BACKEND.Services
             {
                 throw new ApplicationException("Failed to extract text from PDF.", ex);
             }
+        }
+
+        private static bool IsMissingProviderConfig(string? apiKey)
+        {
+            return string.IsNullOrWhiteSpace(apiKey)
+                || apiKey.Contains("replace", StringComparison.OrdinalIgnoreCase)
+                || apiKey.Contains("placeholder", StringComparison.OrdinalIgnoreCase)
+                || apiKey.Contains("demo", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string TrimForProvider(string text)
+        {
+            const int maxCharacters = 5000;
+            return text.Length <= maxCharacters ? text : text[..maxCharacters];
+        }
+
+        private static MedicalReportResultDTO CreateDemoFallbackResult()
+        {
+            return new MedicalReportResultDTO
+            {
+                Summary = "Demo report analysis only. This portfolio demo does not store uploaded PDF content and this result is not medical advice.",
+                SuggestedConditions = new[]
+                {
+                    "Demo-only report review"
+                },
+                NextSteps = new[]
+                {
+                    "Use fictional PDF files only.",
+                    "Do not upload real medical reports or private health information.",
+                    "For real medical reports, contact a qualified healthcare professional."
+                }
+            };
         }
     }
 }

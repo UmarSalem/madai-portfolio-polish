@@ -96,6 +96,17 @@ AI-provider calls may send user-entered symptoms, report text, or medical histor
 
 Report upload features are high risk because PDFs may contain names, dates of birth, identifiers, lab values, scans, or other private data. Before public deployment, add file size limits, file type validation, safe storage rules, deletion/retention rules, and clear warnings. A static fake-report demo is safer for the first portfolio release.
 
+Current report upload demo rules:
+
+- The UI must warn: "Educational demo only. Do not upload real medical reports or private health information."
+- Demo upload accepts PDF files only.
+- Demo upload is limited to 2 MB.
+- New demo uploads must not write PDFs into `uploads/`.
+- New demo uploads must not store PDF bytes or extracted report text.
+- Report downloads are disabled for the safe portfolio demo.
+- AI analysis must fall back to a safe demo response when provider configuration is missing, placeholder-only, or unavailable.
+- If live AI report analysis is ever enabled, it must be used only with fictional demo PDFs unless a real privacy and consent model exists.
+
 ## Public Demo Safety Rules
 
 - Use only fictional demo accounts.
