@@ -41,7 +41,7 @@ Uses:
 Needs improvement:
 
 - Forgot-password should not return/reset-token directly in production.
-- `Console.WriteLine` should not print reset tokens in production.
+- Forgot-password no longer prints reset tokens to the console.
 
 ### JwtService
 
@@ -101,11 +101,11 @@ It maps database entities to safer DTOs:
 
 Generates AI advice/insights from symptoms.
 
-Needs improvement:
+Current behavior:
 
-- Missing safe provider fallback.
-- Sends symptom history to external provider if configured.
-- Should use demo-only policy and graceful failure.
+- Returns a safe demo message when the OpenRouter key is missing or still set to a placeholder.
+- Sends symptom history to the external provider only if the provider key is configured.
+- Still needs public-deployment review because health-related text can be sensitive.
 
 ## Business Logic To Improve Later
 

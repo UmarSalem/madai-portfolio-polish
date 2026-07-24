@@ -44,7 +44,7 @@ Examples:
 - `DoctorService`: Google Places/demo fallback.
 - `MedicalReportService`: PDF extraction, AI/demo fallback.
 - `MedicalHistoryService`: builds safe history DTOs.
-- `AIRecommendationService`: recommendation AI calls. Needs safety hardening.
+- `AIRecommendationService`: recommendation AI calls with a missing-key demo fallback.
 
 ## Contracts/Interfaces
 
@@ -106,8 +106,7 @@ DTOs help avoid exposing sensitive entity fields like password hashes or file by
 - Some controllers still use `AppDbContext` directly for logic that could move into services.
 - Some admin/user endpoints still return entity objects. Needs verification.
 - Error handling is mostly local try/catch or direct status returns.
-- `WeatherForecastController` is still present.
-- Recommendation AI service does not yet have the same safe fallback pattern as symptom/report/doctor services.
+- Recommendation AI service still sends symptom history to an external provider when configured. This should stay demo-only until public deployment safety is reviewed.
 
 ## Suggested Improvements
 

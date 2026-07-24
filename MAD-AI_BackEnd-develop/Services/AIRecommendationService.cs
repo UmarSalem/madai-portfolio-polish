@@ -11,7 +11,7 @@ namespace MADAI_BACKEND.Services
     {
         private readonly AppDbContext _context;
         private readonly HttpClient _httpClient;
-        private readonly string _apiKey;
+        private readonly string? _apiKey;
 
         public AIRecommendationService(AppDbContext context, HttpClient httpClient, IConfiguration config)
         {
@@ -20,8 +20,19 @@ namespace MADAI_BACKEND.Services
             _apiKey = config["OpenRouter:ApiKey"];
         }
 
+        private bool HasConfiguredApiKey()
+        {
+            return !string.IsNullOrWhiteSpace(_apiKey)
+                && !_apiKey.StartsWith("replace-with-", StringComparison.OrdinalIgnoreCase);
+        }
+
         public async Task<string> GenerateHealthAdviceAsync(Guid userId)
         {
+            if (!HasConfiguredApiKey())
+            {
+                return "AI recommendations are not configured for this educational demo.";
+            }
+
             var symptoms = await _context.SymptomEntries
                 .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.DateSubmitted)
@@ -55,6 +66,11 @@ namespace MADAI_BACKEND.Services
 
         public async Task<string> GeneratePersonalizedHealthInsightsAsync(Guid userId)
         {
+            if (!HasConfiguredApiKey())
+            {
+                return "AI personalized insights are not configured for this educational demo.";
+            }
+
             var symptoms = await _context.SymptomEntries
                 .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.DateSubmitted)
