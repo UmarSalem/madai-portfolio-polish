@@ -28,7 +28,9 @@ Madai was originally a bachelor group project. This portfolio-polish version foc
 
 ## Backend Connection
 
-The frontend uses Axios through `src/api/httpClient.js`. The API base URL currently comes from `src/constant/index.js` as `Config.serverUrl`, which points to `http://localhost:5122`.
+The frontend uses Axios through `src/api/httpClient.js`. The API base URL comes from `src/constant/index.js` as `Config.serverUrl`.
+
+`Config.serverUrl` now reads `REACT_APP_API_BASE_URL` first and falls back to `http://localhost:5122` for local development.
 
 Feature API functions live in:
 
@@ -46,7 +48,7 @@ The shared Axios client attaches a bearer token from localStorage when one exist
 
 ## Still Not Finished
 
-- Environment-based frontend API URL is only partly prepared. `.env.example` exists, but `Config.serverUrl` is still hard-coded.
+- Frontend API base URL is environment-based through `REACT_APP_API_BASE_URL`.
 - Some older content/features may still use mock or static patterns. Needs verification.
 - Redux and RTK Query exist, but current aligned feature slices mostly use local component state and Axios helpers. Needs verification before removal.
 - Frontend tests are limited and may need repair/expansion.
@@ -56,21 +58,23 @@ The shared Axios client attaches a bearer token from localStorage when one exist
 
 ```powershell
 cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
-npm install
+copy .env.example .env
+npm ci
 npm start
 ```
 
-Expected local backend URL:
+Expected local backend value in `.env`:
 
 ```text
-http://localhost:5122
+REACT_APP_API_BASE_URL=http://localhost:5122
 ```
 
 ## Build Frontend
 
 ```powershell
 cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
+npm ci
 npm run build
 ```
 
-Build validation in Codex could not run when Node/npm were unavailable. Run it locally before deployment.
+Build validation in Codex could not run because Node/npm are unavailable in this shell. GitHub Actions installs Node.js LTS and runs the build in CI.

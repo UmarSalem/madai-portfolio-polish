@@ -4,16 +4,24 @@ Madai is not ready for public deployment yet. The frontend is closer to a public
 
 ## Frontend Readiness
 
-Current status: not public-deployment safe yet.
+Current status: closer to static deployment readiness, but not public-deployment safe yet.
 
 Needs:
 
-- Environment-based API base URL.
 - Fake/demo-only data.
 - Removal or replacement of private-looking data in `db.json`.
 - SPA fallback configuration for the chosen host.
 - API contract cleanup so screens call the intended backend or static demo data source.
 - Medical disclaimer in health-related flows.
+
+Current build/config status:
+
+- Frontend API base URL reads `REACT_APP_API_BASE_URL`.
+- `.env.example` contains a local placeholder API URL only.
+- `BrowserRouter` is still used, so static hosts need SPA fallback/rewrite configuration.
+- GitHub Pages would need a fallback workaround or a later router decision.
+- Vercel, Netlify, and Cloudflare Pages are simpler candidates because they support SPA rewrites.
+- Local `npm run build` still needs verification on a machine where Node/npm are installed.
 
 ## Backend Readiness
 
@@ -43,7 +51,7 @@ These platforms are good candidates for the React frontend. They need:
 - Build command such as `npm run build`.
 - Publish directory such as `build`.
 - SPA rewrite/fallback rules.
-- `REACT_APP_API_BASE_URL` configured without secrets.
+- `REACT_APP_API_BASE_URL` configured without secrets or real patient data.
 
 ## Render Backend Notes
 

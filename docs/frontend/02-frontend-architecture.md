@@ -49,12 +49,15 @@ This is better than scattering URLs across components because endpoint changes c
 Current code:
 
 - `.env.example` includes `REACT_APP_API_BASE_URL`.
-- `src/constant/index.js` still hard-codes `serverUrl = "http://localhost:5122"`.
+- `src/constant/index.js` reads `process.env.REACT_APP_API_BASE_URL`.
+- If the environment variable is missing, it falls back to `http://localhost:5122` for local development.
+- Trailing slashes are normalized so `http://localhost:5122` and `http://localhost:5122/` behave the same.
 
-Recommended later:
+Current pattern:
 
 ```js
-const serverUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5122";
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5122";
+const serverUrl = apiBaseUrl.replace(/\/+$/, "");
 ```
 
 ## Styling Approach
@@ -80,7 +83,6 @@ Weakness: some global selectors and reused class names can accidentally affect o
 
 ## Architecture Weaknesses
 
-- API base URL is not fully environment-driven yet.
 - Redux is set up but not clearly used by current feature flows.
 - Some older folders may be stale or unused.
 - Some CSS is global and inconsistent.
@@ -88,7 +90,6 @@ Weakness: some global selectors and reused class names can accidentally affect o
 
 ## Suggested Improvements Later
 
-- Move API base URL to `.env`.
 - Confirm and remove unused Redux/RTK Query code.
 - Create shared UI components for alerts, cards, forms, loading states, and empty states.
 - Add a small test for each aligned feature slice.

@@ -19,13 +19,27 @@ Current source:
 - `src/constant/index.js`
 - `Config.serverUrl`
 
-Current value:
+Current environment variable:
+
+```text
+REACT_APP_API_BASE_URL
+```
+
+Local fallback:
 
 ```text
 http://localhost:5122
 ```
 
-`.env.example` includes `REACT_APP_API_BASE_URL`, but the code still needs a later cleanup to use it directly.
+For Create React App, frontend environment variables must start with `REACT_APP_`. Copy `.env.example` to `.env` locally and keep `.env` out of Git.
+
+Example:
+
+```text
+REACT_APP_API_BASE_URL=http://localhost:5122
+```
+
+Deployment platforms should set `REACT_APP_API_BASE_URL` to the deployed backend origin later. Do not hard-code deployed backend URLs in source code.
 
 ## Token Attachment
 
@@ -154,5 +168,4 @@ Current aligned screens usually:
 - Recommendation screen needs verification.
 - Blog data source needs verification.
 - Record/todo flow needs verification.
-- Environment-based API base URL should replace hard-coded `Config.serverUrl`.
 - Tests should cover the main API helper flows.

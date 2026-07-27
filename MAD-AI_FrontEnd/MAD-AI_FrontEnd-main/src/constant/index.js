@@ -1,23 +1,16 @@
-// const serverUrl = process.env.REACT_APP_SERVER_URL;
-// const frontendUrl = process.env.REACT_APP_FRONTEND_URL
-// const image_base_url = process.env.REACT_APP_IMAGE_ENDPOINT
-// const file_base_url = process.env.REACT_APP_FILE_ENDPOINT
-
-const serverUrl = "http://localhost:5122";
-
-
-// const serverUrl = 'http://127.0.0.1:8000/';
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5122";
+const serverUrl = apiBaseUrl.replace(/\/+$/, "");
 
 export const Config = {
 
   secretPass: "replace-with-local-demo-secret-pass",
   serverUrl: serverUrl,
 
-  serverApiUrl: serverUrl + 'api/',
-  serverUrlImages: serverUrl + 'public/images/',
-  serverUrlCategoryImages: serverUrl + 'images/categories/',
-  serverUrlProductImages: serverUrl + 'public/images/products/',
-  serverUrlUserImages: serverUrl + 'public/images/users/',
+  serverApiUrl: `${serverUrl}/api/`,
+  serverUrlImages: `${serverUrl}/public/images/`,
+  serverUrlCategoryImages: `${serverUrl}/images/categories/`,
+  serverUrlProductImages: `${serverUrl}/public/images/products/`,
+  serverUrlUserImages: `${serverUrl}/public/images/users/`,
   adminApiTokenName: 'admin-login-token',
   roleName: 'role',
   email: 'email',
