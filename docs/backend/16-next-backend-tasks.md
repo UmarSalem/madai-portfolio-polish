@@ -6,9 +6,9 @@ Small GitHub-style tasks for future backend branches.
 
 - [ ] Add centralized error-handling middleware.
 - [ ] Replace admin user entity responses with safe DTOs.
-- [ ] Harden `AIRecommendationService` with missing-key fallback.
+- [x] Harden `AIRecommendationService` with missing-key fallback.
 - [ ] Remove reset token from forgot-password API response before production.
-- [ ] Remove reset token console logging.
+- [x] Remove reset token console logging.
 
 ## Validation
 
@@ -34,14 +34,14 @@ Small GitHub-style tasks for future backend branches.
 ## Deployment
 
 - [ ] Add `/health` endpoint.
-- [ ] Add backend GitHub Actions build workflow.
+- [x] Add backend GitHub Actions build workflow.
 - [ ] Prepare Linux-friendly Dockerfile.
-- [ ] Add production CORS configuration.
+- [x] Add environment-based CORS origin configuration.
 - [ ] Add deployment environment variable checklist to README or deployment docs.
 
 ## Cleanup
 
-- [ ] Remove `WeatherForecastController` if not needed.
+- [x] Remove `WeatherForecastController` if not needed.
 - [ ] Review unused packages.
 - [ ] Confirm SQLite vs managed database deployment strategy.
 - [ ] Confirm Swagger production policy.

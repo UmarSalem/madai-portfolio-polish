@@ -75,7 +75,7 @@ namespace MADAI_BACKEND.Services
             return "Signup successful";
         }
 
-        public async Task<string> ForgotPasswordAsync(string email)
+        public async Task<string?> ForgotPasswordAsync(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null) return null;
@@ -93,7 +93,6 @@ namespace MADAI_BACKEND.Services
             _context.PasswordResetTokens.Add(resetToken);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"Send this reset token to user via email: {token}");
             return token;
         }
 

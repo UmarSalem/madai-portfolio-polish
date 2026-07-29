@@ -9,9 +9,7 @@ The backend is safer than before, but health-data and file-upload features still
 - Production CORS origin not configured.
 - Secrets must be set through deployment environment variables.
 - Database strategy needs a decision.
-- Recommendation AI endpoints need safer fallback handling.
 - Dockerfile uses Windows Nano Server images.
-- No CI backend workflow yet.
 - No health endpoint yet.
 - No centralized error middleware.
 
@@ -42,6 +40,7 @@ Common hosts usually expect Linux containers or native .NET deployment. A Linux-
 - `Jwt__Issuer`
 - `Jwt__Audience`
 - `ConnectionStrings__DefaultConnection`
+- `Cors__AllowedOrigins__0`
 - `OpenRouter__ApiKey`
 - `GoogleMaps__ApiKey`
 
@@ -59,9 +58,23 @@ Needs verification: best host/database choice for this project.
 
 ## CORS Checklist
 
-- local frontend origins.
-- deployed frontend domain.
+- local frontend origins are allowed in code for local testing.
+- deployed frontend domains should be configured with `Cors__AllowedOrigins__0`, `Cors__AllowedOrigins__1`, and so on.
 - no wildcard origin for authenticated production API.
+
+## Backend Build/Config Status
+
+Current status: backend Release build passes locally with `0 warnings` and `0 errors`.
+
+Recent cleanup:
+
+- Removed default ASP.NET WeatherForecast template files.
+- Removed an unusual `.github/workflows` folder include from the backend `.csproj`.
+- Added environment-friendly CORS allowed origins configuration.
+- Added safe fallback messages for recommendation AI endpoints when the OpenRouter key is missing or placeholder-only.
+- Removed reset token console logging.
+
+No backend deployment was added.
 
 ## Swagger Production Notes
 

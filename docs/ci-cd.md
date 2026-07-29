@@ -64,8 +64,9 @@ This task only adds CI. Deployment still needs separate planning for frontend ho
 
 Backend validation:
 
-- `dotnet build --configuration Release` succeeded locally.
-- Existing nullable warnings remain in `AIRecommendationService` and `AuthService`.
+- `dotnet restore MADAI-BACKEND.sln` succeeded locally.
+- `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore` succeeded locally with `0 warnings` and `0 errors`.
+- No backend test project exists yet, so `dotnet test` is not required by CI yet.
 
 Frontend validation:
 

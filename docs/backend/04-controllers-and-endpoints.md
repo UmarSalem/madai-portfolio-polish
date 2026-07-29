@@ -38,8 +38,8 @@ Controller-level auth: `[Authorize]`
 | DELETE | `/me` | Patient | none | message | Deletes current profile. |
 | GET | `/medical-history` | Authenticated | none | `MedicalHistoryDTO` | Safe DTO-shaped history. |
 | GET | `/medical-report/{id}/download` | Authenticated | route id | disabled message | Downloads disabled for safe demo. |
-| GET | `/ai-health-recommendation` | Authenticated | none | `AIRecommendationDTO` | Needs safety fallback review. |
-| GET | `/ai-personalized-insights` | Authenticated | none | `HealthInsightDTO` | Needs safety fallback review. |
+| GET | `/ai-health-recommendation` | Authenticated | none | `AIRecommendationDTO` | Returns safe demo message if provider key is not configured. |
+| GET | `/ai-personalized-insights` | Authenticated | none | `HealthInsightDTO` | Returns safe demo message if provider key is not configured. |
 
 ## SymptomCheckerController
 
@@ -98,10 +98,6 @@ Safety notes:
 - Uploaded PDF bytes are not stored for new demo uploads.
 - Uploaded PDFs are not written to `uploads/`.
 
-## WeatherForecastController
+## Removed Template Controller
 
-Purpose: template/sample controller from ASP.NET project creation.
-
-Endpoint: `GET /WeatherForecast`
-
-Status: should be removed later if not needed.
+The default ASP.NET `WeatherForecastController` and `WeatherForecast` model were removed because they were template files and not part of Madai.
