@@ -4,9 +4,9 @@ Small GitHub-style tasks for future branches.
 
 ## Configuration
 
-- [ ] Use `REACT_APP_API_BASE_URL` in `src/constant/index.js`.
+- [x] Use `REACT_APP_API_BASE_URL` in `src/constant/index.js`.
 - [ ] Remove unused placeholder config values after verification.
-- [ ] Add frontend deployment environment notes.
+- [x] Add frontend deployment environment notes.
 
 ## Routing
 
@@ -65,5 +65,5 @@ Small GitHub-style tasks for future branches.
 
 - [ ] Run `npm run build` locally.
 - [ ] Repair stale tests.
-- [ ] Add GitHub Actions frontend build workflow.
-- [ ] Add static hosting notes for Vercel/Netlify/Cloudflare Pages.
+- [x] Add GitHub Actions frontend build workflow.
+- [x] Add static hosting notes for Vercel/Netlify/Cloudflare Pages.

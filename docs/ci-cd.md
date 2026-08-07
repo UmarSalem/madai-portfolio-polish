@@ -70,8 +70,9 @@ Backend validation:
 
 Frontend validation:
 
-- Local frontend build could not be run in this shell because `npm` was not available on the local PATH.
-- GitHub Actions will install Node.js LTS and run the build on GitHub.
+- Local frontend build could not be run in this shell because Node/npm are not available on the local PATH.
+- Frontend config now uses `REACT_APP_API_BASE_URL` with a localhost fallback.
+- GitHub Actions installs Node.js LTS and runs the build on GitHub.
 
 ## Still Needed Later
 
