@@ -3,6 +3,7 @@ import './RecordStyle.css';
 
 function Record() {
    const [patients, setPatients] = useState([]);
+   const [message, setMessage] = useState('');
 
    useEffect(() => {
       const loadPatients = () => {
@@ -19,13 +20,9 @@ function Record() {
    const deletePatient = (index) => {
       const updatedPatients = patients.filter((_, i) => i !== index);
       setPatients(updatedPatients);
-      alert('If you want to delete this record!')
       localStorage.setItem('patients', JSON.stringify(updatedPatients));
+      setMessage('Demo record removed from local storage.');
    };
-
-   // const deleteButtonIcon = () => {
-   //    alert('If you want to delete this record')
-   // }
 
    return (
       <div className="app-container">
@@ -109,8 +106,9 @@ function Record() {
          <section>
             <div className="patients-list">
                <h2>Patient Records</h2>
+               {message && <p>{message}</p>}
                {patients.length === 0 ? (
-                  <p>No patients added yet.</p>
+                  <p>No demo patient records are saved locally.</p>
                ) : (
                   <div className="patient-cards">
                      {patients.map((patient, index) => (
@@ -122,8 +120,9 @@ function Record() {
                               <div>
                                  <button
                                     onClick={() => deletePatient(index)}
-                                    className="delete-button" >
-                                    ×
+                                    className="delete-button"
+                                    aria-label={`Delete demo record for ${patient.firstName} ${patient.lastName}`} >
+                                    X
                                  </button>
                               </div>
                            </div>

@@ -152,7 +152,8 @@
  color: #fff;
 }
 
-#full-inputs {
+#full-inputs,
+.contact-input {
  width: 90vw;
  background-color: white;
  border: 1px solid black;

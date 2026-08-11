@@ -1,4 +1,5 @@
 export const ROUTE= {
+ Home: '/',
  Login: '/login',
  Register: '/register',
  AiDoctor: '/doctor',
@@ -7,8 +8,9 @@ export const ROUTE= {
  Record: '/record',
  Recommendation: '/recommendation',
  SymptomChecker: '/symptomChecker',
- MedicalHistory: 'admin/medicalHistory',
+ MedicalHistory: '/admin/medicalHistory',
  DoctorSearch: '/doctorSearch',
  Profile: '/profile',
+ BlogDetail: '/blog/:id',
  
 }

@@ -18,8 +18,8 @@ const Register = () => {
 
   useEffect(() => {
     const user = getStoredAuthUser();
-    if (user) {
-      navigate('/'); // Redirect to home if user is already logged in
+    if (user?.token) {
+      navigate(ROUTE.Home); // Redirect to home if user is already logged in
     }
   }, [navigate]);
   const handleSubmit = async (e) => {
@@ -42,7 +42,7 @@ const Register = () => {
       });
 
       setMessage('Registered successfully. You can now log in.');
-      navigate('/login');
+      navigate(ROUTE.Login);
     } catch (error) {
       const apiMessage = error?.response?.data?.error || error?.response?.data?.message;
       setMessage(apiMessage || 'Registration failed. Please try again.');
@@ -57,7 +57,7 @@ const Register = () => {
       <section>
         <div className='main-first-div'>
           <div className='main-div'>
-            <NavLink id='back' to="/">{"< Back"}</NavLink>
+            <NavLink id='back' to={ROUTE.Home}>{"< Back"}</NavLink>
             <div className='inputers-div'>
               <div className='login-register'>
                 <NavLink className="logina" to={ROUTE.Login}>Login</NavLink>
@@ -66,20 +66,20 @@ const Register = () => {
                 <div className='register-user'>
 
                   <div className='responsive-input'>
-                    <label>First Name<br />
-                      <input type="text" id="input" value={fname} onChange={(e) => setFirstName(e.target.value)} required />
+                    <label htmlFor="register-first-name">First Name<br />
+                      <input type="text" id="register-first-name" className="form-input" value={fname} onChange={(e) => setFirstName(e.target.value)} required />
                     </label><br />
 
-                    <label>Last Name<br />
-                      <input type="text" id="input" value={lname} onChange={(e) => setLastName(e.target.value)} required />
+                    <label htmlFor="register-last-name">Last Name<br />
+                      <input type="text" id="register-last-name" className="form-input" value={lname} onChange={(e) => setLastName(e.target.value)} required />
                     </label><br />
 
-                    <label>Email ID<br />
-                      <input type="email" id="input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <label htmlFor="register-email">Email ID<br />
+                      <input type="email" id="register-email" className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </label><br />
 
-                    <label>Password<br />
-                      <input type="password" id="input" value={passwords} onChange={(e) => setPassword(e.target.value)} required />
+                    <label htmlFor="register-password">Password<br />
+                      <input type="password" id="register-password" className="form-input" value={passwords} onChange={(e) => setPassword(e.target.value)} required />
                     </label><br />
                   </div>
                   {message && <p>{message}</p>}

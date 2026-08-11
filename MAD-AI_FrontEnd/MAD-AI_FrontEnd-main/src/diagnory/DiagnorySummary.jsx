@@ -77,7 +77,7 @@ const DiagnorySummary = () => {
         <section>
           <div className="diagnory-four">
             <button>PRINT</button>
-            <p>Created by Mad-My AI-Doctor</p>
+            <p>Created by Madai for demo purposes only</p>
           </div>
         </section>
 

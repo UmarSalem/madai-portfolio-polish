@@ -16,16 +16,22 @@ import BlogDetail from '../blog-detail/BlogDetail';
 import Profile from '../profile/Profile';
 import ProtectedRoute from './ProtectedRoute';
 
+const NotFound = () => (
+  <div>
+    <Home />
+  </div>
+);
+
 const ReactRoute = () => {
   return (
     <div>
       <BrowserRouter>
     
       <Routes>
-       <Route path={"/"} element={<Home/>}/>
+       <Route path={ROUTE.Home} element={<Home/>}/>
        <Route path={ROUTE.Register} element={<Register/>}/>
        <Route path={ROUTE.Login} element={<Login/>}/>
-       <Route path="/blog/:id" element={<BlogDetail />} />
+       <Route path={ROUTE.BlogDetail} element={<BlogDetail />} />
        <Route path={ROUTE.About} element={<About/>}/>
        <Route path={ROUTE.AiDoctor} element={<ProtectedRoute><AIDoctor/></ProtectedRoute>}/>
        <Route path={ROUTE.Contact} element={<Contact/>}/>
@@ -35,6 +41,7 @@ const ReactRoute = () => {
        <Route path={ROUTE.MedicalHistory} element={<ProtectedRoute><MedicalHistory/></ProtectedRoute>}/>
        <Route path={ROUTE.DoctorSearch} element={<ProtectedRoute><DoctorSearch/></ProtectedRoute>}/>
        <Route path={ROUTE.Profile} element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+       <Route path="*" element={<NotFound />} />
       </Routes>
       </BrowserRouter>
     </div>

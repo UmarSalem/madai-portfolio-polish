@@ -9,20 +9,29 @@ function Recommendation() {
   const [location, setLocation] = useState('');
   const [filteredEntries, setFilteredEntries] = useState([]); // filtered data to display
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSearch = async () => {
+    setError('');
+
     if (!disease.trim() && !location.trim()) {
-      alert('Please enter at least disease or city to search.');
+      setError('Please enter a demo condition or city to search.');
       return;
     }
 
     setLoading(true);
+    setHasSearched(true);
     try {
       // Fetch all data first without parameters
       const response = await fetch(`${Config.serverUrl}/recommendation`);
+      if (!response.ok) {
+        throw new Error('Unable to load demo recommendations.');
+      }
+      const data = await response.json();
 
       // Filter locally
-      const filtered = response.data.filter((entry) => {
+      const filtered = data.filter((entry) => {
         const diseaseMatch = disease.trim()
           ? entry.disease?.toLowerCase().includes(disease.trim().toLowerCase())
           : true;
@@ -35,8 +44,8 @@ function Recommendation() {
 
       setFilteredEntries(filtered);
     } catch (error) {
-      console.error('Error fetching doctor data:', error);
-      alert('Failed to fetch doctor data. Please try again.');
+      setFilteredEntries([]);
+      setError('Unable to fetch demo doctor data right now. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -46,28 +55,28 @@ function Recommendation() {
     <section>
       <Navbar />
       <div className="form-container">
-        <h1>Doctor Recommendation by Disease and City</h1>
+        <h1>Doctor Recommendation Demo</h1>
 
         <div className="former-group">
-          <label htmlFor="disease-input">Disease:</label><br />
+          <label htmlFor="disease-input">Demo condition:</label><br />
           <div className="form-group">
             <input
               id="disease-input"
               value={disease}
               onChange={(e) => setDisease(e.target.value)}
               type="text"
-              placeholder="e.g. Eye, Heart, Skin"
+              placeholder="e.g. demo headache"
             />
           </div>
 
-          <label htmlFor="location-input">City/Location:</label><br />
+          <label htmlFor="location-input">Demo city/location:</label><br />
           <div className="form-group">
             <input
               id="location-input"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               type="text"
-              placeholder="e.g. Aarhus, Copenhagen"
+              placeholder="e.g. Demo City"
             />
           </div>
 
@@ -79,20 +88,23 @@ function Recommendation() {
           >
             {loading ? 'Searching...' : 'Search'}
           </button>
+          {error && <p>{error}</p>}
         </div>
 
         <div className="table-container" style={{ marginTop: '30px' }}>
           {loading ? (
-            <p>Loading doctors...</p>
-          ) : filteredEntries.length === 0 ? (
-            <p>No doctor found. Try searching by disease and location.</p>
-          ) : (
+            <p>Searching demo doctors...</p>
+          ) : !hasSearched ? (
+            <p>Enter a demo condition or city to search.</p>
+          ) : !error && filteredEntries.length === 0 ? (
+            <p>No demo doctors found. Try another demo condition or location.</p>
+          ) : error ? null : (
             <table className="doctor-table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Address</th>
-                  <th>city</th>
+                  <th>City</th>
                  
                   <th>Place ID</th>
                   <th>Phone</th>
@@ -118,7 +130,7 @@ function Recommendation() {
                         'N/A'
                       )}
                     </td>
-                    <td>{entry.rating ? `${entry.rating} ⭐` : 'N/A'}</td>
+                    <td>{entry.rating ? `${entry.rating} stars` : 'N/A'}</td>
                   </tr>
                 ))}
               </tbody>
