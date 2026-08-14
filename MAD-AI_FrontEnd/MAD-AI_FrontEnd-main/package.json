@@ -59,6 +59,7 @@
     "babel-jest": "^29.7.0",
     "jest": "^27.5.1",
     "jest-environment-jsdom": "^29.7.0",
+    "identity-obj-proxy": "^3.0.0",
     "jsdom": "^26.1.0",
     "jsdom-global": "^3.0.2",
     "text-encoding": "^0.7.0"

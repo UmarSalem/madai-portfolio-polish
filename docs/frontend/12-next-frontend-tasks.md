@@ -21,7 +21,7 @@ Small GitHub-style tasks for future branches.
 - [x] Confirm visible logout option in authenticated navbar menu.
 - [ ] Improve login error message styling.
 - [ ] Add one test for failed login.
-- [ ] Add one test for protected route redirect.
+- [x] Add one test for protected route redirect.
 
 ## Profile
 
@@ -43,6 +43,7 @@ Small GitHub-style tasks for future branches.
 
 ## Report Upload/History
 
+- [x] Add one render test for the report upload safety warning.
 - [ ] Add one test for non-PDF validation.
 - [ ] Add one test for oversized file validation.
 - [ ] Add one test for empty report history.
@@ -70,6 +71,9 @@ Small GitHub-style tasks for future branches.
 ## Testing and Deployment
 
 - [ ] Run `npm run build` locally.
-- [ ] Repair stale tests.
+- [x] Repair stale CRA/recommendation tests.
+- [x] Add basic login/register/protected-route/report render tests.
+- [ ] Run `npm test -- --watchAll=false` with Node/npm available.
+- [ ] Add frontend tests to CI after local or GitHub validation passes.
 - [x] Add GitHub Actions frontend build workflow.
 - [x] Add static hosting notes for Vercel/Netlify/Cloudflare Pages.

@@ -1,8 +1,17 @@
 import { render, screen } from '@testing-library/react';
+import axios from 'axios';
 import App from './App';
 
-test('renders learn react link', () => {
+beforeEach(() => {
+  localStorage.clear();
+  axios.get.mockReset();
+});
+
+test('renders the Madai home route', () => {
+  axios.get.mockResolvedValue({ data: [] });
+
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText(/welcome to madai/i)).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
 });

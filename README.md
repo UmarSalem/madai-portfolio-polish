@@ -125,6 +125,26 @@ Detailed full-stack notes are in [docs/fullstack](docs/fullstack/). They connect
 
 Basic GitHub Actions build checks are configured for the frontend and backend. These checks validate builds on pull requests and pushes to `develop` and `main`, but they do not deploy anything yet. See [CI/CD](docs/ci-cd.md).
 
+## Testing
+
+The React frontend has a small React Testing Library foundation for smoke rendering, auth forms, protected-route behavior, and safety warnings on health-related demo screens.
+
+```powershell
+cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
+npm test -- --watchAll=false
+```
+
+Frontend tests mock API calls and must not call the real backend, use real patient data, or require secrets. See [Frontend Testing Notes](docs/frontend/13-testing-notes.md).
+
+The ASP.NET Core backend has a small xUnit test foundation for DTO validation, safe fallback behavior when external provider keys are placeholders, non-PDF upload rejection, and safe profile DTO output.
+
+```powershell
+cd MAD-AI_BackEnd-develop
+dotnet test MADAI-BACKEND.sln --configuration Release --no-build
+```
+
+Backend tests must not call real AI providers, Google APIs, production databases, uploaded reports, or require secrets. See [Backend Testing Notes](docs/backend/17-testing-notes.md).
+
 ## Known Limitations
 
 - Some older frontend screens may still call json-server style endpoints while the backend exposes ASP.NET API routes. Needs verification.
@@ -133,6 +153,7 @@ Basic GitHub Actions build checks are configured for the frontend and backend. T
 - Secrets and private-looking demo data must continue to be checked before public release.
 - SQLite database, upload artifacts, and generated build outputs must remain out of Git.
 - Tests are limited and should be expanded after each feature contract is stabilized.
+- Frontend tests need verification in a Node/npm environment before they become required CI checks.
 - The backend Dockerfile is currently Visual Studio/Windows-container oriented and may need changes for common hosting platforms.
 
 ## Roadmap

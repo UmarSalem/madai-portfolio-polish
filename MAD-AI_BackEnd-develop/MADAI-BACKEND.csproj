@@ -33,4 +33,7 @@
   <ItemGroup>
     <Folder Include="Data\DAOs\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="tests\**\*.cs" />
+  </ItemGroup>
 </Project>
