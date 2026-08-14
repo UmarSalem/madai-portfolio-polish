@@ -35,6 +35,10 @@ Current backend tests cover:
 - DTO validation for signup email format.
 - DTO validation for safe profile update data.
 - DTO validation for missing symptom text.
+- `AuthService.SignIn` failure behavior for wrong demo password.
+- `AuthService.SignIn` success behavior for a fake demo patient with a generated JWT.
+- `AuthController.SignIn` mapping invalid service responses to `BadRequest`.
+- `AuthController.SignIn` mapping valid service responses to `Ok`.
 - `DoctorService` fallback behavior when the Google Maps key is a placeholder.
 - `SymptomService` fallback behavior when the OpenRouter key is a placeholder.
 - `MedicalReportController` rejection of non-PDF uploads before calling report analysis.
@@ -59,7 +63,6 @@ The fallback tests use fake HTTP handlers that throw if an external HTTP call is
 
 Needs verification:
 
-- Auth signin success/failure with hashed demo users.
 - Signup duplicate email and admin-creation rules.
 - `SymptomCheckerController` authenticated save/analyze flow.
 - Medical report upload success path with a fake PDF stream.
@@ -84,7 +87,7 @@ Validation completed:
 
 - `dotnet restore MADAI-BACKEND.sln` passed.
 - `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore` passed with 0 warnings and 0 errors.
-- `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` passed: 7 tests.
+- `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` passed: 11 tests.
 
 Note: `dotnet restore` needed permission to read the normal user-level NuGet configuration in this Codex sandbox.
 
@@ -92,8 +95,8 @@ Note: `dotnet restore` needed permission to read the normal user-level NuGet con
 
 Recommended small follow-up tasks:
 
-- Add one auth signin failure test.
-- Add one auth signin success test using a fake demo user.
+- Add one signup duplicate-email test.
+- Add one signup admin-creation rule test.
 - Add one `SymptomCheckerController` authenticated flow test.
 - Add one report download disabled test.
 - Add one medical report oversized-file validation test.

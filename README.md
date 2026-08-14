@@ -136,7 +136,7 @@ npm test -- --watchAll=false
 
 Frontend tests mock API calls and must not call the real backend, use real patient data, or require secrets. See [Frontend Testing Notes](docs/frontend/13-testing-notes.md).
 
-The ASP.NET Core backend has a small xUnit test foundation for DTO validation, safe fallback behavior when external provider keys are placeholders, non-PDF upload rejection, and safe profile DTO output.
+The ASP.NET Core backend has a small xUnit test foundation for auth signin success/failure, DTO validation, safe fallback behavior when external provider keys are placeholders, non-PDF upload rejection, and safe profile DTO output.
 
 ```powershell
 cd MAD-AI_BackEnd-develop

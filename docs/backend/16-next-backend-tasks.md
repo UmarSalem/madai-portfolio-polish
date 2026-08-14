@@ -21,7 +21,10 @@ Small GitHub-style tasks for future backend branches.
 
 ## Auth
 
-- [ ] Add one backend test for `AuthController` signin success/failure.
+- [x] Add one backend test for `AuthController` signin success/failure.
+- [x] Add one backend test for `AuthService.SignIn` success/failure with a fake demo user.
+- [ ] Add one backend test for duplicate signup email.
+- [ ] Add one backend test for admin signup rules.
 - [x] Add one backend test for `UserController.GetMyProfile`.
 - [ ] Review JWT expiry configuration.
 - [ ] Document production token strategy.
