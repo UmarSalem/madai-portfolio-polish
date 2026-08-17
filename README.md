@@ -125,6 +125,14 @@ Detailed full-stack notes are in [docs/fullstack](docs/fullstack/). They connect
 
 Basic GitHub Actions build checks are configured for the frontend and backend. These checks validate builds on pull requests and pushes to `develop` and `main`, but they do not deploy anything yet. See [CI/CD](docs/ci-cd.md).
 
+## Frontend Deployment Readiness
+
+The React frontend is configured for a later static preview deployment, with
+Vercel recommended for the current `BrowserRouter` setup. Netlify and Cloudflare
+Pages fallback configuration is also included. No deployment is automated yet,
+and API-backed features require a safe backend URL and reviewed CORS settings.
+See [Frontend Static Deployment](docs/frontend-deployment.md).
+
 ## Testing
 
 The React frontend has a small React Testing Library foundation for smoke rendering, auth forms, protected-route behavior, and safety warnings on health-related demo screens.

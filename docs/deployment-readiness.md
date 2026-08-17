@@ -4,24 +4,41 @@ Madai is not ready for public deployment yet. The frontend is closer to a public
 
 ## Frontend Readiness
 
-Current status: closer to static deployment readiness, but not public-deployment safe yet.
+Current status: configuration-ready for a later static preview deployment. An
+actual public deployment and backend connection still need verification.
 
-Needs:
+Completed preparation:
 
 - Fake/demo-only data.
-- Removal or replacement of private-looking data in `db.json`.
-- SPA fallback configuration for the chosen host.
-- API contract cleanup so screens call the intended backend or static demo data source.
-- Medical disclaimer in health-related flows.
-
-Current build/config status:
-
 - Frontend API base URL reads `REACT_APP_API_BASE_URL`.
-- `.env.example` contains a local placeholder API URL only.
-- `BrowserRouter` is still used, so static hosts need SPA fallback/rewrite configuration.
-- GitHub Pages would need a fallback workaround or a later router decision.
-- Vercel, Netlify, and Cloudflare Pages are simpler candidates because they support SPA rewrites.
-- Local `npm run build` still needs verification on a machine where Node/npm are installed.
+- `vercel.json` provides a Vercel SPA rewrite for `BrowserRouter` routes.
+- `public/_redirects` provides a Netlify/Cloudflare Pages SPA fallback.
+- `.env.example` contains local and deployed placeholder examples only.
+- Health-related symptom and report screens retain educational demo warnings.
+- Public HTML and manifest metadata identify the application as Madai.
+
+Still needed before public release:
+
+- Keep the frontend production build passing in CI.
+- Resolve the frontend Jest discovery issue before adding tests as a required
+  deployment gate. Needs verification.
+- Configure a safe deployed `REACT_APP_API_BASE_URL` or clearly present the site
+  as frontend-only while the backend is unavailable.
+- Verify backend CORS and HTTPS before connecting a public frontend.
+- Perform a final secret/private-data scan and browser network inspection.
+- Confirm deep-link refresh behavior in a preview deployment.
+
+Recommended target: Vercel. It is the simplest match for the current Create
+React App project and `BrowserRouter` setup. Netlify and Cloudflare Pages remain
+good alternatives. See [Frontend Static Deployment](frontend-deployment.md).
+
+Latest local validation:
+
+- Production build passed with `CI=true` using Node `v24.19.0`.
+- The generated build contains `index.html`, static assets, and `_redirects`.
+- Frontend tests did not run because Jest reported no tests found even when an
+  existing test file was passed explicitly. The Create React App 5/Jest 27 and
+  Node 24 combination needs verification in a focused testing task.
 
 ## Backend Readiness
 
@@ -40,17 +57,22 @@ Needs:
 
 ## GitHub Pages Notes
 
-GitHub Pages can host a static frontend demo. Because the app uses browser routing, it needs a GitHub Pages SPA fallback approach or a switch to hash routing for that deployment target.
+GitHub Pages can host a static frontend demo. Because the app uses browser
+routing and is served from a repository subpath, it needs a tested 404 fallback,
+base-path setup, or a deliberate switch to hash routing.
 
 GitHub Pages should not be used for backend hosting.
 
 ## Vercel/Netlify/Cloudflare Pages Notes
 
-These platforms are good candidates for the React frontend. They need:
+Vercel is the recommended first target. Netlify and Cloudflare Pages are also
+good candidates. The repository now includes provider-compatible SPA fallbacks.
+They need:
 
 - Build command such as `npm run build`.
 - Publish directory such as `build`.
-- SPA rewrite/fallback rules.
+- SPA rewrite/fallback rules, now provided by `vercel.json` and
+  `public/_redirects`.
 - `REACT_APP_API_BASE_URL` configured without secrets or real patient data.
 
 ## Render Backend Notes
@@ -77,14 +99,16 @@ Before public deployment, decide whether to:
 
 ## CI Status
 
-Current status: basic build validation configured.
+Current status: build validation and static-hosting configuration are present.
 
 The repository now includes GitHub Actions workflows for pull requests and pushes to `develop` and `main`:
 
 - Frontend CI builds the React app from `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`.
 - Backend CI restores and builds the ASP.NET Core solution from `MAD-AI_BackEnd-develop`.
 
-These workflows are CI checks only. They do not deploy the frontend, deploy the backend, publish Docker images, or require production secrets.
+These workflows are CI checks only. They do not deploy the frontend, deploy the
+backend, publish Docker images, or require production secrets. No automatic or
+manual deployment workflow has been added yet.
 
 Frontend tests and backend tests are not required checks yet. The next step is to review and stabilize tests feature by feature before making them block pull requests.
 
