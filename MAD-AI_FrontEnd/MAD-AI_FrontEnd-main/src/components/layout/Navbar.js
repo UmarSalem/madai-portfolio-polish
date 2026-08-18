@@ -3,11 +3,12 @@ import { LuLogIn } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router'
 import { ROUTE } from '../../routes/ReactLinks';
 import { MdLogout } from 'react-icons/md';
-import { Config } from '../../constant';
+import { clearAuthUser, getStoredAuthUser } from '../../api/authSession';
 import './NavbarStyle.css';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const authUser = getStoredAuthUser();
   useEffect(() => {
     const hamburger = document.querySelector(".hamburger");
     const navBar = document.querySelector(".nav-bar");
@@ -20,12 +21,9 @@ const Navbar = () => {
   }, []);
 
   const handleLogOut = () => {
-
-    localStorage.removeItem(Config.userApiTokenName);
-
-    navigate('/'); // Redirect to home if user is already logged in
-
-
+    clearAuthUser();
+    setIsOpen(false);
+    navigate(ROUTE.Home);
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -55,67 +53,68 @@ const Navbar = () => {
           <nav className="nav-bar">
             <ul>
               <li>
-                <Link to={"/"}>Home</Link>
+                <Link to={ROUTE.Home}>Home</Link>
               </li>
               <li>
-                <Link to={"/doctor"}>AI Doctor</Link>
+                <Link to={ROUTE.AiDoctor}>AI Doctor</Link>
               </li>
               {/* <li>
                     <a href="#">Lab Test</a>
                   </li> */}
               <li>
-                <Link to={"/about"}>About</Link>
+                <Link to={ROUTE.About}>About</Link>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <Link to={ROUTE.Contact}>Contact</Link>
               </li>
             </ul>
           </nav>
           <div className="two-icon-menu-div">
             <nav className="navbar">
-              {!localStorage.getItem(Config.userApiTokenName) ? (
-                <Link to="/login">
-                  <icon type="submit" className="loginars">
+              {!authUser?.token ? (
+                <Link to={ROUTE.Login}>
+                  <span className="loginars">
                     <LuLogIn />
                     {" Login"}
-                  </icon>
+                  </span>
                 </Link>
               ) : (
                 <div className="navbar-right" ref={dropdownRef}>
                   <div className="login-button-diver">
-                    <icon
+                    <button
+                      type="button"
                       className="login"
                       onClick={() => setIsOpen(!isOpen)}
                       aria-label="User menu"
                     >
                       <i className="ri-account-circle-line"></i>
-                    </icon>
+                    </button>
                   </div>
 
                   {isOpen && (
                     <div className="dropdown-menu">
                       <Link
-                        to="/profile"
+                        to={ROUTE.Profile}
                         onClick={() => setIsOpen(false)}
                       >
                         <i className="ri-profile-line"></i> Profile
                       </Link>
                       <Link
-                        to="/symptomChecker"
+                        to={ROUTE.SymptomChecker}
                         onClick={() => setIsOpen(false)}
                       >
                         <i className="ri-psychotherapy-line"></i>{" "}
                         SymptomChecker
                       </Link>
                       <Link
-                        to="/recommendation"
+                        to={ROUTE.Recommendation}
                         onClick={() => setIsOpen(false)}
                       >
                         <i className="ri-registered-line"></i>{" "}
                         Find My Doctor
                       </Link>
                       <Link
-                        to="/doctorSearch"
+                        to={ROUTE.DoctorSearch}
                         onClick={() => setIsOpen(false)}
                       >
                         <i className="ri-survey-line"></i> Find Best Doctor
@@ -125,28 +124,28 @@ const Navbar = () => {
                               <i className="ri-nurse-fill"></i> Add Medical History
                             </Link> */}
 
-                      {/* <Link
-                              to="/medicalHistory"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              <i className="ri-medicine-bottle-line"></i>{" "}
-                              MedicalHistory
-                            </Link> */}
+                      <Link
+                        to={ROUTE.MedicalHistory}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <i className="ri-medicine-bottle-line"></i>{" "}
+                        Medical History
+                      </Link>
 
                       {/* <Link to="/record" onClick={() => setIsOpen(false)}>
                               <i className="ri-record-mail-line icon"></i>{" "}
                               Record
                             </Link> */}
-                      <Link
-                        to={ROUTE.Login}
+                      <button
+                        type="button"
                         id="loginars"
                         onClick={handleLogOut}
                       >
-                        <icon type='submit' className="loginars">
+                        <span className="loginars">
                           <MdLogout />
                           {" Logout"}
-                        </icon>
-                      </Link>
+                        </span>
+                      </button>
                     </div>
                   )}
                 </div>

@@ -10,13 +10,15 @@ Small GitHub-style tasks for future branches.
 
 ## Routing
 
-- [ ] Add leading slash to `ROUTE.MedicalHistory` if testing confirms it is needed.
-- [ ] Add a simple 404/not-found route.
+- [x] Add leading slash to `ROUTE.MedicalHistory`.
+- [x] Add a simple fallback route.
+- [ ] Replace home fallback with a dedicated 404/not-found screen.
 - [ ] Standardize imports from `react-router` vs `react-router-dom`.
+- [ ] Decide whether `Recommendation` should become protected or be replaced by the backend-aligned doctor search page.
 
 ## Auth
 
-- [ ] Add visible logout button if not already present.
+- [x] Confirm visible logout option in authenticated navbar menu.
 - [ ] Improve login error message styling.
 - [ ] Add one test for failed login.
 - [ ] Add one test for protected route redirect.
@@ -51,8 +53,12 @@ Small GitHub-style tasks for future branches.
 - [ ] Create a shared alert component.
 - [ ] Create a shared loading/empty-state component.
 - [ ] Improve mobile navbar.
-- [ ] Standardize page titles.
-- [ ] Fix grammar and old wording across older screens.
+- [x] Standardize several visible page titles and older demo labels.
+- [x] Fix obvious grammar and old wording across older screens.
+- [x] Replace invalid custom navbar icon elements with buttons/spans.
+- [x] Improve basic labels/ids on login, register, and contact forms.
+- [ ] Continue accessibility pass on older/static pages.
+- [ ] Add visual styles for inline messages.
 
 ## Code Cleanup
 

@@ -7,6 +7,9 @@
 - Protected features redirect to login if no token exists.
 - Doctor search and report upload use clearer cards and result layouts.
 - Forms use labels on the newer aligned screens.
+- Login/register/contact form fields now have more accessible labels and unique ids.
+- Older alert-only messages were reduced in favor of inline user-facing messages.
+- Navbar clickable icons now use real links/buttons instead of custom HTML elements.
 
 ## Current Weaknesses
 
@@ -15,6 +18,7 @@
 - Some older pages still use unclear wording or mixed language.
 - Navbar/mobile behavior needs more polish.
 - Some pages may still be static, mock, or stale. Needs verification.
+- Some older CSS still relies on id selectors. Needs verification before broader cleanup.
 
 ## Loading States
 
@@ -37,6 +41,8 @@ Good examples:
 - Doctor search inline error.
 - Report upload inline error.
 - Profile message on failed load/update.
+- Home blog loading failure message.
+- Recommendation demo search error.
 
 Future task: create a shared `AlertMessage` component.
 
@@ -47,6 +53,8 @@ Good examples:
 - Symptom checker: "No demo result yet."
 - Doctor search: "Enter a demo location and specialty to search."
 - Report history: "No demo reports yet."
+- Home blog section: "No demo blog posts are available right now."
+- Record page: "No demo patient records are saved locally."
 
 Future task: make empty states consistent across pages.
 
@@ -65,10 +73,11 @@ Future task: improve validation messages and add tests.
 
 Known or likely issues:
 
-- Some older labels use `for` instead of React `htmlFor`.
-- Some image `alt` text is empty.
-- Some buttons/links may need clearer accessible names.
+- Some older CSS and JSX still need a full accessibility pass.
 - Keyboard and focus states need verification.
+- Contact, login, and register forms now use improved labels/ids.
+- The local record delete button now has an accessible label.
+- Important images and the map iframe have alt/title text.
 
 ## Mobile Responsiveness
 
@@ -86,8 +95,15 @@ Practical cleanup targets:
 
 - Standardize "demo" wording.
 - Use "Madai" consistently.
-- Replace old/unclear labels like "Only For Admin" where the page is no longer admin-only.
+- Replace old/unclear labels where pages are no longer admin-only or production-like.
 - Remove stale wording from old mock flows.
+
+Recent cleanup:
+
+- Replaced "WELL-COME TO DOCTOR ONLINE" with clearer Madai wording.
+- Fixed obvious spelling such as "Specialist Recommendation."
+- Replaced real-looking phone/contact examples with fictional placeholders.
+- Kept health-related wording educational and demo-only.
 
 ## Practical Next UI Polish Tasks
 
@@ -98,3 +114,4 @@ Practical cleanup targets:
 - Standardize protected-page spacing.
 - Add a 404 page.
 - Add simple accessibility pass for forms.
+- Replace remaining old static pages with backend-aligned or clearly documented demo flows.

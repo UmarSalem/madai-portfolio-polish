@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './LoginStyle.css';
-import { Link, NavLink, useNavigate } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { ROUTE } from '../routes/ReactLinks';
 import Navbar from '../components/layout/Navbar';
 import { login } from '../api/auth';
@@ -12,13 +12,16 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromPath = location.state?.from?.pathname;
+  const from = fromPath || ROUTE.AiDoctor;
 
   useEffect(() => {
     const user = getStoredAuthUser();
     if (user?.token) {
-      navigate('/'); // Redirect to home if user is already logged in
+      navigate(fromPath || ROUTE.Home, { replace: true });
     }
-  }, [navigate]);
+  }, [fromPath, navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -31,7 +34,7 @@ const Login = () => {
       const res = await login(email, password);
       saveAuthUser(res.data);
       setMessage('Login successful.');
-      navigate('/doctor');
+      navigate(from, { replace: true });
     } catch (error) {
       const apiMessage = error?.response?.data?.message;
       setMessage(apiMessage || 'Login failed. Please check your email and password.');
@@ -60,20 +63,22 @@ const Login = () => {
                 <div className='three-main-or-div'>
 
                   <div className='responsive-div' >
-                    <label>Email ID <br />
+                    <label htmlFor="login-email">Email ID <br />
                       <input
                         type="email"
-                        id="input"
+                        id="login-email"
+                        className="form-input"
                         value={email}
 
                         onChange={(e) => setEmail(e.target.value)}
                         required
                       />
                     </label> <br />
-                    <label>Password <br />
+                    <label htmlFor="login-password">Password <br />
                       <input
                         type="password"
-                        id="input"
+                        id="login-password"
+                        className="form-input"
                         value={password}
 
                         onChange={(e) => setPassword(e.target.value)}

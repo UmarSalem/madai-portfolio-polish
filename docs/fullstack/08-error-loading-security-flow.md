@@ -28,6 +28,9 @@ Examples:
 - doctor search error
 - report upload error
 - profile load/update error
+- home blog load error
+- recommendation demo search error
+- local record deletion message
 
 ## Empty State Pattern
 
@@ -36,6 +39,8 @@ Examples:
 - no symptom result yet
 - no doctor search yet
 - no demo reports yet
+- no demo blog posts
+- no locally saved demo patient records
 
 Empty states help the user understand that nothing is broken.
 
@@ -44,6 +49,8 @@ Empty states help the user understand that nothing is broken.
 Frontend:
 
 - `ProtectedRoute` redirects to login if no token exists.
+- The attempted protected path is stored in React Router state so login can return the user to that page after successful authentication.
+- The navbar reads the normalized auth session and shows login or authenticated menu options.
 - Some API catches handle `401` by showing login message or clearing auth.
 
 Backend:
@@ -56,6 +63,7 @@ Backend:
 Current behavior:
 
 - missing token: protected route redirects.
+- missing token with protected route: redirects to `/login` and preserves the attempted route.
 - `401` on profile: clears auth and redirects.
 - other features mostly show auth-related errors.
 

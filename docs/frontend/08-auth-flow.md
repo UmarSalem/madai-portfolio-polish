@@ -36,6 +36,8 @@ POST /api/auth/signin
 
 After login succeeds, `saveAuthUser(res.data)` stores a normalized session and the user is navigated to `/doctor`.
 
+If the user was redirected to login from a protected page, React Router state stores the original path and login sends the user back there after successful authentication.
+
 ## Token Storage
 
 File: `src/api/authSession.js`
@@ -86,6 +88,8 @@ If a `401` happens, the frontend clears local auth storage and redirects to logi
 
 `clearAuthUser()` exists in `src/api/authSession.js`. A full visible logout flow needs verification in the current UI.
 
+The navbar uses the stored normalized auth session to decide whether to show login or authenticated menu options. Logout clears the stored auth session and sends the user back to `/`.
+
 ## Protected Routes
 
 File: `src/routes/ProtectedRoute.jsx`
@@ -94,17 +98,24 @@ Protected routes include:
 
 - `/doctor`
 - `/symptomChecker`
-- `admin/medicalHistory`
+- `/admin/medicalHistory`
 - `/doctorSearch`
 - `/profile`
 
-If no token exists, the user is redirected to login.
+If no token exists, the user is redirected to login with the attempted route preserved in router state.
+
+Example:
+
+```text
+/profile -> /login -> successful login -> /profile
+```
 
 ## Security Limitations
 
 - localStorage token storage is demo-grade.
 - Frontend protected routes improve user experience but do not replace backend authorization.
 - The backend must still validate JWTs and roles.
+- Route state is useful for user experience, but it is not a security boundary.
 - For production, review token expiry, refresh, logout, XSS risk, HTTPS, and cookie/session strategy.
 
 ## Interview Explanation

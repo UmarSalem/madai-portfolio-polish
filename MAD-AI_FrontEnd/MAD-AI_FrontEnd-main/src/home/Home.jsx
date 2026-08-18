@@ -11,18 +11,20 @@ import axios from "axios";
 const Home = () => {
  
   const [entries, setEntries] = useState([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
+  const [blogsError, setBlogsError] = useState('');
 
   useEffect(() => {
-    
-  
-    
     const fetchBlogs = async () => {
       try {
+        setBlogsLoading(true);
+        setBlogsError('');
         const response = await axios.get(`${Config.serverUrl}/blogs`);
-        setEntries(response.data);
+        setEntries(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
-        console.error('Failed to fetch medical history:', error);
-        alert('Unable to fetch blogs.');
+        setBlogsError('Unable to load demo blog posts right now.');
+      } finally {
+        setBlogsLoading(false);
       }
     };
   
@@ -38,11 +40,11 @@ const Home = () => {
           <div className="new-main-div">
             <div className="grid sm:grid-cols-2 md:items-center flex md:justify-items-center sm:grid-cols-1">
               <div className="new-first-div grid sm:order-2 order-1">
-                <p id="well-come">WELL-COME TO DOCTOR ONLINE</p>
+                <p id="well-come">Welcome to Madai</p>
                 <h1 id="expert">Expert Care, Anytime, Anywhere</h1>
                 <p>
-                  AI-Driven Diagnosis Beyond Symptoms-Uncovering Root Causes and
-                  Connecting You With Expert Care
+                  Educational healthcare assistant demo for fictional symptoms,
+                  doctor search, and report upload flows.
                 </p>
                 <div className="new-buttons-div">
                   <Button button={"ABOUT US"} navigate={"/about"} />
@@ -71,13 +73,14 @@ const Home = () => {
           <div className="fourth-div grid sm:grid-cols-2 mt-6 flex justify-items-center sm:grid-cols-1">
             <div className="part-one-of-four grid sm:order-2 order-1">
               <h1 id="lets-start">
-                Lets start with your{" "}
+                Let's start with your{" "}
                 <strong id="first-name">first name.</strong>
               </h1>
               <input
                 className="inputbox"
                 type="text"
-                placeholder="Type your firstname here"
+                aria-label="First name"
+                placeholder="Type your first name here"
               />
               <button className="book">Book Appointment</button>
             </div>
@@ -90,6 +93,11 @@ const Home = () => {
         <section>
           <div className="fifth-div">
             <h1 id="recent-blog">Recent Blogs</h1>
+            {blogsLoading && <p>Loading demo blog posts...</p>}
+            {blogsError && <p>{blogsError}</p>}
+            {!blogsLoading && !blogsError && entries.length === 0 && (
+              <p>No demo blog posts are available right now.</p>
+            )}
             <div className="data-carders mx-auto grid lg:grid-cols-4 md:grid-cols-2 gap-6 px-[20px]">
               {entries.map((entry, index) => ( 
               <DataCards blog={entry} key={index}/>
@@ -111,16 +119,16 @@ const Home = () => {
             <div className="footer-second-div">
               <div className="footer-second-div-part-one">
                 <h1>Our Services</h1>
-                <p>AI Diagnostic</p>
-                <p>AI Test Diagnostic</p>
-                <p>Specilist Recomendation</p>
+                <p>AI demo guidance</p>
+                <p>Report demo analysis</p>
+                <p>Specialist recommendation</p>
               </div>
 
               <div className="footer-second-div-part-two">
                 <h1>Quick Links</h1>
                 <p>AI Doctor</p>
-                <p>Lab Test Analyser</p>
-                <p>Find Specilist</p>
+                <p>Report demo</p>
+                <p>Find specialist</p>
                 <p>Contact</p>
                 <p>Media</p>
                 <p>Blogs</p>
@@ -131,7 +139,7 @@ const Home = () => {
                 <p>Timing 24 Hours</p>
                 <p>Contact Information</p>
                 <p>
-                  <i className="ri-smartphone-line"></i>1122-1122
+                  <i className="ri-smartphone-line"></i>000-000-0000
                 </p>
                 <p>
                   <i className="ri-mail-line"></i>demo.contact@example.test
