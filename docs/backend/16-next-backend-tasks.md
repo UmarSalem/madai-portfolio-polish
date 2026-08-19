@@ -15,26 +15,30 @@ Small GitHub-style tasks for future backend branches.
 - [ ] Add request validation for signup password length.
 - [ ] Add stricter email normalization/checks.
 - [ ] Add upload request size limits at ASP.NET Core level.
-- [ ] Add validation tests for report upload.
+- [x] Add basic DTO validation tests.
+- [x] Add validation tests for non-PDF report upload rejection.
+- [ ] Add validation tests for oversized report upload.
 
 ## Auth
 
 - [ ] Add one backend test for `AuthController` signin success/failure.
-- [ ] Add one backend test for `UserController.GetMyProfile`.
+- [x] Add one backend test for `UserController.GetMyProfile`.
 - [ ] Review JWT expiry configuration.
 - [ ] Document production token strategy.
 
 ## Feature Tests
 
 - [ ] Add one test for `SymptomCheckerController`.
-- [ ] Add one test for `DoctorsController` demo fallback.
-- [ ] Add one test for `MedicalReportController` non-PDF rejection.
+- [x] Add one test for doctor search demo fallback.
+- [x] Add one test for symptom service demo fallback.
+- [x] Add one test for `MedicalReportController` non-PDF rejection.
 - [ ] Add one test for report download disabled behavior.
 
 ## Deployment
 
 - [ ] Add `/health` endpoint.
 - [x] Add backend GitHub Actions build workflow.
+- [x] Add backend test project to the solution so CI can run `dotnet test`.
 - [ ] Prepare Linux-friendly Dockerfile.
 - [x] Add environment-based CORS origin configuration.
 - [ ] Add deployment environment variable checklist to README or deployment docs.

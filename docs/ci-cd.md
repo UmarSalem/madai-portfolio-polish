@@ -23,7 +23,7 @@ The frontend workflow:
 - Falls back to `npm install` if there is no lockfile.
 - Runs `npm run build`.
 
-The workflow does not run frontend tests yet. The repository has existing test files, but they should be reviewed and stabilized before tests become required PR checks.
+The workflow does not run frontend tests yet. A small frontend test foundation now exists, but the test command still needs verification in a Node/npm environment before it becomes a required PR check.
 
 The workflow does not set `CI=false`. If Create React App build warnings fail in GitHub Actions, the next step should be to review and fix the warnings or document a temporary exception.
 
@@ -40,7 +40,7 @@ The backend workflow:
 - Runs `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore`.
 - Runs `dotnet test` only if a backend test project is added later.
 
-The current backend has no separate test project. The workflow is ready to run tests later when a test project exists.
+The backend now has a separate xUnit test project at `MAD-AI_BackEnd-develop/tests/Madai.Backend.Tests`. Because it is included in `MADAI-BACKEND.sln`, the workflow should run `dotnet test` after the release build.
 
 ## When Workflows Run
 
@@ -66,20 +66,36 @@ Backend validation:
 
 - `dotnet restore MADAI-BACKEND.sln` succeeded locally.
 - `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore` succeeded locally with `0 warnings` and `0 errors`.
-- No backend test project exists yet, so `dotnet test` is not required by CI yet.
+- `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` succeeded locally with 7 passing tests.
+- Backend tests cover DTO validation, safe external-provider fallbacks, non-PDF upload rejection, and safe profile DTO output.
 
 Frontend validation:
 
 - Local frontend build could not be run in this shell because Node/npm are not available on the local PATH.
 - Frontend config now uses `REACT_APP_API_BASE_URL` with a localhost fallback.
+- Basic React Testing Library tests have been added for smoke rendering, auth forms, protected route redirect, symptom checker safety text, report upload safety text, and recommendation rendering.
+- Local frontend tests could not be run in this shell because Node/npm are not available on the local PATH.
 - GitHub Actions installs Node.js LTS and runs the build on GitHub.
+
+Frontend test command, once Node/npm is available:
+
+```powershell
+cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
+npm test -- --watchAll=false
+```
+
+Needs verification before adding to CI:
+
+- Run the frontend tests with Node/npm available.
+- Fix any Jest/runtime issues.
+- Add a `Test frontend` step before `Build frontend` in `.github/workflows/frontend-ci.yml`.
 
 ## Still Needed Later
 
 - Frontend deployment workflow.
 - Backend deployment workflow.
-- Frontend test coverage.
-- Backend test coverage.
+- Make frontend tests a required CI check after validation.
+- More backend test coverage for auth, report download behavior, and controller integration flows.
 - Docker build and publish workflow, if Docker deployment is chosen.
 - Secret scanning check.
 - Artifact safety check for database files, upload files, `bin/`, `obj/`, `node_modules/`, `build/`, `dist/`, and `coverage/`.
