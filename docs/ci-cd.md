@@ -38,7 +38,7 @@ The backend workflow:
 - Uses the backend folder `MAD-AI_BackEnd-develop`.
 - Runs `dotnet restore MADAI-BACKEND.sln`.
 - Runs `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore`.
-- Runs `dotnet test` only if a backend test project is added later.
+- Runs `dotnet test` when a backend test project is present.
 
 The backend now has a separate xUnit test project at `MAD-AI_BackEnd-develop/tests/Madai.Backend.Tests`. Because it is included in `MADAI-BACKEND.sln`, the workflow should run `dotnet test` after the release build.
 
@@ -66,8 +66,8 @@ Backend validation:
 
 - `dotnet restore MADAI-BACKEND.sln` succeeded locally.
 - `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore` succeeded locally with `0 warnings` and `0 errors`.
-- `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` succeeded locally with 7 passing tests.
-- Backend tests cover DTO validation, safe external-provider fallbacks, non-PDF upload rejection, and safe profile DTO output.
+- `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` succeeded locally with 11 passing tests.
+- Backend tests cover auth signin success/failure, DTO validation, safe external-provider fallbacks, non-PDF upload rejection, and safe profile DTO output.
 
 Frontend validation:
 
@@ -95,7 +95,7 @@ Needs verification before adding to CI:
 - Frontend deployment workflow.
 - Backend deployment workflow.
 - Make frontend tests a required CI check after validation.
-- More backend test coverage for auth, report download behavior, and controller integration flows.
+- More backend test coverage for signup rules, report download behavior, and controller integration flows.
 - Docker build and publish workflow, if Docker deployment is chosen.
 - Secret scanning check.
 - Artifact safety check for database files, upload files, `bin/`, `obj/`, `node_modules/`, `build/`, `dist/`, and `coverage/`.
