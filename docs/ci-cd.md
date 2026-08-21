@@ -58,7 +58,24 @@ CI answers: "Does the project still build?"
 
 Deployment answers: "Can users access the app on a public hosting platform?"
 
-This task only adds CI. Deployment still needs separate planning for frontend hosting, backend hosting, environment variables, CORS, fake demo data, and privacy rules.
+The frontend now has static-hosting configuration and a deployment guide, but
+deployment remains a separate manual task. Backend hosting, environment values,
+CORS, fake demo data, and privacy checks must be reviewed before connecting a
+public frontend to the API.
+
+## Frontend Deployment Status
+
+- Vercel is the recommended first static-hosting target.
+- `vercel.json` provides the `BrowserRouter` SPA rewrite.
+- `public/_redirects` supports later Netlify or Cloudflare Pages evaluation.
+- `REACT_APP_API_BASE_URL` must be set in the hosting provider and must not
+  contain a secret.
+- No GitHub Actions deployment workflow has been added.
+- Vercel Git integration or a manual deployment should be considered only after
+  CI passes and the backend URL/CORS policy are ready.
+
+See [Frontend Static Deployment](frontend-deployment.md) for provider settings
+and post-deployment checks.
 
 ## Current Local Validation
 
@@ -71,10 +88,13 @@ Backend validation:
 
 Frontend validation:
 
-- Local frontend build could not be run in this shell because Node/npm are not available on the local PATH.
+- A local production build passed with `CI=true` using the bundled Node
+  `v24.19.0` runtime and the installed Create React App build script.
 - Frontend config now uses `REACT_APP_API_BASE_URL` with a localhost fallback.
 - Basic React Testing Library tests have been added for smoke rendering, auth forms, protected route redirect, symptom checker safety text, report upload safety text, and recommendation rendering.
-- Local frontend tests could not be run in this shell because Node/npm are not available on the local PATH.
+- The non-interactive test run reported no tests found, including when an
+  existing test file was supplied explicitly. Test discovery under Create React
+  App 5/Jest 27 and Node 24 needs verification.
 - GitHub Actions installs Node.js LTS and runs the build on GitHub.
 
 Frontend test command, once Node/npm is available:
@@ -86,13 +106,13 @@ npm test -- --watchAll=false
 
 Needs verification before adding to CI:
 
-- Run the frontend tests with Node/npm available.
-- Fix any Jest/runtime issues.
+- Pin a compatible Node version or fix the Jest discovery/runtime issue.
+- Confirm all existing test files are discovered and pass.
 - Add a `Test frontend` step before `Build frontend` in `.github/workflows/frontend-ci.yml`.
 
 ## Still Needed Later
 
-- Frontend deployment workflow.
+- Frontend preview deployment after build/test verification.
 - Backend deployment workflow.
 - Make frontend tests a required CI check after validation.
 - More backend test coverage for signup rules, report download behavior, and controller integration flows.
