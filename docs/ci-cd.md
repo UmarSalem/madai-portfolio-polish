@@ -77,6 +77,20 @@ public frontend to the API.
 See [Frontend Static Deployment](frontend-deployment.md) for provider settings
 and post-deployment checks.
 
+## Backend Deployment Status
+
+- The backend has a Linux .NET 8 Dockerfile suitable for a Render Web Service.
+- `Program.cs` binds to Render's `PORT` and exposes `GET /health`.
+- Production CORS is configured only through indexed environment variables.
+- JWT startup rejects committed placeholder values outside Development.
+- No Render deploy hook, API key, Blueprint, or GitHub Actions deployment job is
+  committed.
+- Backend deployment should remain manual until the reset-token and public
+  health-data submission blockers are resolved.
+
+See [Backend Render Deployment](backend-render-deployment.md) for the manual
+service configuration and safety checklist.
+
 ## Current Local Validation
 
 Backend validation:
@@ -85,6 +99,10 @@ Backend validation:
 - `dotnet build MADAI-BACKEND.sln --configuration Release --no-restore` succeeded locally with `0 warnings` and `0 errors`.
 - `dotnet test MADAI-BACKEND.sln --configuration Release --no-build` succeeded locally with 11 passing tests.
 - Backend tests cover auth signin success/failure, DTO validation, safe external-provider fallbacks, non-PDF upload rejection, and safe profile DTO output.
+- Render-style Production health, CORS, and ephemeral SQLite migration smoke tests
+  passed locally.
+- Release publish passed. Docker image build still needs verification because
+  Docker is not installed on the local validation machine.
 
 Frontend validation:
 
@@ -113,7 +131,7 @@ Needs verification before adding to CI:
 ## Still Needed Later
 
 - Frontend preview deployment after build/test verification.
-- Backend deployment workflow.
+- Backend manual Render preview after public-release blockers are resolved.
 - Make frontend tests a required CI check after validation.
 - More backend test coverage for signup rules, report download behavior, and controller integration flows.
 - Docker build and publish workflow, if Docker deployment is chosen.
