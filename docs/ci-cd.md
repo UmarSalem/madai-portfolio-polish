@@ -70,12 +70,26 @@ public frontend to the API.
 - `public/_redirects` supports later Netlify or Cloudflare Pages evaluation.
 - `REACT_APP_API_BASE_URL` must be set in the hosting provider and must not
   contain a secret.
-- No GitHub Actions deployment workflow has been added.
-- Vercel Git integration or a manual deployment should be considered only after
-  CI passes and the backend URL/CORS policy are ready.
+- No GitHub Actions deployment workflow or Vercel token has been added.
+- The selected preview path is a deliberate local `npx vercel deploy` command.
+- The frontend workflow's `workflow_dispatch` trigger runs CI build validation;
+  it does not deploy.
+- `npx vercel --prod` is outside the scope of the manual preview task.
+- API-backed preview testing must wait for a safe backend URL and exact CORS
+  origin.
 
 See [Frontend Static Deployment](frontend-deployment.md) for provider settings
 and post-deployment checks.
+
+### CI Versus Manual Preview
+
+```text
+Pull request or push -> GitHub Actions -> npm ci -> npm run build -> no deploy
+Developer command    -> npx vercel deploy -> temporary preview URL
+```
+
+Keeping these paths separate prevents every push from publishing the healthcare
+demo before its safety checks and backend policy are ready.
 
 ## Backend Deployment Status
 
@@ -130,7 +144,7 @@ Needs verification before adding to CI:
 
 ## Still Needed Later
 
-- Frontend preview deployment after build/test verification.
+- Run and inspect the first manual Vercel preview after build/test verification.
 - Backend manual Render preview after public-release blockers are resolved.
 - Make frontend tests a required CI check after validation.
 - More backend test coverage for signup rules, report download behavior, and controller integration flows.

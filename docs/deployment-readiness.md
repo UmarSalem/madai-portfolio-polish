@@ -4,8 +4,8 @@ Madai is not ready for public deployment yet. The frontend is closer to a public
 
 ## Frontend Readiness
 
-Current status: configuration-ready for a later static preview deployment. An
-actual public deployment and backend connection still need verification.
+Current status: ready for a deliberate manual Vercel preview command. No preview
+or production deployment has been created by this repository task.
 
 Completed preparation:
 
@@ -16,6 +16,11 @@ Completed preparation:
 - `.env.example` contains local and deployed placeholder examples only.
 - Health-related symptom and report screens retain educational demo warnings.
 - Public HTML and manifest metadata identify the application as Madai.
+- `.vercel/` local project metadata is ignored by Git.
+- `.vercelignore` excludes local environment files, mock data, tests,
+  dependencies, and generated output from the Vercel source upload.
+- Manual CLI preview steps are documented without adding provider tokens or an
+  automatic deployment workflow.
 
 Still needed before public release:
 
@@ -27,6 +32,7 @@ Still needed before public release:
 - Verify backend CORS and HTTPS before connecting a public frontend.
 - Perform a final secret/private-data scan and browser network inspection.
 - Confirm deep-link refresh behavior in a preview deployment.
+- Confirm the Vercel project remains preview-only and manually triggered.
 
 Recommended target: Vercel. It is the simplest match for the current Create
 React App project and `BrowserRouter` setup. Netlify and Cloudflare Pages remain
@@ -34,11 +40,20 @@ good alternatives. See [Frontend Static Deployment](frontend-deployment.md).
 
 Latest local validation:
 
-- Production build passed with `CI=true` using Node `v24.19.0`.
+- Production build passed again on the manual-preview branch with `CI=true`.
 - The generated build contains `index.html`, static assets, and `_redirects`.
 - Frontend tests did not run because Jest reported no tests found even when an
   existing test file was passed explicitly. The Create React App 5/Jest 27 and
   Node 24 combination needs verification in a focused testing task.
+
+Manual preview status:
+
+- Selected target: Vercel.
+- Trigger: developer runs `npx vercel deploy` from the frontend directory.
+- GitHub Actions deployment: not added.
+- Production deployment: not authorized or configured by this task.
+- Backend connection: leave disconnected until a safe HTTPS API and exact CORS
+  origin are ready.
 
 ## Backend Readiness
 
@@ -117,8 +132,9 @@ The repository now includes GitHub Actions workflows for pull requests and pushe
 - Backend CI restores and builds the ASP.NET Core solution from `MAD-AI_BackEnd-develop`.
 
 These workflows are CI checks only. They do not deploy the frontend, deploy the
-backend, publish Docker images, or require production secrets. No automatic or
-manual deployment workflow has been added yet.
+backend, publish Docker images, or require production secrets. Frontend preview
+deployment is a separate manual local Vercel CLI action; no GitHub deployment
+workflow has been added.
 
 Frontend tests and backend tests are not required checks yet. The next step is to review and stabilize tests feature by feature before making them block pull requests.
 
