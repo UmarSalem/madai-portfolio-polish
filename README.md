@@ -133,6 +133,11 @@ Pages fallback configuration is also included. No deployment is automated yet,
 and API-backed features require a safe backend URL and reviewed CORS settings.
 See [Frontend Static Deployment](docs/frontend-deployment.md).
 
+The selected first preview method is a manual `npx vercel deploy` command from
+the frontend folder. The existing GitHub Actions manual trigger performs CI only
+and does not publish the site. Do not use `--prod` or connect a backend until the
+preview safety checklist has been completed.
+
 ## Backend Deployment Readiness
 
 The ASP.NET Core backend now has a Linux .NET 8 Docker configuration, Render
