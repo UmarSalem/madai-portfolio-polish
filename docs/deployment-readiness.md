@@ -42,18 +42,27 @@ Latest local validation:
 
 ## Backend Readiness
 
-Current status: not public-deployment safe yet.
+Current status: prepared for a manual Render Docker preview, but not approved for
+unrestricted public health-data use.
 
-Needs:
+Completed hosting preparation:
 
-- Secrets moved to environment variables.
-- Committed database and upload artifacts removed.
-- CORS configured for the frontend domain.
-- Safe fake seed/demo data.
-- API contract alignment with frontend.
-- Safer upload/report behavior.
-- Clear production/development configuration split.
-- Deployment-friendly Docker or native .NET hosting setup.
+- Linux .NET 8 multi-stage Dockerfile.
+- Dynamic `0.0.0.0:$PORT` binding for Render.
+- Safe `GET /health` endpoint.
+- Production CORS limited to configured origins.
+- Non-development JWT configuration fails closed on placeholders.
+- Optional startup migrations for a new ephemeral demo database.
+- Docker context excludes databases, uploads, secrets, tests, and build output.
+- Swagger remains disabled in Production.
+
+Remaining blockers:
+
+- Forgot-password still returns a reset token in the response.
+- Public symptom/report submissions cannot be guaranteed fictional.
+- Report upload needs a server-side disable switch or a production privacy model.
+- Rate limiting and centralized production error handling are missing.
+- The actual frontend origin and Render CORS behavior need verification.
 
 ## GitHub Pages Notes
 
@@ -77,13 +86,14 @@ They need:
 
 ## Render Backend Notes
 
-Render can host an ASP.NET Core backend, but the current backend is not ready. Before using Render:
+Render should host this ASP.NET Core backend as a Docker Web Service because .NET
+is not a Render native runtime. Use backend root
+`MAD-AI_BackEnd-develop`, health path `/health`, and Render environment variables
+for JWT, CORS, and database configuration.
 
-- Move all secrets to environment variables.
-- Configure CORS.
-- Remove committed SQLite/upload artifacts.
-- Decide whether SQLite is acceptable for the demo or switch to a managed database later.
-- Review Dockerfile because it currently uses Windows Nano Server images. A Linux-friendly setup is usually easier on common hosting platforms.
+The recommended first preview uses ephemeral SQLite at
+`/tmp/madai-demo.db`. It is intentionally non-durable and fake-data-only. See
+[Backend Render Deployment](backend-render-deployment.md).
 
 ## Report Upload Status
 
@@ -112,15 +122,15 @@ manual deployment workflow has been added yet.
 
 Frontend tests and backend tests are not required checks yet. The next step is to review and stabilize tests feature by feature before making them block pull requests.
 
-## Required Work Before Deployment
+## Required Work Before Unrestricted Public Deployment
 
-- Environment configuration.
-- CORS.
-- Remove secrets.
-- Remove DB/upload files.
-- Fake seed data.
-- API contract cleanup.
-- Deployment workflows after CI is stable.
+- Remove reset tokens from API responses.
+- Add a server-side report-upload deployment switch.
+- Add abuse/rate-limit controls.
+- Verify the deployed frontend origin and HTTPS/CORS behavior.
+- Keep external providers disabled unless only fictional input can reach them.
+- Run a final secret, database, upload, and private-data scan.
+- Add deployment automation only after manual preview verification.
 
 ## Suggested Deployment Order
 

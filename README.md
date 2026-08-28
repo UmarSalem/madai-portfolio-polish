@@ -133,6 +133,17 @@ Pages fallback configuration is also included. No deployment is automated yet,
 and API-backed features require a safe backend URL and reviewed CORS settings.
 See [Frontend Static Deployment](docs/frontend-deployment.md).
 
+## Backend Deployment Readiness
+
+The ASP.NET Core backend now has a Linux .NET 8 Docker configuration, Render
+`PORT` binding, a safe `/health` endpoint, environment-based production CORS,
+and deployment documentation. Nothing is deployed automatically.
+
+The API is infrastructure-ready for a private/manual Render preview, but it is
+not approved for unrestricted public health-data use. Reset-token responses,
+report-upload policy, rate limiting, and fake-data enforcement remain blockers.
+See [Backend Render Deployment](docs/backend-render-deployment.md).
+
 ## Testing
 
 The React frontend has a small React Testing Library foundation for smoke rendering, auth forms, protected-route behavior, and safety warnings on health-related demo screens.
@@ -157,12 +168,13 @@ Backend tests must not call real AI providers, Google APIs, production databases
 
 - Some older frontend screens may still call json-server style endpoints while the backend exposes ASP.NET API routes. Needs verification.
 - Auth/profile, symptom checker, doctor search, and report upload/history have been aligned as vertical slices.
-- Backend CORS and deployment origins need verification before public hosting.
+- The exact backend CORS deployment origin needs verification before public hosting.
 - Secrets and private-looking demo data must continue to be checked before public release.
 - SQLite database, upload artifacts, and generated build outputs must remain out of Git.
 - Tests are limited and should be expanded after each feature contract is stabilized.
 - Frontend tests need verification in a Node/npm environment before they become required CI checks.
-- The backend Dockerfile is currently Visual Studio/Windows-container oriented and may need changes for common hosting platforms.
+- The backend Dockerfile is Linux/Render compatible, but a manual preview and
+  remaining API safety blockers still need verification.
 
 ## Roadmap
 
