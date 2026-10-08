@@ -32,12 +32,12 @@ jobs:
           cache-dependency-path: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/package-lock.json
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: npm ci
 
       - name: Build frontend
         run: npm run build
+
+      - name: Run frontend tests
+        env:
+          CI: true
+        run: npm test -- --watchAll=false --runInBand

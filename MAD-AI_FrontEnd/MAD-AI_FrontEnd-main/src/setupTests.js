@@ -30,7 +30,16 @@ global.localStorage = new LocalStorageMock();
 global.fetch = jest.fn();
 
 // Mock axios
-jest.mock('axios');
+jest.mock('axios', () => {
+  const client = {
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    interceptors: { request: { use: jest.fn() } },
+  };
+
+  return { ...client, create: jest.fn(() => client) };
+});
 
 // TextEncoder polyfill
 if (typeof TextEncoder === 'undefined') {
