@@ -127,11 +127,10 @@ Basic GitHub Actions build checks are configured for the frontend and backend. T
 
 ## Frontend Deployment Readiness
 
-GitHub Pages publishing is prepared for the expected URL
-https://umarsalem.github.io/madai-portfolio-polish/ (not yet deployed or verified).
+Frontend URL: https://umarsalem.github.io/madai-portfolio-polish/
+Availability depends on the latest successful GitHub Pages deployment.
 The existing frontend workflow validates build and tests, then publishes only
-successful develop pushes/manual develop runs after Pages is enabled and review
-is complete. Hash routes support direct entry and refresh under the repository
+successful develop pushes/manual develop runs with GitHub Pages configured to use GitHub Actions. Hash routes support direct entry and refresh under the repository
 subpath. No backend is deployed; the frontend clearly labels disconnected API
 features and incomplete AI/report chat. See [Frontend deployment](docs/frontend-deployment.md).
 

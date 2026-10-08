@@ -9,11 +9,11 @@ not establish that these features work end to end.
 
 Expected URL: https://umarsalem.github.io/madai-portfolio-polish/
 
-This task prepares publishing; it has not enabled Pages or deployed a site.
-GitHub repository metadata reports no active Pages site. No CNAME file exists.
-Detailed Pages/custom-domain settings could not be read through the connector;
-inspect Settings → Pages before enabling publishing. Do not add a custom domain
-without revisiting the explicitly configured repository subpath.
+Authenticated settings inspection on 2026-10-08 confirmed GitHub Actions as the
+Pages publishing source, HTTPS enforced, no custom domain and develop as the only
+allowed github-pages deployment branch. Deployment availability is shown in the
+latest frontend workflow run. Do not add a custom domain without revisiting the
+explicitly configured repository subpath.
 
 ## Workflow
 
