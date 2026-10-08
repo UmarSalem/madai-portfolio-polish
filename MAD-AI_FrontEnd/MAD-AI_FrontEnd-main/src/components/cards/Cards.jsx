@@ -7,7 +7,7 @@ const Cards = ({ text }) => {
 
       <section>
         <div className='cards'>
-          <p>Numbers Speaks <strong id='different'>for Itself</strong></p>
+          <p>Illustrative Demo Metrics <strong id='different'>(not real usage)</strong></p>
         </div>
       </section>
 

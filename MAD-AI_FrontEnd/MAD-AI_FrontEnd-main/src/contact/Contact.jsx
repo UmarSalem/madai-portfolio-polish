@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 import './ContactStyle.css';
 import ContactCard from '../components/contactcard/ContactCard';
@@ -12,7 +13,7 @@ const Contact = () => {
     <div className="ai-main-div">
      <div className="diagnory-one">
       <div id="back">
-       <a href="/doctor">{'< Back'}</a>
+       <Link to="/doctor">{'< Back'}</Link>
       </div>
      </div>
     </div>

@@ -1,3 +1,4 @@
+import { publicAsset } from '../../constant';
 import React from 'react';
 import './DataCardsStyle.css';
 import { Link } from 'react-router';
@@ -13,7 +14,7 @@ const DataCards = ({blog}) => {
       <section>
         <div className='mainer-div'>
           <div className='carder-div'>
-            <img id='ones-image' className='card-image' src={blog.image} alt={blog.title || 'Blog preview'} />
+            <img id='ones-image' className='card-image' src={publicAsset(blog.image)} alt={blog.title || 'Blog preview'} />
             <p id='lorem'>{limitText(blog.title,50)}  </p>
             <Link to={`/blog/${blog.id}`} id='button-read'>Read More</Link>
             <p id='anchor-tag'> {limitText(blog.description, 100)}</p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router';
 import { ROUTE } from './ReactLinks';
 import Register from '../register/Register';
 import Login from '../login/Login';
@@ -22,10 +22,12 @@ const NotFound = () => (
   </div>
 );
 
+const Router = process.env.REACT_APP_ROUTER_MODE === 'hash' ? HashRouter : BrowserRouter;
+
 const ReactRoute = () => {
   return (
     <div>
-      <BrowserRouter>
+      <Router>
     
       <Routes>
        <Route path={ROUTE.Home} element={<Home/>}/>
@@ -43,7 +45,7 @@ const ReactRoute = () => {
        <Route path={ROUTE.Profile} element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
        <Route path="*" element={<NotFound />} />
       </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   )
 }

@@ -1,209 +1,124 @@
-# Frontend Static Deployment
+# Madai frontend on GitHub Pages
 
-This guide prepares the Madai React frontend for a manual Vercel preview. It
-does not deploy the application automatically.
+Madai is a bachelor group project with later portfolio improvements. This static
+frontend is a demonstration, not medical advice. Use fictional data only.
+AI guidance, report analysis and follow-up chat are incomplete. Deployment does
+not establish that these features work end to end.
 
-Madai is an educational portfolio demo. It is not medical advice and must use
-fake/demo data only. Never enter real patient data, private health information,
-medical reports, credentials, or secrets.
+## Publishing status and expected URL
 
-## Recommended Target
+Expected URL: https://umarsalem.github.io/madai-portfolio-polish/
 
-Vercel is the easiest current target because the frontend uses `BrowserRouter`
-and Vercel supports an SPA rewrite through `vercel.json`. Netlify and Cloudflare
-Pages are also suitable; `public/_redirects` is copied into the Create React App
-build for their SPA fallback support.
+This task prepares publishing; it has not enabled Pages or deployed a site.
+GitHub repository metadata reports no active Pages site. No CNAME file exists.
+Detailed Pages/custom-domain settings could not be read through the connector;
+inspect Settings → Pages before enabling publishing. Do not add a custom domain
+without revisiting the explicitly configured repository subpath.
 
-GitHub Pages is not the first recommendation. It does not provide the same
-native SPA fallback behavior, and this app would need a 404 fallback workaround,
-a repository base-path configuration, or a deliberate switch to `HashRouter`.
-Those changes are not included in this task.
+## Workflow
 
-## Selected Preview Mode
+The existing .github/workflows/frontend-ci.yml now validates the Pages build.
+Every branch push and PR into develop/main runs npm ci, the production build
+with lint enabled, and all frontend tests. Only a successful build/test job on
+develop (push or workflow_dispatch) uploads the frontend build/ directory and
+permits the dependent deployment job. Feature branches and PRs never publish.
 
-Use a manual Vercel CLI preview deployment from the frontend directory. Do not
-use `--prod`, do not add a Vercel token to GitHub Actions, and do not connect
-push-to-deploy automation during the first preview review.
+The deployment uses configure-pages@v5, upload-pages-artifact@v4 and
+deploy-pages@v4, with the github-pages environment. The build has contents: read;
+only deployment has pages: write and id-token: write. Deployment concurrency
+uses madai-github-pages and does not cancel an in-progress deployment.
+There is no personal access token or generated-files branch. The .NET backend,
+source files, node_modules and local databases are not publishing artifacts.
 
-This mode is intentionally separate from frontend CI:
+After review and publishing authorization:
+1. Commit/push this branch and create a PR into develop.
+2. Review successful PR validation before merging.
+3. Open Settings → Pages → Build and deployment → Source → GitHub Actions.
+   Check the Custom domain field first; leave it empty for the expected URL.
+4. Set the github-pages environment deployment branch policy to develop.
+5. Merge the reviewed PR. Its develop push validates and publishes automatically.
+   If settings are enabled after that run fails, run the frontend workflow manually
+   selecting develop. No publishing settings are changed by the preparation task.
+6. Verify the deployed commit, public URL, assets and hash-route refreshes.
 
-- CI checks whether the frontend builds.
-- The manual preview command publishes a temporary Vercel preview only when a
-  developer deliberately runs it.
-- Production promotion is not part of this task.
+## Repository subpath and routing
 
-The `.vercel/` directory created by `vercel link` is ignored by Git. Local
-environment files, `db.json`, tests, generated builds, and dependency folders
-are excluded from the Vercel upload through `.vercelignore`.
+CI sets PUBLIC_URL=/madai-portfolio-polish and REACT_APP_ROUTER_MODE=hash.
+CRA embeds the asset prefix in index.html and JavaScript. Public images use
+PUBLIC_URL; internal navigation uses React Router Link instead of root anchors.
+Local npm start retains BrowserRouter unless hash mode is explicitly selected.
 
-## Local Build
+Public routes are /madai-portfolio-polish/#/login, #/profile, #/symptomChecker,
+#/doctorSearch and #/admin/medicalHistory (report upload); #/doctor is an upload
+alias. The browser sends only the path before # to Pages, so direct entry and
+refresh request the same static index.html. Bare /profile URLs are not supported
+Pages links. Protected routes still redirect unauthenticated users to login.
+The existing _redirects and vercel.json preparation remains for other hosts;
+GitHub Pages does not use those SPA rewrites. Hash routing avoids a 404 workaround.
 
-From the repository root:
+## Public API configuration and backend CORS
+
+Umar confirmed there is no deployed backend. Leave the repository Actions
+variable REACT_APP_API_BASE_URL unset for this disconnected demonstration.
+The production frontend displays a backend-not-connected notice and guards API
+calls rather than sending requests to localhost or relative Pages endpoints.
+No live backend, login, profile, upload or paid model call has been verified.
+
+When an approved backend exists, use Settings → Secrets and variables → Actions
+→ Variables → New repository variable: REACT_APP_API_BASE_URL, value its actual
+HTTPS origin. The workflow rejects non-HTTPS, credential-bearing and loopback
+URLs. This URL is public and embedded at build time. Changing it requires a new
+build/deployment. Never put model keys, JWT signing secrets, database credentials
+or private tokens in REACT_APP_* values.
+
+The backend already reads Cors:AllowedOrigins in Program.cs. Its hosting setting
+must include Cors__AllowedOrigins__0=https://umarsalem.github.io (or the next
+unused array index). Origins exclude /madai-portfolio-polish and a trailing slash.
+Do not replace other approved origins accidentally. No backend configuration or
+hosted service is modified in this frontend task. Later verify GET /health and
+CORS response headers with Origin: https://umarsalem.github.io before connecting.
+A healthy service alone does not verify feature correctness.
+
+## Local production preview
+
+From MAD-AI_FrontEnd/MAD-AI_FrontEnd-main, in PowerShell:
 
 ```powershell
-cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
 npm ci
+$env:CI='true'
+$env:PUBLIC_URL='/madai-portfolio-polish'
+$env:REACT_APP_ROUTER_MODE='hash'
+Remove-Item Env:REACT_APP_API_BASE_URL -ErrorAction SilentlyContinue
 npm run build
+npm test -- --watchAll=false --runInBand
 ```
 
-The static output is written to `build/`. The output is generated and must not
-be committed.
+Serve build/ mounted at /madai-portfolio-polish/ with a static server that returns
+404 for nonexistent paths (no implicit SPA fallback). Preview the hash links,
+refresh, image loading, protected-route redirects and unavailable-backend state.
+Do not use real health data or paid provider requests. Mocked-session browser
+checks may inspect protected UI, but are not proof of real authentication.
 
-## Environment Configuration
+## Pause and recovery
 
-Create React App reads the API URL at build time:
+To pause all frontend workflow runs, Actions → Madai Frontend CI and Pages →
+workflow menu → Disable workflow. The current site remains public; use Settings
+→ Pages → Unpublish site if removal is intended. Disabling this workflow also
+pauses its frontend validation. Re-enable it to resume validation and publishing.
 
-```text
-REACT_APP_API_BASE_URL=https://your-madai-api.example.com
-```
+To restore an earlier reviewed version, create a revert PR into develop and let
+the normal build/tests/deploy sequence publish that version. This preserves the
+history without force-pushing. Do not dispatch a feature/old branch expecting
+publication: deployment is deliberately restricted to develop. To redeploy the
+current develop version, use Run workflow selecting develop.
 
-For local development, copy `.env.example` to `.env` and keep the localhost
-value. Do not commit `.env`.
+## Limitations
 
-`REACT_APP_*` values are included in the browser bundle and are public. The API
-base URL is acceptable there, but API keys, JWT signing keys, passwords, tokens,
-and other secrets are not.
+There is no deployed backend. Core AI and report chat remain incomplete; legacy
+blog/recommendation screens still use json-server-style endpoints. Protected
+features require real authentication once a backend is connected; the static
+frontend does not provide demo login. Existing dependency vulnerabilities remain
+unresolved. External font/icon/Tailwind CDN assets require internet access.
+A CV-ready public URL requires later live verification after authorization.
 
-If the backend is not publicly deployed, authenticated and API-backed features
-will not work from the hosted frontend. This is expected until a safe backend
-deployment exists.
-
-## Manual Vercel Preview
-
-Use these project settings:
-
-- Root Directory: `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`
-- Framework Preset: Create React App
-- Install Command: `npm ci`
-- Build Command: `npm run build`
-- Output Directory: `build`
-- Environment Variable: `REACT_APP_API_BASE_URL`
-
-`vercel.json` rewrites browser routes such as `/profile` to `index.html`, where
-React Router can resolve the route.
-
-Before deploying, confirm the normal CI build has passed. Then run these commands
-from the frontend directory:
-
-```powershell
-cd MAD-AI_FrontEnd\MAD-AI_FrontEnd-main
-npx vercel --version
-npx vercel login
-npx vercel link
-npx vercel deploy
-```
-
-During `vercel link`, select or create a project for the Madai frontend and use
-the current directory as the project root. Review the detected Create React App
-settings before accepting them.
-
-`npx vercel deploy` creates a preview deployment. Do not run `npx vercel --prod`
-for this task. The command requires the developer's interactive Vercel login; no
-token is stored in this repository.
-
-No GitHub Actions deployment workflow is included. The existing frontend
-`workflow_dispatch` action performs build validation only.
-
-### Preview API Configuration
-
-Configure `REACT_APP_API_BASE_URL` in Vercel's Preview environment only after a
-safe HTTPS backend URL exists:
-
-```powershell
-npx vercel env add REACT_APP_API_BASE_URL preview
-```
-
-Enter the URL interactively. Do not paste it into source control or command
-history. The URL is public browser configuration, not a secret, but keeping it
-in Vercel makes environment ownership clear.
-
-If no safe backend is deployed, leave the preview frontend disconnected and
-expect authenticated/API-backed screens to fail network requests. Do not point a
-public preview at `localhost`, a private organization service, or an unsafe
-backend.
-
-Create React App embeds every `REACT_APP_*` value in the browser bundle. Never
-use this prefix for API keys, JWT signing keys, passwords, tokens, or private
-configuration.
-
-When a backend is connected, its CORS allowlist must include the exact approved
-Vercel preview origin. Preview aliases and CORS behavior need verification before
-API-backed testing.
-
-## Netlify Setup
-
-Use these settings:
-
-- Base directory: `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`
-- Build command: `npm run build`
-- Publish directory: `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/build` when the base
-  directory is not set, or `build` when it is set
-- Environment variable: `REACT_APP_API_BASE_URL`
-
-`public/_redirects` provides the SPA fallback in the generated build.
-
-## Cloudflare Pages Setup
-
-Use these settings:
-
-- Root directory: `MAD-AI_FrontEnd/MAD-AI_FrontEnd-main`
-- Build command: `npm run build`
-- Build output directory: `build`
-- Environment variable: `REACT_APP_API_BASE_URL`
-
-The generated `_redirects` file provides the client-side routing fallback.
-Compatibility with the selected Cloudflare Pages configuration needs
-verification during the actual deployment task.
-
-## GitHub Pages Notes
-
-The current `BrowserRouter` routes and repository subpath make GitHub Pages less
-convenient. Do not publish the current build there until deep-link refreshes and
-asset paths have a tested solution. GitHub Pages can be reconsidered if a later
-task intentionally adopts `HashRouter` or a documented 404 fallback.
-
-## Post-Deployment Checks
-
-After a later preview deployment:
-
-1. Open the home page and confirm static assets load without 404 errors.
-2. Open a nested route directly and refresh it to verify the SPA fallback.
-3. Confirm the symptom checker and report upload safety warnings are visible.
-4. Confirm unauthenticated protected routes redirect to login.
-5. Check the browser console and network panel for failed API or mixed-content
-   requests.
-6. If a backend is connected, verify its CORS allowlist contains only the exact
-   preview/production frontend origins that are intended.
-7. Confirm no real patient data, uploaded reports, credentials, or secret values
-   are present in the page source, JavaScript bundle, or network requests.
-8. Confirm the deployment is a Preview, not Production.
-9. Confirm the Vercel project has no automatic production promotion or
-   repository deployment token configured for this task.
-10. Remove the preview deployment after review if it should no longer be public.
-
-## Known Limitations
-
-- The backend is not prepared or deployed by this task.
-- API-backed features require a reachable backend with compatible HTTPS and CORS
-  configuration.
-- Public users must be prevented from submitting real health information. Needs
-  verification before public release.
-- The production build passes with `CI=true`. Frontend Jest discovery under the
-  current Create React App 5/Jest 27 and Node 24 toolchain needs verification
-  before tests become a deployment gate.
-- A custom domain, analytics, monitoring, and automated rollback are not
-  configured.
-- A manual preview has not been created by this setup task; the developer must
-  deliberately run the documented Vercel CLI command.
-
-## Setup Validation
-
-- Production build with `CI=true`: passed.
-- Generated `build/index.html`: present.
-- Generated SPA fallback `build/_redirects`: present.
-- `vercel.json`: valid JSON.
-- Symptom-checker and report-upload safety warnings: present in source.
-- Frontend tests: not executed successfully because the existing Create React
-  App/Jest setup reports no tests found even though test files exist. Needs
-  verification in the dedicated frontend test-discovery task.
-- Vercel deployment: not run.
+References: [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).

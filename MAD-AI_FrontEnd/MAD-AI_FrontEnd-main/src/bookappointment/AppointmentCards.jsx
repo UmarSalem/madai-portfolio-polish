@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 import './AppointmentCardsStyle.css';
 import DetailCard from '../components/detailcard/DetailCard';
@@ -11,7 +12,7 @@ const AppointmentCards = () => {
             <section>
                <div className='diagnory-one'>
                   <div id='back'>
-                     <a href="/">{'< Back'}</a>
+                     <Link to="/">{'< Back'}</Link>
                   </div>
                   <div>
                      <button className='book'>Book Appointment</button>

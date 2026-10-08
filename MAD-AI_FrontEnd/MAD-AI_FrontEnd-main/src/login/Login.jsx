@@ -37,7 +37,7 @@ const Login = () => {
       navigate(from, { replace: true });
     } catch (error) {
       const apiMessage = error?.response?.data?.message;
-      setMessage(apiMessage || 'Login failed. Please check your email and password.');
+      setMessage(apiMessage || (!error?.response ? 'The demo backend is unavailable. Please try again later.' : 'Login failed. Please check your email and password.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -97,7 +97,7 @@ const Login = () => {
               </form>
             </div>
             <figure className='mobile grid sm:order-2 order-1'>
-              <img id='image-mobile' src={'./doctors.png'} alt="" />
+              <img id='image-mobile' src={`${process.env.PUBLIC_URL}/doctors.png`} alt="" />
             </figure>
           </div>
         </div>

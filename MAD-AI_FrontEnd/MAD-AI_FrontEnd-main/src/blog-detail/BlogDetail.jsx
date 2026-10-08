@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Config } from '../constant';
+import { Config, requireApiConfiguration, publicAsset } from '../constant';
 import axios from 'axios';
 import "./blogstyle.css"
 import Navbar from '../components/layout/Navbar';
@@ -10,21 +10,24 @@ const BlogDetail = () => {
   
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  const [error, setError] = useState('');
 
  useEffect(() => {
     const fetchBlog = async () => {
       try {
+        requireApiConfiguration();
         const response = await axios.get(`${Config.serverUrl}/blogs?id=${id}`);
         console.log("Fetched blog:", response.data);
         setBlog(response.data[0]);
       } catch (error) {
-        console.error('Failed to fetch blog:', error);
+        setError('Unable to load this demo blog post. The backend may be unavailable.');
       }
     };
 
     fetchBlog();
   }, [id]);
 
+  if (error) return <><Navbar /><p role="alert">{error}</p></>;
   if (!blog) return <p>Loading...</p>;
 
   return (
@@ -32,7 +35,7 @@ const BlogDetail = () => {
       <Navbar />
 
       <div className="blog-detail-container">
-        <img style={{marginTop:"100px"}} src={"/"+blog.image} alt={blog.title} className="blog-detail-image" />
+        <img style={{marginTop:"100px"}} src={publicAsset(blog.image)} alt={blog.title} className="blog-detail-image" />
 
         <h1 className="blog-title">{blog.title}</h1>
 

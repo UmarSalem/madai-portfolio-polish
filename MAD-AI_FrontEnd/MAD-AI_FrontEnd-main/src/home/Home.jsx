@@ -5,7 +5,7 @@ import Cards from "../components/cards/Cards";
 import DataCards from "../components/dataCards/DataCards";
 import "./HomeStyle.css";
 import Navbar from "../components/layout/Navbar";
-import { Config } from "../constant";
+import { Config, requireApiConfiguration } from "../constant";
 import axios from "axios";
 
 const Home = () => {
@@ -19,6 +19,7 @@ const Home = () => {
       try {
         setBlogsLoading(true);
         setBlogsError('');
+        requireApiConfiguration();
         const response = await axios.get(`${Config.serverUrl}/blogs`);
         setEntries(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
@@ -41,7 +42,7 @@ const Home = () => {
             <div className="grid sm:grid-cols-2 md:items-center flex md:justify-items-center sm:grid-cols-1">
               <div className="new-first-div grid sm:order-2 order-1">
                 <p id="well-come">Welcome to Madai</p>
-                <h1 id="expert">Expert Care, Anytime, Anywhere</h1>
+                <h1 id="expert">An Educational Healthcare Demo</h1>
                 <p>
                   Educational healthcare assistant demo for fictional symptoms,
                   doctor search, and report upload flows.
@@ -52,7 +53,7 @@ const Home = () => {
                 </div>
               </div>
               <figure className="new-second-div grid sm:order-2 order-1">
-                <img className="new-image" src={"/doctor.png"} alt="Doctor consultation illustration" />
+                <img className="new-image" src={`${process.env.PUBLIC_URL}/doctor.png`} alt="Doctor consultation illustration" />
               </figure>
             </div>
           </div>
@@ -80,12 +81,12 @@ const Home = () => {
                 className="inputbox"
                 type="text"
                 aria-label="First name"
-                placeholder="Type your first name here"
+                placeholder="Use a fictional first name"
               />
-              <button className="book">Book Appointment</button>
+              <button className="book" disabled>Appointment booking unavailable</button>
             </div>
             <figure className="part-two-of-four grid sm:order-2 order-1">
-              <img className="one-image" src={"/doctors.png"} alt="Doctors team illustration" />
+              <img className="one-image" src={`${process.env.PUBLIC_URL}/doctors.png`} alt="Doctors team illustration" />
             </figure>
           </div>
         </section>

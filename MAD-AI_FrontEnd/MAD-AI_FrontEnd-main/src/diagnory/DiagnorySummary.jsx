@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 import './DiagnorySummaryStyle.css';
 
@@ -10,7 +11,7 @@ const DiagnorySummary = () => {
         <section>
           <div className='diagnory-one'>
             <div id='back'>
-              <a href="/">{'< Back'}</a>
+              <Link to="/">{'< Back'}</Link>
             </div>
             <div id='log-out'>
               <button type="button">Log Out</button>

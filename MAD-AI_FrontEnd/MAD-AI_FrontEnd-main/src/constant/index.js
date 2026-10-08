@@ -1,10 +1,22 @@
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5122";
+const configuredApiUrl = (process.env.REACT_APP_API_BASE_URL || '').trim();
+const apiBaseUrl = configuredApiUrl || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5122');
+
+export const publicAsset = (path = '') => /^(https?:|data:)/i.test(path)
+  ? path
+  : `${process.env.PUBLIC_URL}/${path.replace(/^\/+/, '')}`;
+
+export const requireApiConfiguration = () => {
+  if (!apiBaseUrl) {
+    throw new Error('The demo backend is not connected. API features are unavailable.');
+  }
+};
 const serverUrl = apiBaseUrl.replace(/\/+$/, "");
 
 export const Config = {
 
   secretPass: "replace-with-local-demo-secret-pass",
   serverUrl: serverUrl,
+  apiConfigured: Boolean(apiBaseUrl),
 
   serverApiUrl: `${serverUrl}/api/`,
   serverUrlImages: `${serverUrl}/public/images/`,
@@ -23,7 +35,7 @@ export const Config = {
   currency_symbol: "DKK",
   currency: "Kr.",
 
-  appName: "MAD - My AI Doctor",
+  appName: "Madai",
 
   pushTokenName: 'device-push-token',
 
