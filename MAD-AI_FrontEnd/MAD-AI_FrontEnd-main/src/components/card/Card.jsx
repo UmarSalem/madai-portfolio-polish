@@ -9,7 +9,7 @@ const Card = () => {
         <section>
           <div className='card-one'>
             <h1 className='heading'>+2.700</h1>
-            <p className='text'>Satisfied Patients</p>
+            <p className='text'>Fictional Patients</p>
           </div>
         </section>
 
@@ -18,7 +18,7 @@ const Card = () => {
         <section>
           <div className='card-one'>
             <h1 className='heading'>+980</h1>
-            <p className='text'>Expert Available</p>
+            <p className='text'>Fictional Experts</p>
           </div>
         </section>
 
@@ -27,7 +27,7 @@ const Card = () => {
         <section>
           <div className='card-one'>
             <h1 className='heading'>+10</h1>
-            <p className='text'>Years or Expertise</p>
+            <p className='text'>Illustrative Years</p>
           </div>
         </section>
 

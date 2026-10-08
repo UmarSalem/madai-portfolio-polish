@@ -6,6 +6,7 @@ import '@testing-library/jest-dom';
 jest.mock('../components/layout/Navbar', () => () => <div data-testid="navbar" />);
 
 jest.mock('../constant', () => ({
+  ...jest.requireActual('../constant'),
   Config: {
     serverUrl: 'http://localhost:3002'
   }

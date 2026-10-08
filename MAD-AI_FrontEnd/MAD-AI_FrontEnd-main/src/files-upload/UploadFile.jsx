@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import React from 'react';
 import '../files-upload/UploadFileStyle.css';
 
@@ -6,7 +7,7 @@ const UploadFile = () => {
     <div>
 
       <section>
-        <a id='a-tag' href="/">{'< Back'}</a>
+        <Link id='a-tag' to="/">{'< Back'}</Link>
         <div className='main-upload-div'>
           <div className='upload-file'>
             <i className="ri-upload-cloud-fill"></i>

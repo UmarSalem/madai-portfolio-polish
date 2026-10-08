@@ -123,20 +123,16 @@ Detailed full-stack notes are in [docs/fullstack](docs/fullstack/). They connect
 
 ## CI/CD Status
 
-Basic GitHub Actions build checks are configured for the frontend and backend. These checks validate builds on pull requests and pushes to `develop` and `main`, but they do not deploy anything yet. See [CI/CD](docs/ci-cd.md).
+Basic GitHub Actions build checks are configured for the frontend and backend. These checks validate builds on pull requests and pushes to `develop` and `main`, with frontend tests included. The frontend Pages deployment is prepared and awaits publishing review/settings. See [CI/CD](docs/ci-cd.md).
 
 ## Frontend Deployment Readiness
 
-The React frontend is configured for a later static preview deployment, with
-Vercel recommended for the current `BrowserRouter` setup. Netlify and Cloudflare
-Pages fallback configuration is also included. No deployment is automated yet,
-and API-backed features require a safe backend URL and reviewed CORS settings.
-See [Frontend Static Deployment](docs/frontend-deployment.md).
-
-The selected first preview method is a manual `npx vercel deploy` command from
-the frontend folder. The existing GitHub Actions manual trigger performs CI only
-and does not publish the site. Do not use `--prod` or connect a backend until the
-preview safety checklist has been completed.
+Frontend URL: https://umarsalem.github.io/madai-portfolio-polish/
+Availability depends on the latest successful GitHub Pages deployment.
+The existing frontend workflow validates build and tests, then publishes only
+successful develop pushes/manual develop runs with GitHub Pages configured to use GitHub Actions. Hash routes support direct entry and refresh under the repository
+subpath. No backend is deployed; the frontend clearly labels disconnected API
+features and incomplete AI/report chat. See [Frontend deployment](docs/frontend-deployment.md).
 
 ## Backend Deployment Readiness
 
@@ -177,7 +173,7 @@ Backend tests must not call real AI providers, Google APIs, production databases
 - Secrets and private-looking demo data must continue to be checked before public release.
 - SQLite database, upload artifacts, and generated build outputs must remain out of Git.
 - Tests are limited and should be expanded after each feature contract is stabilized.
-- Frontend tests need verification in a Node/npm environment before they become required CI checks.
+- Frontend tests run in CI; mocked tests do not prove end-to-end feature completion.
 - The backend Dockerfile is Linux/Render compatible, but a manual preview and
   remaining API safety blockers still need verification.
 

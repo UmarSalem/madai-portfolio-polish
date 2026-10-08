@@ -48,7 +48,7 @@ const Navbar = () => {
       <header>
         <div className="main-navbars-div">
           <div className="logo">
-            <img id="logoOne" src={"/logoOne.png"} alt="Madai logo" />
+            <img id="logoOne" src={`${process.env.PUBLIC_URL}/logoOne.png`} alt="Madai logo" />
           </div>
           <nav className="nav-bar">
             <ul>

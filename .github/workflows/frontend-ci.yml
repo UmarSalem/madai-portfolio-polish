@@ -1,43 +1,80 @@
-name: Madai Frontend CI
+name: Madai Frontend CI and Pages
 
 on:
   pull_request:
-    branches:
-      - develop
-      - main
+    branches: [develop, main]
   push:
-    branches:
-      - develop
-      - main
+    branches: ['**']
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CI: true
+  PUBLIC_URL: /madai-portfolio-polish
+  REACT_APP_ROUTER_MODE: hash
+  REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL }}
 
 jobs:
   build:
-    name: Build React frontend
+    name: Build and test React frontend
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup Node.js LTS
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
           cache: npm
           cache-dependency-path: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/package-lock.json
-
       - name: Install dependencies
         run: npm ci
-
+      - name: Validate public API configuration
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const value = process.env.REACT_APP_API_BASE_URL;
+          if (value) {
+            const url = new URL(value);
+            if (url.protocol !== 'https:' || url.username || url.password || url.hostname === 'localhost' || url.hostname.endsWith('.localhost') || url.hostname === '127.0.0.1' || url.hostname === '[::1]') {
+              throw new Error('Use a public HTTPS backend URL without credentials.');
+            }
+          } else {
+            console.log('No backend configured: clearly labelled disconnected portfolio frontend.');
+          }
+          NODE
       - name: Build frontend
         run: npm run build
-
       - name: Run frontend tests
-        env:
-          CI: true
         run: npm test -- --watchAll=false --runInBand
+      - name: Upload validated Pages artifact
+        if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: MAD-AI_FrontEnd/MAD-AI_FrontEnd-main/build
+
+  deploy:
+    name: Deploy frontend to GitHub Pages
+    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: madai-github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy validated frontend artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

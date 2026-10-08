@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './RecommendationStyle.css';
 import Navbar from '../components/layout/Navbar';
 
-import { Config } from '../constant';
+import { Config, requireApiConfiguration } from '../constant';
 
 function Recommendation() {
   const [disease, setDisease] = useState('');
@@ -24,6 +24,7 @@ function Recommendation() {
     setHasSearched(true);
     try {
       // Fetch all data first without parameters
+      requireApiConfiguration();
       const response = await fetch(`${Config.serverUrl}/recommendation`);
       if (!response.ok) {
         throw new Error('Unable to load demo recommendations.');
