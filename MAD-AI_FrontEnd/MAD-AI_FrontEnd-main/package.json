@@ -35,8 +35,15 @@
       "!src/**/*.d.ts"
     ],
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
-    }
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^axios$": "<rootDir>/node_modules/axios/dist/browser/axios.cjs",
+      "^react-router-dom$": "<rootDir>/node_modules/react-router-dom/dist/index.js",
+      "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js"
+    },
+    "testMatch": [
+      "**/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "**/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ]
   },
   "browserslist": {
     "production": [
@@ -56,9 +63,9 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "axios": "^1.9.0",
-    "babel-jest": "^29.7.0",
+    "babel-jest": "^27.5.1",
     "jest": "^27.5.1",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-jsdom": "^27.5.1",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^26.1.0",
     "jsdom-global": "^3.0.2",

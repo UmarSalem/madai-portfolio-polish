@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Recommendation from './Recommendation';
 import '@testing-library/jest-dom';
 
@@ -64,7 +64,7 @@ describe('Recommendation Component', () => {
     expect(screen.getByText(/enter a demo condition or city to search/i)).toBeInTheDocument();
   });
 
-  test('accepts a demo city search', () => {
+  test('accepts a demo city search', async () => {
     render(<Recommendation />);
 
     fireEvent.change(screen.getByLabelText(/demo city\/location:/i), {
@@ -73,9 +73,13 @@ describe('Recommendation Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     expect(global.fetch).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(screen.getByText('Demo Care Clinic')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /search/i })).toBeEnabled();
+    });
   });
 
-  test('accepts a demo disease search', () => {
+  test('accepts a demo disease search', async () => {
     render(<Recommendation />);
 
     fireEvent.change(screen.getByLabelText(/demo condition:/i), {
@@ -84,6 +88,10 @@ describe('Recommendation Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     expect(global.fetch).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(screen.getByText('Demo Care Clinic')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /search/i })).toBeEnabled();
+    });
   });
 
   test('does not submit when no search criteria are entered', () => {
