@@ -30,6 +30,9 @@ const ReactRoute = () => {
     
       <Routes>
        <Route path={ROUTE.Home} element={<Home/>}/>
+       <Route path={ROUTE.Demo} element={<SymptomChecker key="demo-symptoms" demo/>}/>
+       <Route path={ROUTE.DemoDoctors} element={<DoctorSearch key="demo-doctors" demo/>}/>
+       <Route path={ROUTE.DemoReports} element={<MedicalHistory key="demo-reports" demo/>}/>
        <Route path={ROUTE.Register} element={<Register/>}/>
        <Route path={ROUTE.Login} element={<Login/>}/>
        <Route path={ROUTE.BlogDetail} element={<BlogDetail />} />

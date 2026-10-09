@@ -4,6 +4,8 @@ import './SymptomChecker.css';
 import Navbar from '../components/layout/Navbar';
 import { Link } from 'react-router';
 import { ROUTE } from '../routes/ReactLinks';
+import DemoNavigation from '../demo/DemoNavigation';
+import { demoScenarios } from '../demo/seedData';
 
 const normalizeList = (value) => {
   if (Array.isArray(value)) return value.filter(Boolean);
@@ -23,7 +25,9 @@ const normalizeDiagnosis = (diagnosis, patientName, symptomsText) => ({
   date: new Date().toLocaleString(),
 });
 
-function SymptomChecker() {
+function SymptomChecker({ demo = false }) {
+  const [scenarioId, setScenarioId] = useState(demoScenarios[0].id);
+  const scenario = demoScenarios.find(item => item.id === scenarioId) || demoScenarios[0];
   const [symptoms, setSymptoms] = useState('');
   const [patient, setPatient] = useState('');
   const [result, setResult] = useState(null);
@@ -34,6 +38,11 @@ function SymptomChecker() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (demo) {
+      setResult(normalizeDiagnosis(scenario.guidance, scenario.patient, scenario.text));
+      return;
+    }
 
     const patientName = patient.trim();
     const symptomsText = symptoms.trim();
@@ -71,25 +80,32 @@ function SymptomChecker() {
   };
 
   return (
-    <div>
-      <Navbar />
+    <div className={demo ? 'demo-screen' : undefined}>
+      {demo ? <DemoNavigation /> : <Navbar />}
       <div className="symptom-checker-pro">
         <div className="sc-card sc-form-card">
-          <h2>AI Doctor — Symptom Checker</h2>
+          <h2>{demo ? 'Symptom examples — simulated guidance' : 'AI Doctor — Symptom Checker'}</h2>
           <p className="sc-disclaimer">
             This is an educational demo and not medical advice. Do not use it for diagnosis or emergencies. Do not enter real patient data or private health information.
           </p>
           <nav className="sc-actions" aria-label="Other demo actions">
-            <Link to={ROUTE.DoctorSearch}>Doctor search</Link>
-            <Link to={ROUTE.MedicalHistory}>Report upload &amp; history</Link>
+            <Link to={demo ? ROUTE.DemoDoctors : ROUTE.DoctorSearch}>Doctor search</Link>
+            <Link to={demo ? ROUTE.DemoReports : ROUTE.MedicalHistory}>{demo ? 'Sample reports' : 'Report upload & history'}</Link>
           </nav>
           <form onSubmit={handleSubmit}>
+            {demo && <div className="sc-form-group">
+              <label htmlFor="demo-scenario">Fictional scenario</label>
+              <select id="demo-scenario" value={scenarioId} onChange={e => { setScenarioId(e.target.value); setResult(null); }}>
+                {demoScenarios.map(item => <option key={item.id} value={item.id}>{item.text}</option>)}
+              </select>
+            </div>}
             <div className="sc-form-group">
               <label htmlFor="symptom-patient">Demo Patient Name</label>
               <input
                 id="symptom-patient"
                 type="text"
-                value={patient}
+                value={demo ? scenario.patient : patient}
+                readOnly={demo}
                 onChange={e => setPatient(e.target.value)}
                 placeholder="e.g. Demo Patient"
                 disabled={loading}
@@ -100,7 +116,8 @@ function SymptomChecker() {
               <label htmlFor="symptom-text">Demo Symptoms or Health Question</label>
               <textarea
                 id="symptom-text"
-                value={symptoms}
+                value={demo ? scenario.text : symptoms}
+                readOnly={demo}
                 onChange={e => setSymptoms(e.target.value)}
                 placeholder="Fictional example: What could a demo headache and mild tiredness mean?"
                 disabled={loading}
@@ -115,7 +132,7 @@ function SymptomChecker() {
                   <span className="spinner"></span>
                   Checking...
                 </>
-              ) : 'Submit Demo Symptoms or Question'}
+              ) : demo ? 'Show simulated guidance' : 'Submit Demo Symptoms or Question'}
             </button>
           </form>
         </div>
@@ -123,13 +140,13 @@ function SymptomChecker() {
         {!result && !loading && (
           <div className="sc-card sc-empty-card">
             <h3>No demo result yet</h3>
-            <p>Submit fictional symptoms to see the backend response format.</p>
+            <p>{demo ? 'Choose a fictional scenario to see a prewritten response.' : 'Submit fictional symptoms to see the backend response format.'}</p>
           </div>
         )}
 
         {result && (
           <div className="sc-card sc-result-card">
-            <h2>Demo Result</h2>
+            <h2>{demo ? 'Simulated result — not live AI' : 'Demo Result'}</h2>
             <div className="sc-result-grid">
               <div>
                 <strong>Demo patient:</strong> {result.patientName}
@@ -158,7 +175,7 @@ function SymptomChecker() {
                 )}
               </div>
               <div>
-                <strong>Backend summary:</strong>
+                <strong>{demo ? 'Prewritten sample guidance:' : 'Backend summary:'}</strong>
                 <div className="sc-advice">{result.advice}</div>
               </div>
               <div>

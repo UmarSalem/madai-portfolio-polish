@@ -1,5 +1,8 @@
 export const ROUTE= {
  Home: '/',
+ Demo: '/demo',
+ DemoDoctors: '/demo/doctors',
+ DemoReports: '/demo/reports',
  Login: '/login',
  Register: '/register',
  AiDoctor: '/doctor',
