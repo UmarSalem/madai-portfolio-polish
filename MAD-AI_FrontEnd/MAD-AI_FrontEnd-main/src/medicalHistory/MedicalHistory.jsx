@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './MedicalHistoryStyle.css';
 import Navbar from '../components/layout/Navbar';
 import { getMyMedicalReports, uploadMedicalReport } from '../api/features';
+import DemoNavigation from '../demo/DemoNavigation';
+import { demoReports } from '../demo/seedData';
 
 const MAX_REPORT_SIZE_BYTES = 2 * 1024 * 1024;
 
@@ -21,7 +23,7 @@ const normalizeReport = (report) => ({
   isDemo: report?.isDemo !== false,
 });
 
-function MedicalHistory() {
+function MedicalHistory({ demo = false }) {
   const [patientName, setPatientName] = useState('Demo Patient');
   const [file, setFile] = useState(null);
   const [reports, setReports] = useState([]);
@@ -31,7 +33,11 @@ function MedicalHistory() {
   const [success, setSuccess] = useState('');
   const fileInputRef = useRef(null);
 
-  const loadReports = async () => {
+  const loadReports = useCallback(async () => {
+    if (demo) {
+      setReports(demoReports.map(normalizeReport));
+      return;
+    }
     setLoading(true);
     setError('');
 
@@ -50,11 +56,11 @@ function MedicalHistory() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [demo]);
 
   useEffect(() => {
     loadReports();
-  }, []);
+  }, [loadReports]);
 
   const handleFileChange = (event) => {
     setError('');
@@ -64,6 +70,7 @@ function MedicalHistory() {
 
   const handleUpload = async (event) => {
     event.preventDefault();
+    if (demo) return;
     setError('');
     setSuccess('');
 
@@ -122,16 +129,16 @@ function MedicalHistory() {
   };
 
   return (
-    <section>
-      <Navbar />
+    <section className={demo ? 'demo-screen' : undefined}>
+      {demo ? <DemoNavigation /> : <Navbar />}
       <div className="medical-history-page">
         <div className="medical-report-panel">
-          <h1>Medical Report Demo</h1>
+          <h1>{demo ? 'Sample report layout' : 'Medical Report Demo'}</h1>
           <p className="report-safety-warning">
             Educational demo only. Do not upload real medical reports or private health information.
           </p>
 
-          <form className="medical-report-form" onSubmit={handleUpload}>
+          {demo ? <p>File upload is unavailable in frontend demo mode. No file is selected, uploaded or analysed. The fictional report below is seeded sample text; report analysis and follow-up chat remain incomplete.</p> : <form className="medical-report-form" onSubmit={handleUpload}>
             <div className="medical-report-field">
               <label htmlFor="report-patient-name">Demo Patient Name</label>
               <input
@@ -163,7 +170,7 @@ function MedicalHistory() {
             <button type="submit" className="medical-report-button" disabled={uploading}>
               {uploading ? 'Uploading...' : 'Upload Demo Report'}
             </button>
-          </form>
+          </form>}
         </div>
 
         <div className="medical-report-history">
@@ -184,10 +191,10 @@ function MedicalHistory() {
                     {report.isDemo && <span>Demo</span>}
                   </div>
                   <p><strong>Patient:</strong> {report.patientName}</p>
-                  <p><strong>Uploaded:</strong> {report.dateUploaded}</p>
+                  <p><strong>{demo ? 'Fictional sample date:' : 'Uploaded:'}</strong> {report.dateUploaded}</p>
                   <p><strong>Download:</strong> {report.downloadAvailable ? 'Available' : 'Disabled for safe demo'}</p>
                   <div className="medical-report-summary">
-                    <strong>Analysis summary:</strong>
+                    <strong>{demo ? 'Simulated explanation — not analysed:' : 'Analysis summary:'}</strong>
                     <p>{report.summary}</p>
                   </div>
                   {report.nextSteps.length > 0 && (

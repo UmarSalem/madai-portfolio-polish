@@ -13,6 +13,7 @@ test('renders the Madai home route', async () => {
   render(<App />);
 
   expect(screen.getByText(/welcome to madai/i)).toBeInTheDocument();
-  expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Login', exact: true })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Explore frontend demo — no login' }).getAttribute('href')).toMatch(/^#?\/demo$/);
   expect(await screen.findByText(/no demo blog posts are available right now/i)).toBeInTheDocument();
 });

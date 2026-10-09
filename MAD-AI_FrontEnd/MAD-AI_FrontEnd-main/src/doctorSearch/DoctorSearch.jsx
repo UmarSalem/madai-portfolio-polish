@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Navbar from '../components/layout/Navbar';
 import './DoctorSearchStyle.css';
 import { searchDoctors } from '../api/features';
+import DemoNavigation from '../demo/DemoNavigation';
+import { demoDoctors } from '../demo/seedData';
 
 const normalizeDoctor = (doctor, index) => ({
   id: doctor?.id || doctor?.placeId || `${doctor?.name || 'doctor'}-${index}`,
@@ -16,9 +18,9 @@ const normalizeDoctor = (doctor, index) => ({
   isDemo: Boolean(doctor?.isDemo),
 });
 
-function DoctorSearch() {
-  const [location, setLocation] = useState('');
-  const [specialty, setSpecialty] = useState('');
+function DoctorSearch({ demo = false }) {
+  const [location, setLocation] = useState(demo ? 'Demo City' : '');
+  const [specialty, setSpecialty] = useState(demo ? 'General practice' : '');
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -27,6 +29,12 @@ function DoctorSearch() {
   const handleSearch = async (event) => {
     event.preventDefault();
     setError('');
+
+    if (demo) {
+      setHasSearched(true);
+      setDoctors(demoDoctors.filter(doctor => doctor.specialty === specialty).map(normalizeDoctor));
+      return;
+    }
 
     const trimmedLocation = location.trim();
     const trimmedSpecialty = specialty.trim();
@@ -62,13 +70,13 @@ function DoctorSearch() {
   };
 
   return (
-    <section>
-      <Navbar />
+    <section className={demo ? 'demo-screen' : undefined}>
+      {demo ? <DemoNavigation /> : <Navbar />}
       <div className="doctor-search-page">
         <div className="doctor-search-panel">
-          <h1>Find Doctor</h1>
+          <h1>{demo ? 'Fictional doctor directory' : 'Find Doctor'}</h1>
           <p className="doctor-search-note">
-            Use demo search terms only. Live results require a Google Places key configured outside Git; otherwise Madai shows fictional demo doctors.
+            {demo ? 'Simulated search of fictional clinics in Demo City. These are not real doctors, ratings or booking options.' : 'Use demo search terms only. Live results require a Google Places key configured outside Git; otherwise Madai shows fictional demo doctors.'}
           </p>
 
           <form className="doctor-search-form" onSubmit={handleSearch}>
@@ -77,6 +85,7 @@ function DoctorSearch() {
               <input
                 id="location-input"
                 value={location}
+                readOnly={demo}
                 onChange={(e) => setLocation(e.target.value)}
                 type="text"
                 placeholder="e.g. Demo City"
@@ -86,20 +95,24 @@ function DoctorSearch() {
 
             <div className="doctor-form-group">
               <label htmlFor="specialty-input">Specialty</label>
-              <input
+              {demo ? <select id="specialty-input" value={specialty} onChange={e => { setSpecialty(e.target.value); setDoctors([]); setHasSearched(false); }}>
+                <option>General practice</option>
+                <option>Cardiology</option>
+                <option>Dermatology</option>
+              </select> : <input
                 id="specialty-input"
                 value={specialty}
                 onChange={(e) => setSpecialty(e.target.value)}
                 type="text"
                 placeholder="e.g. Cardiology"
                 disabled={loading}
-              />
+              />}
             </div>
 
             {error && <p className="doctor-search-error">{error}</p>}
 
             <button type="submit" className="doctor-search-button" disabled={loading}>
-              {loading ? 'Searching...' : 'Search Demo Doctors'}
+              {loading ? 'Searching...' : demo ? 'Show fictional doctors' : 'Search Demo Doctors'}
             </button>
           </form>
         </div>

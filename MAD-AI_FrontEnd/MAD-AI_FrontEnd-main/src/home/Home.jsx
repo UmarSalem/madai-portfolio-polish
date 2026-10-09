@@ -7,6 +7,9 @@ import "./HomeStyle.css";
 import Navbar from "../components/layout/Navbar";
 import { Config, requireApiConfiguration } from "../constant";
 import axios from "axios";
+import { Link } from 'react-router';
+import { ROUTE } from '../routes/ReactLinks';
+import '../demo/DemoStyle.css';
 
 const Home = () => {
  
@@ -48,6 +51,7 @@ const Home = () => {
                   doctor search, and report upload flows.
                 </p>
                 <div className="new-buttons-div">
+                  <Link className="demo-entry" to={ROUTE.Demo}>Explore frontend demo — no login</Link>
                   <Button button={"ABOUT US"} navigate={"/about"} />
                   <Button button={"CONTACT US"} navigate={"/contact"} />
                 </div>

@@ -45,8 +45,8 @@ const About = () => {
 
           {/* Call to Action */}
           <section className="cta-section">
-            <Link to="/doctor" className="cta-button">
-              Explore the Demo
+            <Link to="/demo" className="cta-button">
+              Explore frontend demo — no login
             </Link>
           </section>
         </main>
