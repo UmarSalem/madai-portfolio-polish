@@ -101,7 +101,7 @@ textarea {
 /* Main container */
 .symptom-checker-pro {
   max-width: 700px;
-  margin: 40px auto;
+  margin: 104px auto 40px;
   padding: 0 1rem;
 }
 
@@ -257,4 +257,22 @@ textarea {
   color: #333;
   flex: 1;
   font-style: italic;
+}
+
+.sc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.sc-actions a {
+  color: #006653;
+  text-decoration: underline;
+  padding: 0.5rem 0;
+}
+
+.sc-actions a:focus-visible {
+  outline: 2px solid #006653;
+  outline-offset: 4px;
 }

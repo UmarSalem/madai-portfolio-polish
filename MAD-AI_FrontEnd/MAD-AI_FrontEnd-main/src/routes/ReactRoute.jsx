@@ -5,7 +5,6 @@ import Register from '../register/Register';
 import Login from '../login/Login';
 import About from '../about/About';
 import Home from '../home/Home';
-import AIDoctor from '../aidoctor/AIDoctor';
 import Contact from '../contact/Contact';
 import Record from '../todo/Record';
 import Recommendation from '../recommendation/Recommendation';
@@ -35,7 +34,7 @@ const ReactRoute = () => {
        <Route path={ROUTE.Login} element={<Login/>}/>
        <Route path={ROUTE.BlogDetail} element={<BlogDetail />} />
        <Route path={ROUTE.About} element={<About/>}/>
-       <Route path={ROUTE.AiDoctor} element={<ProtectedRoute><AIDoctor/></ProtectedRoute>}/>
+       <Route path={ROUTE.AiDoctor} element={<ProtectedRoute><SymptomChecker/></ProtectedRoute>}/>
        <Route path={ROUTE.Contact} element={<Contact/>}/>
        <Route path={ROUTE.Record} element={<Record/>}/>
        <Route path={ROUTE.Recommendation} element={<Recommendation/>}/>

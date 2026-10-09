@@ -117,7 +117,7 @@ const Navbar = () => {
                         to={ROUTE.DoctorSearch}
                         onClick={() => setIsOpen(false)}
                       >
-                        <i className="ri-survey-line"></i> Find Best Doctor
+                        <i className="ri-survey-line"></i> Doctor search
                       </Link>
                       
                       {/* <Link to="/doctor" onClick={() => setIsOpen(false)}>
@@ -129,7 +129,7 @@ const Navbar = () => {
                         onClick={() => setIsOpen(false)}
                       >
                         <i className="ri-medicine-bottle-line"></i>{" "}
-                        Medical History
+                        Report upload & history
                       </Link>
 
                       {/* <Link to="/record" onClick={() => setIsOpen(false)}>

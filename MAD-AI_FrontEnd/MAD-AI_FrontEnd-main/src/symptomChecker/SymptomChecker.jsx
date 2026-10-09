@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { checkSymptoms } from '../api/features';
 import './SymptomChecker.css';
 import Navbar from '../components/layout/Navbar';
+import { Link } from 'react-router';
+import { ROUTE } from '../routes/ReactLinks';
 
 const normalizeList = (value) => {
   if (Array.isArray(value)) return value.filter(Boolean);
@@ -73,10 +75,14 @@ function SymptomChecker() {
       <Navbar />
       <div className="symptom-checker-pro">
         <div className="sc-card sc-form-card">
-          <h2>Symptom Checker</h2>
+          <h2>AI Doctor — Symptom Checker</h2>
           <p className="sc-disclaimer">
             This is an educational demo and not medical advice. Do not use it for diagnosis or emergencies. Do not enter real patient data or private health information.
           </p>
+          <nav className="sc-actions" aria-label="Other demo actions">
+            <Link to={ROUTE.DoctorSearch}>Doctor search</Link>
+            <Link to={ROUTE.MedicalHistory}>Report upload &amp; history</Link>
+          </nav>
           <form onSubmit={handleSubmit}>
             <div className="sc-form-group">
               <label htmlFor="symptom-patient">Demo Patient Name</label>
@@ -91,25 +97,25 @@ function SymptomChecker() {
               />
             </div>
             <div className="sc-form-group">
-              <label htmlFor="symptom-text">Demo Symptoms</label>
+              <label htmlFor="symptom-text">Demo Symptoms or Health Question</label>
               <textarea
                 id="symptom-text"
                 value={symptoms}
                 onChange={e => setSymptoms(e.target.value)}
-                placeholder="Use fictional symptoms only, e.g. demo headache and mild tiredness"
+                placeholder="Fictional example: What could a demo headache and mild tiredness mean?"
                 disabled={loading}
                 required
                 rows={4}
               />
             </div>
-            {error && <p className="sc-error">{error}</p>}
+            {error && <p className="sc-error" role="alert">{error}</p>}
             <button type="submit" className="sc-btn" disabled={loading}>
               {loading ? (
                 <>
                   <span className="spinner"></span>
                   Checking...
                 </>
-              ) : 'Check Demo Symptoms'}
+              ) : 'Submit Demo Symptoms or Question'}
             </button>
           </form>
         </div>
