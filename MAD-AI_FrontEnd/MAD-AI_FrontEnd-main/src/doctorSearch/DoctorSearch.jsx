@@ -4,6 +4,8 @@ import './DoctorSearchStyle.css';
 import { searchDoctors } from '../api/features';
 import DemoNavigation from '../demo/DemoNavigation';
 import { demoDoctors } from '../demo/seedData';
+import { Link, useLocation } from 'react-router';
+import { ROUTE } from '../routes/ReactLinks';
 
 const normalizeDoctor = (doctor, index) => ({
   id: doctor?.id || doctor?.placeId || `${doctor?.name || 'doctor'}-${index}`,
@@ -19,6 +21,7 @@ const normalizeDoctor = (doctor, index) => ({
 });
 
 function DoctorSearch({ demo = false }) {
+  const navigation = useLocation();
   const [location, setLocation] = useState(demo ? 'Demo City' : '');
   const [specialty, setSpecialty] = useState(demo ? 'General practice' : '');
   const [doctors, setDoctors] = useState([]);
@@ -78,6 +81,8 @@ function DoctorSearch({ demo = false }) {
           <p className="doctor-search-note">
             {demo ? 'Simulated search of fictional clinics in Demo City. These are not real doctors, ratings or booking options.' : 'Use demo search terms only. Live results require a Google Places key configured outside Git; otherwise Madai shows fictional demo doctors.'}
           </p>
+          {!demo && navigation.state?.fromGuidance && <p role="status">Guidance did not specify a specialty. Choose a specialty and location to search; both are editable.</p>}
+          {!demo && <p><Link to={ROUTE.MedicalHistory}>Report upload &amp; history</Link></p>}
 
           <form className="doctor-search-form" onSubmit={handleSearch}>
             <div className="doctor-form-group">
@@ -109,7 +114,7 @@ function DoctorSearch({ demo = false }) {
               />}
             </div>
 
-            {error && <p className="doctor-search-error">{error}</p>}
+            {error && <p className="doctor-search-error" role="alert">{error}</p>}
 
             <button type="submit" className="doctor-search-button" disabled={loading}>
               {loading ? 'Searching...' : demo ? 'Show fictional doctors' : 'Search Demo Doctors'}
@@ -119,12 +124,13 @@ function DoctorSearch({ demo = false }) {
 
         <div className="doctor-results-section">
           <h2>Results</h2>
+          {doctors.some(doctor => doctor.isDemo) && <p className="doctor-search-note" role="status">Fictional fallback listings — not live doctor search results. Clinic names, addresses and ratings are invented; these listings do not arrange appointments.</p>}
 
           {!hasSearched && !loading && (
             <p className="doctor-empty-state">Enter a demo location and specialty to search.</p>
           )}
 
-          {loading && <p className="doctor-empty-state">Loading doctors...</p>}
+          {loading && <p className="doctor-empty-state" role="status">Loading doctors...</p>}
 
           {hasSearched && !loading && !error && doctors.length === 0 && (
             <p className="doctor-empty-state">No doctors found for those demo search terms.</p>
@@ -136,7 +142,7 @@ function DoctorSearch({ demo = false }) {
                 <article key={doctor.id} className="doctor-result-card">
                   <div className="doctor-card-header">
                     <h3>{doctor.name}</h3>
-                    {doctor.isDemo && <span className="doctor-demo-badge">Demo</span>}
+                    {doctor.isDemo && <span className="doctor-demo-badge">Fictional</span>}
                   </div>
                   <p><strong>Address:</strong> {doctor.address}</p>
                   <p><strong>Location:</strong> {doctor.location}</p>
@@ -148,7 +154,7 @@ function DoctorSearch({ demo = false }) {
                   <p><strong>Phone:</strong> {doctor.phoneNumber}</p>
                   <p>
                     <strong>Website:</strong>{' '}
-                    {doctor.website ? (
+                    {doctor.website && !doctor.isDemo ? (
                       <a href={doctor.website} target="_blank" rel="noopener noreferrer">
                         Visit
                       </a>

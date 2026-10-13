@@ -81,9 +81,13 @@ namespace MADAI_BACKEND.Services
                                           .GetProperty("content")
                                           .GetString() ?? string.Empty;
 
+                if (string.IsNullOrWhiteSpace(summaryText))
+                    return CreateDemoFallbackResult();
+
                 return new AnalysisResultDTO
                 {
                     Summary = summaryText,
+                    IsDemo = false,
                     SuggestedConditions = Array.Empty<string>(),
                     NextSteps = new[]
                     {
@@ -112,6 +116,7 @@ namespace MADAI_BACKEND.Services
             return new AnalysisResultDTO
             {
                 Summary = "Demo symptom checker response only. This is not medical advice and must not be used for diagnosis or emergencies.",
+                IsDemo = true,
                 SuggestedConditions = new[]
                 {
                     "Demo-only possible condition",
