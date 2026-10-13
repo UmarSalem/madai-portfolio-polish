@@ -1,12 +1,40 @@
 # Madai — local symptom guidance to doctor search
 
-## Current task — 2026-10-09
+## Review — 2026-10-13
+
+Ready for Umar's review: yes, no blocking functional finding in the requested local fallback flow. The feature was already committed/pushed before this review; PR https://github.com/UmarSalem/madai-portfolio-polish/pull/23 remains open. This review changes only the learning note, not application code or history. Umar subsequently authorized committing/pushing this note to the existing PR; Umar will review and close the PR himself.
+
+Reviewed README, repository review instructions, feature diff against origin/develop and relevant API clients, controllers/services, JWT setup, routes/guards and focused tests. No applicable AGENTS.md found. Eight feature files remain narrowly scoped: two screens, DTO/service provenance, three test files and this note. No changed secrets/config/databases/dependencies or real health records. Existing auth client adds the bearer token; .NET validates it. No symptom text is passed in navigation. No provider/medical efficacy claim is established by these checks.
+
+Implemented behavior: intake POSTs to the existing authenticated endpoint; true/false/null provenance means static fallback/provider output/unknown. Historical retrieval leaves isDemo null, and the guidance UI's unknown-source branch does not claim live AI. Guidance handoff contains only fromGuidance, with blank editable real search fields. Report links, hash router, guards and public fixed-seed demo are preserved.
+
+Reused evidence: production build, 10 frontend suites/40 tests and Release backend build (zero warnings/errors)/17 tests from 2026-10-09. Reused actual built React -> .NET -> isolated SQLite success journey, report navigation, logout guards and no-login demo. No npm ci or full-suite repeat; no application change requiring a new build. Both GitHub workflows for 9a1af35 are now completed/success (frontend run 38374385413, backend 38374385479); this review made no remote mutation.
+
+Focused mocked verification repeated:
+- From frontend, CI=true, REACT_APP_ROUTER_MODE=hash, existing npm CLI: test -- --watchAll=false --runInBand --runTestsByPath src/routes/GuidanceJourney.test.jsx src/symptomChecker/SymptomChecker.test.jsx. PASS: 2 suites/13 tests. Axios is mocked; validates empty guidance failure, empty doctor array, auth errors, retained inputs/retry and safe handoff.
+- From backend, dotnet test MADAI-BACKEND.sln --configuration Release --no-build --filter FullyQualifiedName~SymptomGuidanceTests. PASS: 6 tests. HTTP provider handler is stubbed, EF InMemory; verifies provider 503/malformed/empty-summary fallbacks, explicit source flags and historical null. Not live-provider verification.
+
+New real local HTTP verification (temporary .worktrees/core-flow-runtime/review-api.ps1 outside feature files): used existing isolated fictional SQLite and documented providers-disabled settings. Repeated signup/signin, POST persistence/fallback, two fictional doctors, anonymous 401, invalid symptom 400 and CORS smoke checks. Generated a correctly signed JWT expired 15 minutes ago with the ephemeral local signing key kept in process memory. Symptom POST, history GET and doctor GET all returned 401; no expired entry persisted. Authenticated historical response had isDemo null. Whitespace doctor terms returned 400. All PASS; no key/token output or paid calls.
+
+New built-React browser verification (real local API, no Axios mocking): temporarily configured Jwt__ExpiryInMinutes=-15, signed in using the documented isolated fictional Patient, then submitted fictional intake and doctor search. Both displayed login-required errors, retained editable input, and showed no successful guidance/doctors. Stopped the API and retried both screens: both displayed retryable unable-to-request errors and retained fictional inputs. The frontend guard deliberately remains a token-presence guard; an expired token is rejected by .NET, with no automatic session clearing/redirect added. Users can log out and sign in again with normal expiry.
+
+Verification limits: disabled providers always return two fictional doctors and nonempty static guidance. A real provider returning zero doctors, provider network failure, HTTP 500 response rendering and malformed doctor-response shape have not been exercised end-to-end. Empty-result UI and symptom-provider failure/empty-summary paths above are mocked/stubbed coverage only. Historical null was verified over real HTTP; its UI label branch was exercised in mocked tests. No mobile/accessibility audit, report file upload/analysis, live providers or backend deployment. Historical provenance is not persisted; 106 existing dependency vulnerabilities remain. Temporary review API/preview processes were stopped; other worktrees and the original progress audit were preserved.
+
+Final git diff --check passed. Only this learning note changed after the existing feature commit.
+
+Suggested commit message if Umar later commits further reviewed changes: feat: complete local symptom guidance and doctor search flow. Do not rename/rewrite the already pushed commit solely to match this wording.
+
+Draft PR description:
+The previous authenticated journey returned guidance without a result-level doctor-search action or source labels. Connect existing React/.NET intake to labelled guidance and editable doctor search without health text in URLs or route state; retain report access, auth guards, hash routing and the public fictional demo. Label static fallback and invented clinics, and treat historical provenance as unknown.
+Validation: existing production/Release builds, 40 frontend/17 backend tests and successful real local React/API/SQLite journey; review repeats 13 focused UI tests and 6 focused backend tests, plus actual expired-JWT rejection, historical null, validation and browser API-unavailable errors. git diff --check passed; existing PR frontend/backend CI both successful.
+Limits: paid/live providers, real provider empty results/500 responses, report analysis and backend deployment remain unverified/deferred. Existing dependency vulnerabilities and historical provenance persistence remain outside scope. Fictional data only.
+
+## Implementation evidence — 2026-10-09
 
 Branch: `feature/core-ai-doctor-and-doctor-search-flow`.
 Worktree: `C:/Users/admin/source/repos/.Net_Project/MAD-AI-core-navigation`.
 Base: current develop, `60d7651520201290c39c39d22e0d27ab509fa0be`.
-Status: uncommitted local changes only. No commit, push, PR creation, merge or
-deployment is authorized for this task. No parallel agents were used.
+Status: committed and pushed as 9a1af350e5d0211ec7ed7cc2b0bf3a152c9167bf on 2026-10-13 after Umar authorized the push. PR #23 is open into develop. Umar authorized the documentation commit/push after review. Merge, PR closure and deployment are reserved for Umar. No parallel agents were used.
 
 Read README, the repository review workflow, and the PR #21/#22 learning notes.
 No applicable AGENTS.md was found. Inspected the real frontend client/router,
@@ -187,7 +215,7 @@ fictional database and temporary verification scripts remain outside task change
 for reproducibility. No secret token/JWT key was printed or placed in this note.
 
 Next verification step for Umar: repeat the documented local login/intake/search
-journey using a different fictional Patient, reviewing the uncommitted diff first.
+journey using a different fictional Patient, reviewing the PR diff and this review note first.
 Provider-enabled behavior remains deliberately unverified and deferred.
 
 ### Limitations and what Umar should understand
