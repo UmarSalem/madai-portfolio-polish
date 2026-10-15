@@ -7,6 +7,7 @@ using MADAI_BACKEND.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using MADAI_BACKEND.Services;
 
 namespace MADAI_BACKEND.Controllers
 {
@@ -32,6 +33,8 @@ namespace MADAI_BACKEND.Controllers
         }
 
         [HttpPost("upload-report")]
+        [RequestSizeLimit(3 * 1024 * 1024)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 3 * 1024 * 1024)]
         public async Task<IActionResult> UploadReport([FromForm] MedicalReportDTO reportDto)
         {
             if (!ModelState.IsValid)
@@ -47,7 +50,12 @@ namespace MADAI_BACKEND.Controllers
             if (reportDto.File.Length > MaxDemoReportBytes)
                 return BadRequest("Demo report files must be 2 MB or smaller.");
 
-            var analysisResult = await _reportService.AnalyzeMedicalReportAsync(reportDto);
+            if (!await _context.Users.AnyAsync(user => user.Id == userId.Value))
+                return Unauthorized("User account unavailable. Please sign in again.");
+
+            MedicalReportResultDTO analysisResult;
+            try { analysisResult = await _reportService.AnalyzeMedicalReportAsync(reportDto); }
+            catch (InvalidReportException error) { return BadRequest(error.Message); }
             var safeFileName = Path.GetFileName(reportDto.File.FileName);
 
             var report = new MedicalReport
@@ -57,6 +65,9 @@ namespace MADAI_BACKEND.Controllers
                 FilePath = string.Empty,
                 FileData = null,
                 AnalysisSummary = analysisResult.Summary,
+                IsDemo = analysisResult.IsDemo,
+                ExtractedText = analysisResult.ExtractedText,
+                TextTruncated = analysisResult.TextTruncated,
                 SuggestedConditions = string.Join(",", analysisResult.SuggestedConditions ?? new string[] { }),
                 NextSteps = string.Join(",", analysisResult.NextSteps ?? new string[] { }),
                 UserId = userId.Value
@@ -99,8 +110,11 @@ namespace MADAI_BACKEND.Controllers
             var resultDto = new MedicalReportResultDTO
             {
                 Summary = report.AnalysisSummary,
-                SuggestedConditions = report.SuggestedConditions?.Split(',') ?? new string[] { },
-                NextSteps = report.NextSteps?.Split(',') ?? new string[] { }
+                SuggestedConditions = SplitStoredList(report.SuggestedConditions),
+                NextSteps = SplitStoredList(report.NextSteps),
+                IsDemo = report.IsDemo,
+                ExtractedText = report.ExtractedText,
+                TextTruncated = report.TextTruncated
             };
 
             return Ok(resultDto);
@@ -142,7 +156,9 @@ namespace MADAI_BACKEND.Controllers
                 SuggestedConditions = SplitStoredList(report.SuggestedConditions),
                 NextSteps = SplitStoredList(report.NextSteps),
                 DownloadAvailable = false,
-                IsDemo = true
+                IsDemo = report.IsDemo,
+                ExtractedText = report.ExtractedText,
+                TextTruncated = report.TextTruncated
             };
         }
 

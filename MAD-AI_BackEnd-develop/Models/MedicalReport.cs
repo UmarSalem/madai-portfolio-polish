@@ -19,6 +19,9 @@ namespace MADAI_BACKEND.Models
         public string? AnalysisSummary { get; set; }
         public string? SuggestedConditions { get; set; }
         public string? NextSteps { get; set; }
+        public bool? IsDemo { get; set; }
+        public string? ExtractedText { get; set; }
+        public bool? TextTruncated { get; set; }
 
         public DateTime DateUploaded { get; set; } = DateTime.Now;
 
