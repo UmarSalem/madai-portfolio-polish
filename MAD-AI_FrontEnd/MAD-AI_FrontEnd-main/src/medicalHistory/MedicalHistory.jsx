@@ -4,6 +4,7 @@ import Navbar from '../components/layout/Navbar';
 import { getMedicalReport, getMyMedicalReports, uploadMedicalReport } from '../api/features';
 import DemoNavigation from '../demo/DemoNavigation';
 import { demoReports } from '../demo/seedData';
+import ReportChat from './ReportChat';
 
 const MAX_REPORT_SIZE_BYTES = 2 * 1024 * 1024;
 
@@ -202,6 +203,7 @@ function MedicalHistory({ demo = false }) {
         {selected && <article className="medical-report-card" aria-label="Saved report result">
           <h2>Saved result: {selected.fileName}</h2>
           <ReportExplanation report={selected} />
+          {!demo && <ReportChat key={selected.id} reportId={selected.id} />}
           <button type="button" onClick={() => setSelected(null)}>Close saved result</button>
         </article>}
 

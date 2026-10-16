@@ -5,6 +5,7 @@ import MedicalHistory from './MedicalHistory';
 import { getMedicalReport, getMyMedicalReports, uploadMedicalReport } from '../api/features';
 
 jest.mock('../components/layout/Navbar', () => () => <nav aria-label="Main navigation" />);
+jest.mock('./ReportChat', () => () => <section aria-label="Report chat fixture" />);
 jest.mock('../api/features', () => ({
   getMyMedicalReports: jest.fn(),
   uploadMedicalReport: jest.fn(),

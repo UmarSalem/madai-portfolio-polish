@@ -87,6 +87,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtService>(); // No interface needed
 builder.Services.AddScoped<ISymptomService, SymptomService>();
 builder.Services.AddScoped<IMedicalReportService, MedicalReportService>();
+builder.Services.AddScoped<ReportChatService>();
 builder.Services.AddScoped<IAIRecommendationService, AIRecommendationService>();
 builder.Services.AddScoped<IMedicalHistoryService, MedicalHistoryService>();
 builder.Services.AddHttpClient<IDoctorService, DoctorService>();
