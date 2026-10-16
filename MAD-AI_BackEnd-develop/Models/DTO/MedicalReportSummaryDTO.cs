@@ -10,6 +10,8 @@ namespace MADAI_BACKEND.Models.DTO
         public string[] SuggestedConditions { get; set; } = Array.Empty<string>();
         public string[] NextSteps { get; set; } = Array.Empty<string>();
         public bool DownloadAvailable { get; set; }
-        public bool IsDemo { get; set; } = true;
+        public bool? IsDemo { get; set; }
+        public string? ExtractedText { get; set; }
+        public bool? TextTruncated { get; set; }
     }
 }

@@ -60,6 +60,9 @@ namespace MADAI_BACKEND.Migrations
                     b.Property<DateTime>("DateUploaded")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ExtractedText")
+                        .HasColumnType("TEXT");
+
                     b.Property<byte[]>("FileData")
                         .HasColumnType("BLOB");
 
@@ -71,6 +74,9 @@ namespace MADAI_BACKEND.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool?>("IsDemo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("NextSteps")
                         .HasColumnType("TEXT");
 
@@ -80,6 +86,9 @@ namespace MADAI_BACKEND.Migrations
 
                     b.Property<string>("SuggestedConditions")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool?>("TextTruncated")
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");

@@ -51,7 +51,9 @@ namespace MADAI_BACKEND.Services
                     SuggestedConditions = SplitStoredList(r.SuggestedConditions),
                     NextSteps = SplitStoredList(r.NextSteps),
                     DownloadAvailable = false,
-                    IsDemo = true
+                    IsDemo = r.IsDemo,
+                    ExtractedText = r.ExtractedText,
+                    TextTruncated = r.TextTruncated
                 }).ToList(),
                 AIResponses = responses.Select(a => new AnalysisResultDTO
                 {
