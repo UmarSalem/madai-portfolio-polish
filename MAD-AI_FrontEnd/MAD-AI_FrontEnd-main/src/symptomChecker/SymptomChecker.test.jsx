@@ -75,4 +75,51 @@ describe('SymptomChecker', () => {
     expect(screen.getByRole('button', { name: /submit demo symptoms or question/i })).toBeEnabled();
   });
 
+  test.each([
+    [true, /Static fallback guidance.*not live AI/i],
+    [false, /Provider-generated guidance/i],
+    [undefined, /Guidance source not supplied/i],
+  ])('labels response provenance %s without assuming live AI', async (isDemo, label) => {
+    checkSymptoms.mockResolvedValueOnce({ data: { summary: 'Fictional guidance.', isDemo } });
+    render(<MemoryRouter><SymptomChecker /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText(/demo patient name/i), { target: { value: 'Demo Patient' } });
+    fireEvent.change(screen.getByLabelText(/demo symptoms or health question/i), { target: { value: 'Fictional question' } });
+    fireEvent.click(screen.getByRole('button', { name: /submit demo symptoms or question/i }));
+    expect(await screen.findByText(label)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Find doctors', exact: true })).toHaveAttribute('href', '/doctorSearch');
+  });
+
+  test('rejects whitespace before requesting guidance', () => {
+    render(<MemoryRouter><SymptomChecker /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText(/demo patient name/i), { target: { value: '   ' } });
+    fireEvent.change(screen.getByLabelText(/demo symptoms or health question/i), { target: { value: '   ' } });
+    fireEvent.submit(screen.getByRole('form', { name: 'Symptom intake' }));
+    expect(screen.getByRole('alert')).toHaveTextContent(/Please enter/i);
+    expect(checkSymptoms).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    [400, /API rejected this input/i],
+    [401, /Please log in/i],
+    [403, /Please log in/i],
+  ])('displays API failure %s without a success/handoff', async (status, message) => {
+    checkSymptoms.mockRejectedValueOnce({ response: { status } });
+    render(<MemoryRouter><SymptomChecker /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText(/demo patient name/i), { target: { value: 'Demo Patient' } });
+    fireEvent.change(screen.getByLabelText(/demo symptoms or health question/i), { target: { value: 'Fictional headache' } });
+    fireEvent.click(screen.getByRole('button', { name: /submit demo symptoms or question/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(message);
+    expect(screen.queryByRole('link', { name: 'Find doctors', exact: true })).not.toBeInTheDocument();
+  });
+
+  test('does not display an empty API response as guidance', async () => {
+    checkSymptoms.mockResolvedValueOnce({ data: { summary: '' } });
+    render(<MemoryRouter><SymptomChecker /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText(/demo patient name/i), { target: { value: 'Demo Patient' } });
+    fireEvent.change(screen.getByLabelText(/demo symptoms or health question/i), { target: { value: 'Fictional headache' } });
+    fireEvent.click(screen.getByRole('button', { name: /submit demo symptoms or question/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(/Unable to check/i);
+    expect(screen.queryByText('Demo Result')).not.toBeInTheDocument();
+  });
+
 });

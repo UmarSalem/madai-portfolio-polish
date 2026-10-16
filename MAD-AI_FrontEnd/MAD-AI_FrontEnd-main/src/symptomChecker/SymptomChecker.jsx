@@ -21,6 +21,7 @@ const normalizeDiagnosis = (diagnosis, patientName, symptomsText) => ({
   enteredSymptoms: symptomsText,
   possibleConditions: normalizeList(diagnosis?.suggestedConditions),
   advice: diagnosis?.summary || 'No demo response was returned.',
+  isDemo: diagnosis?.isDemo,
   recommendedActions: normalizeList(diagnosis?.nextSteps),
   date: new Date().toLocaleString(),
 });
@@ -46,9 +47,15 @@ function SymptomChecker({ demo = false }) {
 
     const patientName = patient.trim();
     const symptomsText = symptoms.trim();
+    setResult(null);
 
     if (!patientName || !symptomsText) {
       setError('Please enter a fictional demo patient name and demo symptoms.');
+      return;
+    }
+
+    if (patientName.length > 100 || symptomsText.length > 2000) {
+      setError('Use a fictional name up to 100 characters and symptoms or question up to 2000 characters.');
       return;
     }
 
@@ -61,6 +68,10 @@ function SymptomChecker({ demo = false }) {
         dateSubmitted: new Date().toISOString(),
       });
 
+      if (typeof response?.data?.summary !== 'string' || !response.data.summary.trim()) {
+        throw new Error('The API returned no guidance summary.');
+      }
+
       const resultObj = normalizeDiagnosis(response.data, patientName, symptomsText);
 
       setResult(resultObj);
@@ -69,8 +80,10 @@ function SymptomChecker({ demo = false }) {
       setPatient('');
     } catch (requestError) {
       const status = requestError?.response?.status;
-      if (status === 401) {
+      if (status === 401 || status === 403) {
         setError('Please log in before using the symptom checker demo.');
+      } else if (status === 400) {
+        setError('The API rejected this input. Check the fictional name and symptoms or question, then try again.');
       } else {
         setError('Unable to check demo symptoms right now. Please try again later.');
       }
@@ -92,7 +105,7 @@ function SymptomChecker({ demo = false }) {
             <Link to={demo ? ROUTE.DemoDoctors : ROUTE.DoctorSearch}>Doctor search</Link>
             <Link to={demo ? ROUTE.DemoReports : ROUTE.MedicalHistory}>{demo ? 'Sample reports' : 'Report upload & history'}</Link>
           </nav>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} aria-label="Symptom intake">
             {demo && <div className="sc-form-group">
               <label htmlFor="demo-scenario">Fictional scenario</label>
               <select id="demo-scenario" value={scenarioId} onChange={e => { setScenarioId(e.target.value); setResult(null); }}>
@@ -110,6 +123,7 @@ function SymptomChecker({ demo = false }) {
                 placeholder="e.g. Demo Patient"
                 disabled={loading}
                 required
+                maxLength={100}
               />
             </div>
             <div className="sc-form-group">
@@ -122,6 +136,7 @@ function SymptomChecker({ demo = false }) {
                 placeholder="Fictional example: What could a demo headache and mild tiredness mean?"
                 disabled={loading}
                 required
+                maxLength={2000}
                 rows={4}
               />
             </div>
@@ -144,9 +159,21 @@ function SymptomChecker({ demo = false }) {
           </div>
         )}
 
+        {loading && <p className="sc-card" role="status">Waiting for guidance from the API...</p>}
+
         {result && (
           <div className="sc-card sc-result-card">
             <h2>{demo ? 'Simulated result — not live AI' : 'Demo Result'}</h2>
+            {!demo && <p className="sc-disclaimer" role="status">
+              {result.isDemo === true ? 'Static fallback guidance — not live AI. This fixed response does not analyse your symptoms.'
+                : result.isDemo === false ? 'Provider-generated guidance — not medical advice or a diagnosis.'
+                : 'Guidance source not supplied by the API. Do not assume this is live AI.'}
+            </p>}
+            <nav className="sc-actions" aria-label="Guidance next steps">
+              <Link to={demo ? ROUTE.DemoDoctors : ROUTE.DoctorSearch} state={demo ? undefined : { fromGuidance: true }}>Find doctors</Link>
+              <Link to={demo ? ROUTE.DemoReports : ROUTE.MedicalHistory}>{demo ? 'Sample reports' : 'Report upload & history'}</Link>
+            </nav>
+            {!demo && <p>No specialty is supplied by this guidance contract. Choose a specialty and location on the search screen.</p>}
             <div className="sc-result-grid">
               <div>
                 <strong>Demo patient:</strong> {result.patientName}
