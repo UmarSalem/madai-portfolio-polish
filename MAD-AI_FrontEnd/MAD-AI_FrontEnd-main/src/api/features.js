@@ -31,5 +31,11 @@ export const getMyMedicalReports = () =>
 export const getMedicalReport = (id) =>
   httpClient.get(`/api/MedicalReport/${encodeURIComponent(id)}`);
 
+export const getReportConversation = (id) =>
+  httpClient.get(`/api/MedicalReport/${encodeURIComponent(id)}/chat`);
+
+export const sendReportQuestion = (id, question) =>
+  httpClient.post(`/api/MedicalReport/${encodeURIComponent(id)}/chat`, { question });
+
 export const getMedicalHistory = () =>
   httpClient.get('/api/user/medical-history');

@@ -12,10 +12,14 @@ namespace MADAI_BACKEND.Data
         public DbSet<MedicalReport> MedicalReports { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+        public DbSet<ReportChatTurn> ReportChatTurns { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ReportChatTurn>().HasOne(t => t.Report).WithMany()
+                .HasForeignKey(t => t.ReportId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ReportChatTurn>().HasIndex(t => new { t.ReportId, t.UserId, t.CreatedAt });
 
             // SymptomEntry -> User (One-to-Many)
             modelBuilder.Entity<SymptomEntry>()
