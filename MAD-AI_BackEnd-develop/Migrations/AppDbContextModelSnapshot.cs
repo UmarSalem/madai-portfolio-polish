@@ -122,6 +122,41 @@ namespace MADAI_BACKEND.Migrations
                     b.ToTable("PasswordResetTokens");
                 });
 
+            modelBuilder.Entity("MADAI_BACKEND.Models.ReportChatTurn", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ContextTruncated")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ReportId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReportId", "UserId", "CreatedAt");
+
+                    b.ToTable("ReportChatTurns");
+                });
+
             modelBuilder.Entity("MADAI_BACKEND.Models.SymptomEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -210,6 +245,17 @@ namespace MADAI_BACKEND.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MADAI_BACKEND.Models.ReportChatTurn", b =>
+                {
+                    b.HasOne("MADAI_BACKEND.Models.MedicalReport", "Report")
+                        .WithMany()
+                        .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("MADAI_BACKEND.Models.SymptomEntry", b =>
