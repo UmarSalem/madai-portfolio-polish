@@ -11,7 +11,7 @@ public sealed class ChatProviderException : Exception { }
 public class ReportChatService(IHttpClientFactory clients, IConfiguration config, IHostEnvironment environment)
 {
     public const int MaxQuestion = 1000, MaxContext = 5000, MaxAnswer = 4000, MaxHistoryCharacters = 8000;
-    public bool Available => !string.IsNullOrWhiteSpace(config["OpenRouter:ApiKey"])
+    public bool Available => !BackendDemo.IsEnabled(config) && !string.IsNullOrWhiteSpace(config["OpenRouter:ApiKey"])
         && !new[] { "demo", "replace", "placeholder" }.Any(word => config["OpenRouter:ApiKey"]!.Contains(word, StringComparison.OrdinalIgnoreCase));
 
     public async Task<string> AnswerAsync(MedicalReport report, IReadOnlyList<ReportChatTurn> recent, string question)
