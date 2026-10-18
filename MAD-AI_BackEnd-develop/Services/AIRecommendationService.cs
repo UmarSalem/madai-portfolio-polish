@@ -12,12 +12,14 @@ namespace MADAI_BACKEND.Services
         private readonly AppDbContext _context;
         private readonly HttpClient _httpClient;
         private readonly string? _apiKey;
+        private readonly bool _demoEnabled;
 
         public AIRecommendationService(AppDbContext context, HttpClient httpClient, IConfiguration config)
         {
             _context = context;
             _httpClient = httpClient;
             _apiKey = config["OpenRouter:ApiKey"];
+            _demoEnabled = BackendDemo.IsEnabled(config);
         }
 
         private bool HasConfiguredApiKey()
@@ -28,6 +30,7 @@ namespace MADAI_BACKEND.Services
 
         public async Task<string> GenerateHealthAdviceAsync(Guid userId)
         {
+            if (_demoEnabled) return "External AI recommendations are disabled in backend demo mode. No personalized advice was generated.";
             if (!HasConfiguredApiKey())
             {
                 return "AI recommendations are not configured for this educational demo.";
@@ -66,6 +69,7 @@ namespace MADAI_BACKEND.Services
 
         public async Task<string> GeneratePersonalizedHealthInsightsAsync(Guid userId)
         {
+            if (_demoEnabled) return "External AI insights are disabled in backend demo mode. No personalized insights were generated.";
             if (!HasConfiguredApiKey())
             {
                 return "AI personalized insights are not configured for this educational demo.";

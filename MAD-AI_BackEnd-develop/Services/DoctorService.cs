@@ -22,7 +22,7 @@ namespace MADAI_BACKEND.Services
             var safeSpecialty = specialty.Trim();
             var apiKey = _configuration["GoogleMaps:ApiKey"] ?? _configuration["GoogleApiKey"];
 
-            if (IsMissingProviderConfig(apiKey))
+            if (BackendDemo.IsEnabled(_configuration) || IsMissingProviderConfig(apiKey))
             {
                 return CreateDemoDoctors(safeLocation, safeSpecialty);
             }
