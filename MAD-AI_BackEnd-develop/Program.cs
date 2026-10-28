@@ -7,9 +7,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-var builder = WebApplication.CreateBuilder(args);
+var seedDemo = args.Contains("--seed-demo", StringComparer.Ordinal);
+var builder = WebApplication.CreateBuilder(args.Where(arg => arg != "--seed-demo").ToArray());
 
 var configuration = builder.Configuration;
+if (seedDemo)
+{
+    try { DemoSeeder.Validate(configuration, builder.Environment); }
+    catch (InvalidOperationException error)
+    {
+        Console.Error.WriteLine(error.Message);
+        Environment.ExitCode = 1;
+        return;
+    }
+}
 
 var renderPort = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrWhiteSpace(renderPort))
@@ -94,6 +105,8 @@ builder.Services.AddHttpClient<IDoctorService, DoctorService>();
 
 // ✅ HttpClient for OpenRouter API
 builder.Services.AddHttpClient();
+builder.Services.AddTransient<BackendDemoProviderGuard>();
+builder.Services.ConfigureHttpClientDefaults(client => client.AddHttpMessageHandler<BackendDemoProviderGuard>());
 
 var jwtKey = configuration["Jwt:Key"];
 if (string.IsNullOrWhiteSpace(jwtKey) || IsPlaceholderSecret(jwtKey))
@@ -135,6 +148,25 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
+
+if (seedDemo)
+{
+    try
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(DemoSeeder.Validate(configuration, app.Environment))!);
+        await using var scope = app.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await db.Database.MigrateAsync();
+        await DemoSeeder.SeedAsync(db, configuration, app.Environment);
+        Console.WriteLine("Fictional backend demo seeds are ready. No existing records or credentials were overwritten. No server started.");
+    }
+    catch (InvalidOperationException error)
+    {
+        Console.Error.WriteLine(error.Message);
+        Environment.ExitCode = 1;
+    }
+    return;
+}
 
 if (configuration.GetValue<bool>("Database:ApplyMigrationsOnStartup"))
 {

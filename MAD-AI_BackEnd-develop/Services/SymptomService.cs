@@ -24,7 +24,7 @@ namespace MADAI_BACKEND.Services
         public async Task<AnalysisResultDTO> AnalyzeSymptomsAsync(MADAI_BACKEND.Models.DTO.SymptomEntryCreateDTO entry)
         {
             var apiKey = _configuration["OpenRouter:ApiKey"];
-            if (IsMissingProviderConfig(apiKey))
+            if (BackendDemo.IsEnabled(_configuration) || IsMissingProviderConfig(apiKey))
             {
                 return CreateDemoFallbackResult();
             }

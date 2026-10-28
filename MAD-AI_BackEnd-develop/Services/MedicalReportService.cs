@@ -29,7 +29,7 @@ public class MedicalReportService(IHttpClientFactory httpClientFactory, IConfigu
             NextSteps = new[] { "Use fictional documents only. For real report interpretation, consult a qualified healthcare professional. This is not medical advice." }
         };
         var key = configuration["OpenRouter:ApiKey"];
-        if (string.IsNullOrWhiteSpace(key) || new[] { "replace", "placeholder", "demo" }.Any(word => key.Contains(word, StringComparison.OrdinalIgnoreCase)))
+        if (BackendDemo.IsEnabled(configuration) || string.IsNullOrWhiteSpace(key) || new[] { "replace", "placeholder", "demo" }.Any(word => key.Contains(word, StringComparison.OrdinalIgnoreCase)))
             return result;
 
         var payload = new
